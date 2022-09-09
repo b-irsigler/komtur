@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://scenes/christine.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/characters/christine.png" type="Texture" id=2]
@@ -102,7 +102,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 198, 199, 200, 201, 202, 203, 204 ]
+"values": [ 196, 197, 197, 197, 197, 197, 196 ]
 }
 
 [sub_resource type="Animation" id=8]
@@ -170,7 +170,7 @@ animation = "IdleUp"
 
 [sub_resource type="AnimationNodeBlendSpace2D" id=15]
 blend_point_0/node = SubResource( 11 )
-blend_point_0/pos = Vector2( -1, -0.1 )
+blend_point_0/pos = Vector2( -1, 0 )
 blend_point_1/node = SubResource( 12 )
 blend_point_1/pos = Vector2( 0, 0.9 )
 blend_point_2/node = SubResource( 13 )
@@ -202,15 +202,21 @@ blend_point_3/node = SubResource( 19 )
 blend_point_3/pos = Vector2( 0, -0.9 )
 blend_mode = 1
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=23]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+
 [sub_resource type="AnimationNodeStateMachine" id=21]
 states/Idle/node = SubResource( 15 )
 states/Idle/position = Vector2( 260, 85 )
 states/Run/node = SubResource( 20 )
 states/Run/position = Vector2( 466, 98 )
+transitions = [ "Idle", "Run", SubResource( 23 ), "Run", "Idle", SubResource( 24 ) ]
+start_node = "Idle"
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=22]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=25]
 
-[node name="KinematicBody2D" type="KinematicBody2D"]
+[node name="Christine" type="KinematicBody2D"]
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
@@ -243,6 +249,6 @@ anims/RunUp = SubResource( 10 )
 tree_root = SubResource( 21 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 22 )
-parameters/Idle/blend_position = Vector2( 0, 0 )
-parameters/Run/blend_position = Vector2( 0, 0 )
+parameters/playback = SubResource( 25 )
+parameters/Idle/blend_position = Vector2( -0.0168067, 0.586207 )
+parameters/Run/blend_position = Vector2( 0.00336134, 0.887931 )
