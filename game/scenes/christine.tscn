@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://scenes/christine.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/characters/christine.png" type="Texture" id=2]
@@ -102,7 +102,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 196, 197, 197, 197, 197, 197, 196 ]
+"values": [ 196, 197, 198, 199, 200, 201, 202 ]
 }
 
 [sub_resource type="Animation" id=8]
@@ -202,6 +202,8 @@ blend_point_3/node = SubResource( 19 )
 blend_point_3/pos = Vector2( 0, -0.9 )
 blend_mode = 1
 
+[sub_resource type="AnimationNodeBlendSpace2D" id=26]
+
 [sub_resource type="AnimationNodeStateMachineTransition" id=23]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=24]
@@ -211,6 +213,8 @@ states/Idle/node = SubResource( 15 )
 states/Idle/position = Vector2( 260, 85 )
 states/Run/node = SubResource( 20 )
 states/Run/position = Vector2( 466, 98 )
+states/stop/node = SubResource( 26 )
+states/stop/position = Vector2( 664.333, 98.1111 )
 transitions = [ "Idle", "Run", SubResource( 23 ), "Run", "Idle", SubResource( 24 ) ]
 start_node = "Idle"
 
@@ -251,4 +255,5 @@ anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource( 25 )
 parameters/Idle/blend_position = Vector2( -0.0168067, 0.586207 )
-parameters/Run/blend_position = Vector2( 0.00336134, 0.887931 )
+parameters/Run/blend_position = Vector2( -0.00172412, 0.0722544 )
+parameters/stop/blend_position = Vector2( 0, 0 )
