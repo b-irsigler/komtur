@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Tree/kisspng-stock-xchng-stock-photography-tree-deciduous-porta-free-photo-decoration-summer-tree-garden-green-iso-5c695790d5ae68.0165780115504075688753.png" type="Texture" id=1]
+[ext_resource path="res://resources/assets/trees/tree1.png" type="Texture" id=1]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 70.0
