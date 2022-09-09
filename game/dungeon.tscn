@@ -2,7 +2,8 @@
 
 [ext_resource path="res://tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://troll.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Tree/Tree1.tscn" type="PackedScene" id=3]
+[ext_resource path="res://resources/assets/trees/Tree1.tscn" type="PackedScene" id=3]
+
 
 [node name="Dungeon" type="YSort"]
 position = Vector2( 3, -4 )
