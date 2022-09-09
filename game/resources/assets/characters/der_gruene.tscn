@@ -1,10 +1,13 @@
+
 [gd_scene load_steps=24 format=2]
+
 
 [ext_resource path="res://resources/assets/characters/Der_Gruene.png" type="Texture" id=1]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 13.0
 height = 8.0
+
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -209,6 +212,7 @@ states/Run/position = Vector2( 164.333, 103 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=17]
 
+
 [node name="der_gruene" type="KinematicBody2D"]
 __meta__ = {
 "_edit_group_": true
@@ -225,6 +229,7 @@ rotation = 1.5708
 shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
 anims/RESET = SubResource( 2 )
 anims/RunDown = SubResource( 7 )
 anims/RunDownLeft = SubResource( 9 )
@@ -242,3 +247,4 @@ active = true
 parameters/playback = SubResource( 17 )
 parameters/BlendSpace1D/blend_position = 0
 parameters/Run/blend_position = Vector2( 0, 0 )
+
