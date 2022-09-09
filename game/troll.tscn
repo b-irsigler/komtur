@@ -8,6 +8,9 @@ radius = 16.0
 
 [node name="Troll" type="KinematicBody2D"]
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( -4, -28 )
