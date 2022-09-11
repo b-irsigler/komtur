@@ -19,3 +19,5 @@ format = 1
 position = Vector2( -225, 592 )
 
 [node name="Christine" parent="." instance=ExtResource( 4 )]
+
+[node name="YSort" type="YSort" parent="."]
