@@ -15,7 +15,7 @@ var objects = {}
 var tiles = {"grass_1": 0, "grass_2": 1, "green_grass" : 2, "stone_1" : 3, "stone_2" : 4, "stone_3" : 5, "forest_ground_1" : 6, "forest_ground_2" : 7, "forest_ground_3" : 8, "barren" : 9}
 
 
-#var object_tiles = {"tree": preload("res://Tree.tscn"), "cactus": preload("res://Cactus.tscn"), "spruce_tree": preload("res://Spruce_tree.tscn")}
+var object_tiles = {"tree_beech": preload("res://scenes/tree_beech.tscn"), "tree_pine": preload("res://scenes/tree_pine.tscn"), "tree_firs": preload("res://scenes/tree_firs.tscn")}
 
 
 var biome_data = {
@@ -26,18 +26,15 @@ var biome_data = {
 	"barren": {"barren": 1},
 }
 
-"""
+
 var object_data = {
-	"plains": {"tree": 0.03},
-	"beach": {"tree": 0.01}, 
-	"jungle": {"tree": 0.04},
-	"desert": {"cactus": 0.03}, 
-	"lake": {},
-	"mountain": {"spruce_tree":0.02},
-	"snow": {"spruce_tree": 0.02},
-	"ocean":{}
+	"grass": {"tree_beech": 0.005, "tree_pine": 0.01},
+	"green_grass": {"tree_pine": 0.02},
+	"forest": {"tree_beech": 0.04, "tree_pine": 0.08, "tree_firs": 0.08},
+	"stone": {"tree_firs": 0.01}, 
+	"barren": {},
 }
-"""
+
 
 func generate_map(per, oct):
 	openSimplexNoise.seed = randi()
@@ -92,9 +89,9 @@ func set_tile(width, height):
 			else:
 				biome[pos] = "grass"
 				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"grass")])
-"""
+
 	set_objects()
-"""
+
 
 
 func _input(event):
@@ -115,7 +112,7 @@ func random_tile(data, biome):
 			if rand_num <= running_total:
 				return tile
 
-"""
+
 func set_objects():
 	objects = {}
 	for pos in biome:
@@ -130,4 +127,4 @@ func tile_to_scene(random_object, pos):
 	var instance = object_tiles[str(random_object)].instance()
 	instance.position = tilemap.map_to_world(pos) + Vector2(4, 4)
 	$YSort.add_child(instance)
-"""
+
