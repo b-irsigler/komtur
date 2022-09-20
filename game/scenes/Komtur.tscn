@@ -1,6 +1,7 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://resources/assets/characters/komtur.png" type="Texture" id=1]
+[ext_resource path="res://scenes/Komtur.gd" type="Script" id=2]
 
 [sub_resource type="CircleShape2D" id=27]
 
@@ -396,6 +397,7 @@ start_node = "Idle"
 [sub_resource type="AnimationNodeStateMachinePlayback" id=62]
 
 [node name="Komtur" type="KinematicBody2D"]
+script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
