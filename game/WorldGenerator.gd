@@ -1,6 +1,8 @@
 extends Node2D
 
-export var width  = 600
+onready var christine = $Christine
+
+export var width  = 200
 export var height  = 200
 onready var tilemap = $TileMap_Ground
 var temperature = {}
@@ -11,12 +13,8 @@ var openSimplexNoise = OpenSimplexNoise.new()
 
 var objects = {}
 
-
 var tiles = {"grass_1": 0, "grass_2": 1, "green_grass" : 2, "stone_1" : 3, "stone_2" : 4, "stone_3" : 5, "forest_ground_1" : 6, "forest_ground_2" : 7, "forest_ground_3" : 8, "barren" : 9}
-
-
 var object_tiles = {"tree_beech": preload("res://scenes/tree_beech.tscn"), "tree_pine": preload("res://scenes/tree_pine.tscn"), "tree_firs": preload("res://scenes/tree_firs.tscn")}
-
 
 var biome_data = {
 	"grass": {"grass_1": 0.5, "grass_2": 0.5},
@@ -26,15 +24,13 @@ var biome_data = {
 	"barren": {"barren": 1},
 }
 
-
 var object_data = {
-	"grass": {"tree_beech": 0.005, "tree_pine": 0.01},
-	"green_grass": {"tree_pine": 0.02},
-	"forest": {"tree_beech": 0.04, "tree_pine": 0.08, "tree_firs": 0.08},
+	"grass": {"tree_beech": 0.005, "tree_pine": 0.005},
+	"green_grass": {"tree_pine": 0.01},
+	"forest": {"tree_beech": 0.15, "tree_pine": 0.2, "tree_firs": 0.2},
 	"stone": {"tree_firs": 0.01}, 
 	"barren": {},
 }
-
 
 func generate_map(per, oct):
 	openSimplexNoise.seed = randi()
@@ -47,15 +43,14 @@ func generate_map(per, oct):
 			gridName[Vector2(x,y)] = rand
 	return gridName
 
-
 func _ready():
 	temperature = generate_map(300, 5)
 	moisture = generate_map(300, 5)
 	altitude = generate_map(50, 5)
 	set_tile(width, height)
-	
-	
-	
+	#center christine in map
+	christine.position = tilemap.map_to_world(Vector2(width/2, height/2))
+
 func set_tile(width, height):
 	for x in width:
 		for y in height:
@@ -64,35 +59,33 @@ func set_tile(width, height):
 			var temp = temperature[pos]
 			var moist = moisture[pos]
 			
+			#stones
 			if alt > 0.8:
 				biome[pos] = "stone"
 				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"stone")])
 			#Other Biomes
 			elif between(alt, 0, 0.8):
-				#plains
+				#grass
 				if between(moist, 0, 0.9) and between(temp, 0, 0.6):
 					biome[pos] = "grass"
 					tilemap.set_cellv(pos, tiles[random_tile(biome_data,"grass")])
-				#jungle
+				#forest
 				elif between(moist, 0.4, 0.9) and temp > 0.6:
 					biome[pos] = "forest"
 					tilemap.set_cellv(pos, tiles[random_tile(biome_data,"forest")])
-				#desert
+				#barren
 				elif temp > 0.6 and moist < 0.4:
 					biome[pos] = "barren"
 					tilemap.set_cellv(pos, tiles[random_tile(biome_data,"barren")])
-				#lakes
+				#lush grass
 				elif moist >= 0.9:
 					biome[pos] = "green_grass"
 					tilemap.set_cellv(pos, tiles[random_tile(biome_data,"green_grass")])
-			#Snow
+			#grass -> std
 			else:
 				biome[pos] = "grass"
 				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"grass")])
-
 	set_objects()
-
-
 
 func _input(event):
 	if event.is_action_pressed("ui_accept"):
@@ -101,7 +94,6 @@ func _input(event):
 func between(val, start, end):
 	if start <= val and val < end:
 		return true
-		
 
 func random_tile(data, biome):
 	var current_biome = data[biome]
@@ -112,7 +104,6 @@ func random_tile(data, biome):
 			if rand_num <= running_total:
 				return tile
 
-
 func set_objects():
 	objects = {}
 	for pos in biome:
@@ -122,9 +113,7 @@ func set_objects():
 		if random_object != null:
 			tile_to_scene(random_object, pos)
 
-
 func tile_to_scene(random_object, pos):
 	var instance = object_tiles[str(random_object)].instance()
 	instance.position = tilemap.map_to_world(pos) + Vector2(4, 4)
 	$YSort.add_child(instance)
-
