@@ -447,3 +447,8 @@ anims/RunRight = SubResource( 76 )
 anims/RunRightDown = SubResource( 77 )
 anims/RunRightUp = SubResource( 78 )
 anims/RunUp = SubResource( 79 )
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

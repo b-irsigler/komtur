@@ -5,34 +5,31 @@ const RUN_MULT = 10
 
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
+onready var timer = $Timer
 onready var animationState = animationTree.get("parameters/playback")
-var time = 0
+
 var rng = RandomNumberGenerator.new()
-var motion = Vector2()
+var current_state = State.IDLE
+var motion = Vector2(rng_direction(), rng_direction())
+
+func rng_direction():
+	return rng.randf() - .5
+enum State {IDLE, WALK, NEW_DIRECTION}
 
 func _physics_process(_delta):
-	time += _delta
-	#print(time)
-	
-	if time > 2.0 and time < 3:
-		motion.x = rng.randf() - .5
-		motion.y = rng.randf() - .5
-		time = 3
-		
-	if time >= 4 and time < 5:
-		motion = Vector2.ZERO
-		time = 5
-		
-	if time > 5:
-		time = 0
+	match current_state:
+		State.IDLE:
+			animationState.travel("Idle")
+		State.WALK:
+			animationTree.set("parameters/Idle/blend_position", motion.normalized())
+			animationTree.set("parameters/Run/blend_position", motion.normalized())
+			animationState.travel("Run")
+			motion = motion.normalized() * MOTION_SPEED
+			move_and_slide(motion)
+		State.NEW_DIRECTION:
+			motion = Vector2(rng_direction(), rng_direction())
+			current_state = State.WALK
 
-	if motion != Vector2.ZERO:
-		animationTree.set("parameters/Idle/blend_position", motion.normalized())
-		animationTree.set("parameters/Run/blend_position", motion.normalized())
-		animationState.travel("Run")
-		motion = motion.normalized() * MOTION_SPEED
-	if motion == Vector2.ZERO:
-		animationState.travel("Idle")
-		motion = motion.normalized() * MOTION_SPEED
-	#warning-ignore:return_value_discarded
-	move_and_slide(motion)
+func _on_Timer_timeout():
+	timer.wait_time = 1
+	current_state = randi() % State.size()
