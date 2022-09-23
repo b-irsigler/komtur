@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://scenes/christine.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/characters/christine.png" type="Texture" id=2]
@@ -384,14 +384,18 @@ blend_mode = 1
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=24]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=43]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=44]
+
 [sub_resource type="AnimationNodeStateMachine" id=21]
 states/Idle/node = SubResource( 15 )
 states/Idle/position = Vector2( 260, 85 )
 states/Run/node = SubResource( 20 )
-states/Run/position = Vector2( 466, 98 )
+states/Run/position = Vector2( 467, 200 )
 states/stop/node = SubResource( 26 )
 states/stop/position = Vector2( 664.333, 98.1111 )
-transitions = [ "Idle", "Run", SubResource( 23 ), "Run", "Idle", SubResource( 24 ) ]
+transitions = [ "Idle", "Run", SubResource( 23 ), "Run", "Idle", SubResource( 24 ), "Run", "stop", SubResource( 43 ), "stop", "Run", SubResource( 44 ) ]
 start_node = "Idle"
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=25]
@@ -441,3 +445,8 @@ parameters/playback = SubResource( 25 )
 parameters/Idle/blend_position = Vector2( -0.0168067, 0.586207 )
 parameters/Run/blend_position = Vector2( -0.00172412, 0.0722544 )
 parameters/stop/blend_position = Vector2( 0, 0 )
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
