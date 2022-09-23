@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 const MOTION_SPEED = 160 # Pixels/second.
-const RUN_MULT = 2
+const RUN_MULT = 10
 
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
