@@ -9,6 +9,7 @@ onready var animationState = animationTree.get("parameters/playback")
 onready var sprite = $Sprite
 onready var timer  = $Timer
 var jumping = false
+var running = false
 var jump_height = 40
 var jump_duration = 1
 
@@ -21,19 +22,22 @@ func _physics_process(_delta):
 	if jumping:
 		animationState.travel("stop")
 		sprite.offset = Vector2(0,jump(timer.time_left))
+	if Input.is_action_just_pressed("run"):
+		running = not running
 
 	if motion != Vector2.ZERO:
 		if not jumping:
 			animationTree.set("parameters/Idle/blend_position", motion.normalized())
 			animationTree.set("parameters/Run/blend_position", motion.normalized())
 			animationState.travel("Run")
-		if Input.is_action_pressed("run"):
+		if Input.is_action_pressed("jump"):
 			jumping = true
 			timer.start()
 			animationState.travel("stop")
-			motion = motion.normalized() * MOTION_SPEED #* RUN_MULT
-		else:
-			motion = motion.normalized() * MOTION_SPEED
+		motion = motion.normalized() * MOTION_SPEED
+		if running:
+			motion *= RUN_MULT
+		
 	if motion == Vector2.ZERO:
 		animationState.travel("Idle")
 		motion = motion.normalized() * MOTION_SPEED

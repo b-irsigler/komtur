@@ -90,7 +90,7 @@ func set_tile(width, height):
 	set_objects()
 
 func _input(event):
-	if event.is_action_pressed("ui_accept"):
+	if event.is_action_pressed("new_world"):
 		get_tree().reload_current_scene()
 
 func between(val, start, end):
