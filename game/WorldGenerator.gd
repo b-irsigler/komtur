@@ -1,11 +1,15 @@
 extends Node2D
 
+onready var tilemap = $TileMap_Ground
 onready var christine = $Christine
 onready var komtur = $Komtur
 
 export var width  = 200
 export var height  = 200
-onready var tilemap = $TileMap_Ground
+
+var start_position_christine = Vector2(width/2, height/2)
+var start_position_komtur = Vector2(width/2, height/2-5)
+
 var temperature = {}
 var moisture = {}
 var altitude = {}
@@ -50,8 +54,8 @@ func _ready():
 	altitude = generate_map(50, 5)
 	set_tile(width, height)
 	#centering
-	christine.position = tilemap.map_to_world(Vector2(width/2, height/2+5))
-	komtur.position = tilemap.map_to_world(Vector2(width/2, height/2))
+	christine.position = tilemap.map_to_world(start_position_christine)
+	komtur.position = tilemap.map_to_world(start_position_komtur)
 
 func set_tile(width, height):
 	for x in width:
