@@ -1,9 +1,145 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=65 format=2]
 
 [ext_resource path="res://scenes/christine.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/characters/christine.png" type="Texture" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
+
+[sub_resource type="Animation" id=67]
+resource_name = "ChopDown"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 12, 6 ), Vector2( 13, 6 ), Vector2( 14, 6 ), Vector2( 15, 6 ), Vector2( 16, 6 ), Vector2( 17, 6 ) ]
+}
+
+[sub_resource type="Animation" id=61]
+resource_name = "ChopLeft"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 12, 0 ), Vector2( 13, 0 ), Vector2( 14, 0 ), Vector2( 15, 0 ), Vector2( 16, 0 ), Vector2( 17, 0 ) ]
+}
+
+[sub_resource type="Animation" id=68]
+resource_name = "ChopLeftDown"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 12, 7 ), Vector2( 13, 7 ), Vector2( 14, 7 ), Vector2( 15, 7 ), Vector2( 16, 7 ), Vector2( 17, 7 ) ]
+}
+
+[sub_resource type="Animation" id=69]
+resource_name = "ChopLeftUp"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 13, 1 ), Vector2( 14, 1 ), Vector2( 15, 1 ), Vector2( 16, 1 ), Vector2( 17, 1 ), Vector2( 18, 1 ) ]
+}
+
+[sub_resource type="Animation" id=70]
+resource_name = "ChopRight"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 13, 4 ), Vector2( 14, 4 ), Vector2( 15, 4 ), Vector2( 16, 4 ), Vector2( 17, 4 ), Vector2( 18, 4 ) ]
+}
+
+[sub_resource type="Animation" id=71]
+resource_name = "ChopRightDown"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 12, 5 ), Vector2( 13, 5 ), Vector2( 14, 5 ), Vector2( 15, 5 ), Vector2( 16, 5 ), Vector2( 17, 5 ) ]
+}
+
+[sub_resource type="Animation" id=72]
+resource_name = "ChopRightUp"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 13, 3 ), Vector2( 14, 3 ), Vector2( 15, 3 ), Vector2( 16, 3 ), Vector2( 17, 3 ), Vector2( 18, 3 ) ]
+}
+
+[sub_resource type="Animation" id=73]
+resource_name = "ChopUp"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 13, 2 ), Vector2( 14, 2 ), Vector2( 15, 2 ), Vector2( 16, 2 ), Vector2( 17, 2 ), Vector2( 18, 2 ) ]
+}
 
 [sub_resource type="Animation" id=2]
 resource_name = "IdleDown"
@@ -304,6 +440,48 @@ tracks/0/keys = {
 "values": [ 69, 70, 71, 72, 73, 74, 75 ]
 }
 
+[sub_resource type="AnimationNodeAnimation" id=74]
+animation = "ChopLeftDown"
+
+[sub_resource type="AnimationNodeAnimation" id=75]
+animation = "ChopDown"
+
+[sub_resource type="AnimationNodeAnimation" id=76]
+animation = "ChopRightDown"
+
+[sub_resource type="AnimationNodeAnimation" id=77]
+animation = "ChopRight"
+
+[sub_resource type="AnimationNodeAnimation" id=78]
+animation = "ChopRightUp"
+
+[sub_resource type="AnimationNodeAnimation" id=79]
+animation = "ChopUp"
+
+[sub_resource type="AnimationNodeAnimation" id=80]
+animation = "ChopLeftUp"
+
+[sub_resource type="AnimationNodeAnimation" id=81]
+animation = "ChopLeft"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=66]
+blend_point_0/node = SubResource( 74 )
+blend_point_0/pos = Vector2( -1, 1 )
+blend_point_1/node = SubResource( 75 )
+blend_point_1/pos = Vector2( 0, 0.5 )
+blend_point_2/node = SubResource( 76 )
+blend_point_2/pos = Vector2( 1, 1 )
+blend_point_3/node = SubResource( 77 )
+blend_point_3/pos = Vector2( 0.5, 0 )
+blend_point_4/node = SubResource( 78 )
+blend_point_4/pos = Vector2( 1, -1 )
+blend_point_5/node = SubResource( 79 )
+blend_point_5/pos = Vector2( 0, -0.5 )
+blend_point_6/node = SubResource( 80 )
+blend_point_6/pos = Vector2( -1, -1 )
+blend_point_7/node = SubResource( 81 )
+blend_point_7/pos = Vector2( -0.5, 0 )
+
 [sub_resource type="AnimationNodeAnimation" id=45]
 animation = "IdleLeft"
 
@@ -381,13 +559,13 @@ blend_point_2/pos = Vector2( 0.5, 0 )
 blend_point_3/node = SubResource( 56 )
 blend_point_3/pos = Vector2( 0, -0.4 )
 blend_point_4/node = SubResource( 57 )
-blend_point_4/pos = Vector2( -1, 0.9 )
+blend_point_4/pos = Vector2( -1, 1 )
 blend_point_5/node = SubResource( 58 )
-blend_point_5/pos = Vector2( 1, 0.9 )
+blend_point_5/pos = Vector2( 1, 1 )
 blend_point_6/node = SubResource( 59 )
-blend_point_6/pos = Vector2( 1, -0.9 )
+blend_point_6/pos = Vector2( 1, -1 )
 blend_point_7/node = SubResource( 60 )
-blend_point_7/pos = Vector2( -1, -0.9 )
+blend_point_7/pos = Vector2( -1, -1 )
 blend_mode = 1
 
 [sub_resource type="AnimationNodeBlendSpace2D" id=26]
@@ -400,14 +578,20 @@ blend_mode = 1
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=44]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=82]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=83]
+
 [sub_resource type="AnimationNodeStateMachine" id=21]
+states/Chop/node = SubResource( 66 )
+states/Chop/position = Vector2( 727, 208 )
 states/Idle/node = SubResource( 15 )
 states/Idle/position = Vector2( 260, 85 )
 states/Run/node = SubResource( 20 )
 states/Run/position = Vector2( 467, 200 )
-states/stop/node = SubResource( 26 )
-states/stop/position = Vector2( 664.333, 98.1111 )
-transitions = [ "Idle", "Run", SubResource( 23 ), "Run", "Idle", SubResource( 24 ), "Run", "stop", SubResource( 43 ), "stop", "Run", SubResource( 44 ) ]
+states/Stop/node = SubResource( 26 )
+states/Stop/position = Vector2( 664.333, 98.1111 )
+transitions = [ "Idle", "Run", SubResource( 23 ), "Run", "Idle", SubResource( 24 ), "Run", "Stop", SubResource( 43 ), "Stop", "Run", SubResource( 44 ), "Run", "Chop", SubResource( 82 ), "Chop", "Run", SubResource( 83 ) ]
 start_node = "Idle"
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=25]
@@ -431,6 +615,15 @@ shape = SubResource( 1 )
 current = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_speed = 0.5
+anims/ChopDown = SubResource( 67 )
+anims/ChopLeft = SubResource( 61 )
+anims/ChopLeftDown = SubResource( 68 )
+anims/ChopLeftUp = SubResource( 69 )
+anims/ChopRight = SubResource( 70 )
+anims/ChopRightDown = SubResource( 71 )
+anims/ChopRightUp = SubResource( 72 )
+anims/ChopUp = SubResource( 73 )
 anims/IdleDown = SubResource( 2 )
 anims/IdleLeft = SubResource( 3 )
 anims/IdleLeftDown = SubResource( 27 )
@@ -454,9 +647,10 @@ tree_root = SubResource( 21 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource( 25 )
+parameters/Chop/blend_position = Vector2( 0, 0 )
 parameters/Idle/blend_position = Vector2( -0.0168067, 0.586207 )
 parameters/Run/blend_position = Vector2( -0.00172412, 0.0722544 )
-parameters/stop/blend_position = Vector2( 0, 0 )
+parameters/Stop/blend_position = Vector2( 0, 0 )
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

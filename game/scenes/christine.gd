@@ -13,7 +13,7 @@ var jump_height = 40
 var jump_duration = 1
 var motion = Vector2()
 
-enum State {IDLE, WALK, RUN, JUMP}
+enum State {IDLE, WALK, RUN, JUMP, CHOP}
 var current_state = State.IDLE
 
 func _physics_process(_delta):
@@ -33,6 +33,8 @@ func _physics_process(_delta):
 	if Input.is_action_just_pressed("jump") and current_state != State.JUMP:
 		current_state = State.JUMP
 		timer.start()
+	if Input.is_action_pressed("chop"):
+		current_state = State.CHOP
 		
 	match current_state:
 		State.IDLE:
@@ -43,6 +45,8 @@ func _physics_process(_delta):
 			walk(motion)
 		State.JUMP:
 			jump()
+		State.CHOP:
+			chop()
 			
 func idle():
 	animationState.travel("Idle")
@@ -58,6 +62,11 @@ func jump():
 	var temp = timer.time_left / jump_duration
 	sprite.offset = Vector2(0,4 * jump_height * temp * ( temp - 1))
 	move_and_slide(motion)
+	
+func chop():
+	#animationTree.set("parameters/Idle/blend_position", motion.normalized())
+	animationTree.set("parameters/Chop/blend_position", motion.normalized())
+	animationState.travel("Chop")
 
 func _on_Timer_timeout():
 	timer.wait_time = jump_duration
