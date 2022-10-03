@@ -71,7 +71,10 @@ func chop():
 	animationState.travel("Chop")
 	#idea: check here which beech is closest. Probably, need an array of beech objects to interact with them.
 	#trees are just String at the moment, need to make them objects to interact with
-	print(get_parent().beech_list[0])
+	var beech_list = get_parent().beech_list
+	print(len(beech_list))
+	for beech in beech_list:
+		beech.chop()
 
 func _on_Timer_timeout():
 	timer.wait_time = jump_duration

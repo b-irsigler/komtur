@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://WorldGenerator.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/floor/komtur_floortiles.tres" type="TileSet" id=2]
+[ext_resource path="res://scenes/tree_beech.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/christine.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/Komtur.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/tree_beech.gd" type="Script" id=6]
 
 [node name="WorldGenerator" type="Node2D"]
 position = Vector2( 3, -4 )
@@ -21,3 +23,6 @@ format = 1
 
 [node name="Komtur" parent="." instance=ExtResource( 5 )]
 position = Vector2( 40, 8 )
+
+[node name="Beech" parent="." instance=ExtResource( 3 )]
+script = ExtResource( 6 )

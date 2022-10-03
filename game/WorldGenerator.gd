@@ -116,11 +116,12 @@ func set_objects():
 		var random_object = random_tile(object_data, current_biome)
 		objects[pos] = random_object
 		if random_object != null:
-			tile_to_scene(random_object, pos)
+			var instance = tile_to_scene(random_object, pos)
 			if random_object == beech_name:
-				beech_list.append(random_object)
-
+				beech_list.append(instance)
+				
 func tile_to_scene(random_object, pos):
 	var instance = object_tiles[str(random_object)].instance()
 	instance.position = tilemap.map_to_world(pos) + Vector2(4, 4)
 	$YSort.add_child(instance)
+	return instance
