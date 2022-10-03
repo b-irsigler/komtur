@@ -12,6 +12,7 @@ var running = false
 var jump_height = 40
 var jump_duration = 1
 var motion = Vector2()
+var direction = Vector2()
 
 enum State {IDLE, WALK, RUN, JUMP, CHOP}
 var current_state = State.IDLE
@@ -21,12 +22,14 @@ func _physics_process(_delta):
 	motion.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 	motion.y = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
 	motion.y /= float(2)
-	motion = motion.normalized() * MOTION_SPEED
 	
 	if motion == Vector2.ZERO:
 		current_state = State.IDLE
 	elif current_state != State.JUMP:
+		direction = motion.normalized()
 		current_state = State.WALK
+		
+	motion = direction * MOTION_SPEED
 	
 	if Input.is_action_just_pressed("run"):
 		running = not running
@@ -49,23 +52,23 @@ func _physics_process(_delta):
 			chop()
 			
 func idle():
+	animationTree.set("parameters/Idle/blend_position", direction)
 	animationState.travel("Idle")
 	
 func walk(motion):
-	animationTree.set("parameters/Idle/blend_position", motion.normalized())
-	animationTree.set("parameters/Run/blend_position", motion.normalized())
+	animationTree.set("parameters/Run/blend_position", direction)
 	animationState.travel("Run")
 	move_and_slide(motion)
 
 func jump():
-	animationState.travel("stop")
+	animationState.travel("Stop")
 	var temp = timer.time_left / jump_duration
 	sprite.offset = Vector2(0,4 * jump_height * temp * ( temp - 1))
 	move_and_slide(motion)
 	
 func chop():
-	#animationTree.set("parameters/Idle/blend_position", motion.normalized())
-	animationTree.set("parameters/Chop/blend_position", motion.normalized())
+	animationTree.set("parameters/Chop/blend_position", direction)
+	print(direction)
 	animationState.travel("Chop")
 
 func _on_Timer_timeout():
