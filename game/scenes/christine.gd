@@ -68,8 +68,10 @@ func jump():
 	
 func chop():
 	animationTree.set("parameters/Chop/blend_position", direction)
-	print(direction)
 	animationState.travel("Chop")
+	#idea: check here which beech is closest. Probably, need an array of beech objects to interact with them.
+	#trees are just String at the moment, need to make them objects to interact with
+	print(get_parent().beech_list[0])
 
 func _on_Timer_timeout():
 	timer.wait_time = jump_duration

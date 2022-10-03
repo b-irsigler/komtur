@@ -33,6 +33,9 @@ var object_data = {
 	"barren": {},
 }
 
+var beech_name = "tree_beech"
+var beech_list = []
+
 func generate_map(per, oct):
 	openSimplexNoise.seed = randi()
 	openSimplexNoise.period = per
@@ -114,6 +117,8 @@ func set_objects():
 		objects[pos] = random_object
 		if random_object != null:
 			tile_to_scene(random_object, pos)
+			if random_object == beech_name:
+				beech_list.append(random_object)
 
 func tile_to_scene(random_object, pos):
 	var instance = object_tiles[str(random_object)].instance()
