@@ -71,6 +71,7 @@ func chop():
 	animationTree.set("parameters/Chop/blend_position", direction)
 	animationState.travel("Chop")
 
+	#This area is for collision layer/mask 2, the same as the one for beeches
 	for body in area.get_overlapping_bodies():
 		if body:
 			get_parent().beech_count += 1
