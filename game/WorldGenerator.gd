@@ -14,8 +14,12 @@ var openSimplexNoise = OpenSimplexNoise.new()
 
 var objects = {}
 
-var tiles = {"grass_1": 0, "grass_2": 1, "green_grass" : 2, "stone_1" : 3, "stone_2" : 4, "stone_3" : 5, "forest_ground_1" : 6, "forest_ground_2" : 7, "forest_ground_3" : 8, "barren" : 9}
-var object_tiles = {"tree_beech": preload("res://scenes/tree_beech.tscn"), "tree_pine": preload("res://scenes/tree_pine.tscn"), "tree_firs": preload("res://scenes/tree_firs.tscn")}
+var tiles = {"grass_1": 0, "grass_2": 1, "green_grass" : 2, "stone_1" : 3, 
+"stone_2" : 4, "stone_3" : 5, "forest_ground_1" : 6, "forest_ground_2" : 7, 
+"forest_ground_3" : 8, "barren" : 9}
+var object_tiles = {"tree_beech": preload("res://scenes/tree_beech.tscn"), 
+"tree_pine": preload("res://scenes/tree_pine.tscn"), 
+"tree_firs": preload("res://scenes/tree_firs.tscn")}
 
 var biome_data = {
 	"grass": {"grass_1": 0.5, "grass_2": 0.5},
@@ -33,8 +37,7 @@ var object_data = {
 	"barren": {},
 }
 
-var beech_name = "tree_beech"
-var beech_list = []
+var beech_count = 0
 
 func generate_map(per, oct):
 	openSimplexNoise.seed = randi()
@@ -116,9 +119,8 @@ func set_objects():
 		var random_object = random_tile(object_data, current_biome)
 		objects[pos] = random_object
 		if random_object != null:
-			var instance = tile_to_scene(random_object, pos)
-			if random_object == beech_name:
-				beech_list.append(instance)
+			tile_to_scene(random_object, pos)
+
 				
 func tile_to_scene(random_object, pos):
 	var instance = object_tiles[str(random_object)].instance()

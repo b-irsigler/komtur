@@ -25,4 +25,5 @@ format = 1
 position = Vector2( 40, 8 )
 
 [node name="Beech" parent="." instance=ExtResource( 3 )]
+position = Vector2( 61, -63 )
 script = ExtResource( 6 )

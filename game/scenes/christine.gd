@@ -7,7 +7,8 @@ onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
 onready var sprite = $Sprite
-onready var timer  = $Timer
+onready var timer = $Timer
+onready var area = $Area2D
 var running = false
 var jump_height = 40
 var jump_duration = 1
@@ -69,12 +70,13 @@ func jump():
 func chop():
 	animationTree.set("parameters/Chop/blend_position", direction)
 	animationState.travel("Chop")
-	#idea: check here which beech is closest. Probably, need an array of beech objects to interact with them.
-	#trees are just String at the moment, need to make them objects to interact with
-	var beech_list = get_parent().beech_list
-	print(len(beech_list))
-	for beech in beech_list:
-		beech.chop()
+
+	for body in area.get_overlapping_bodies():
+		if body:
+			get_parent().beech_count += 1
+			print(get_parent().beech_count)
+		body.queue_free()
+		
 
 func _on_Timer_timeout():
 	timer.wait_time = jump_duration
