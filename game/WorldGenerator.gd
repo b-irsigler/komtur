@@ -18,8 +18,12 @@ var openSimplexNoise = OpenSimplexNoise.new()
 
 var objects = {}
 
-var tiles = {"grass_1": 0, "grass_2": 1, "green_grass" : 2, "stone_1" : 3, "stone_2" : 4, "stone_3" : 5, "forest_ground_1" : 6, "forest_ground_2" : 7, "forest_ground_3" : 8, "barren" : 9}
-var object_tiles = {"tree_beech": preload("res://scenes/tree_beech.tscn"), "tree_pine": preload("res://scenes/tree_pine.tscn"), "tree_firs": preload("res://scenes/tree_firs.tscn")}
+var tiles = {"grass_1": 0, "grass_2": 1, "green_grass" : 2, "stone_1" : 3, 
+"stone_2" : 4, "stone_3" : 5, "forest_ground_1" : 6, "forest_ground_2" : 7, 
+"forest_ground_3" : 8, "barren" : 9}
+var object_tiles = {"tree_beech": preload("res://scenes/tree_beech.tscn"), 
+"tree_pine": preload("res://scenes/tree_pine.tscn"), 
+"tree_firs": preload("res://scenes/tree_firs.tscn")}
 
 var biome_data = {
 	"grass": {"grass_1": 0.5, "grass_2": 0.5},
@@ -36,6 +40,8 @@ var object_data = {
 	"stone": {"tree_firs": 0.01}, 
 	"barren": {},
 }
+
+var beech_count = 0
 
 func generate_map(per, oct):
 	openSimplexNoise.seed = randi()
@@ -119,7 +125,9 @@ func set_objects():
 		if random_object != null:
 			tile_to_scene(random_object, pos)
 
+				
 func tile_to_scene(random_object, pos):
 	var instance = object_tiles[str(random_object)].instance()
 	instance.position = tilemap.map_to_world(pos) + Vector2(4, 4)
 	$YSort.add_child(instance)
+	return instance
