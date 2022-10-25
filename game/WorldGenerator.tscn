@@ -8,7 +8,7 @@
 [ext_resource path="res://scenes/tree_beech.gd" type="Script" id=6]
 [ext_resource path="res://scenes/Castle.tscn" type="PackedScene" id=7]
 
-[node name="WorldGenerator" type="Node2D"]
+[node name="WorldGenerator" type="YSort"]
 position = Vector2( 3, -4 )
 script = ExtResource( 1 )
 
@@ -19,8 +19,9 @@ cell_size = Vector2( 128, 64 )
 format = 1
 
 [node name="Christine" parent="." instance=ExtResource( 4 )]
-
-[node name="YSort" type="YSort" parent="."]
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Komtur" parent="." instance=ExtResource( 5 )]
 position = Vector2( 40, 8 )

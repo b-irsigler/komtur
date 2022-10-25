@@ -132,5 +132,5 @@ func set_objects():
 func tile_to_scene(random_object, pos):
 	var instance = object_tiles[str(random_object)].instance()
 	instance.position = tilemap.map_to_world(pos) + Vector2(4, 4)
-	$YSort.add_child(instance)
+	add_child(instance)
 	return instance
