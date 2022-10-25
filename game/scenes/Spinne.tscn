@@ -1,10 +1,11 @@
-[gd_scene load_steps=53 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://scenes/Spinne.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/characters/Spinne.png" type="Texture" id=2]
 [ext_resource path="res://resources/assets/music/Spinne.mp3" type="AudioStream" id=3]
 
-[sub_resource type="CapsuleShape2D" id=88]
+[sub_resource type="CircleShape2D" id=88]
+radius = 10.0154
 
 [sub_resource type="AnimationNodeAnimation" id=45]
 animation = "IdleLeft"
@@ -546,6 +547,12 @@ tracks/0/keys = {
 "values": [ Vector2( 4, 2 ), Vector2( 5, 2 ), Vector2( 6, 2 ), Vector2( 7, 2 ), Vector2( 8, 2 ), Vector2( 9, 2 ), Vector2( 10, 2 ), Vector2( 11, 2 ) ]
 }
 
+[sub_resource type="CircleShape2D" id=89]
+radius = 465.155
+
+[sub_resource type="CircleShape2D" id=90]
+radius = 60.0
+
 [node name="Spinne" type="KinematicBody2D"]
 script = ExtResource( 1 )
 
@@ -558,6 +565,7 @@ frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
+scale = Vector2( 1.8, 1.8 )
 shape = SubResource( 88 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
@@ -569,8 +577,11 @@ parameters/Idle/blend_position = Vector2( -0.0168067, 0.586207 )
 parameters/Run/blend_position = Vector2( -0.00172412, 0.0722544 )
 parameters/stop/blend_position = Vector2( 0, 0 )
 
-[node name="Timer" type="Timer" parent="."]
-autostart = true
+[node name="TimerStateChange" type="Timer" parent="."]
+one_shot = true
+
+[node name="TimerCooldown" type="Timer" parent="."]
+one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 0.5
@@ -610,6 +621,28 @@ bus = "npc music"
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[node name="ChaseArea_Spinne" type="Area2D" parent="."]
+
+[node name="ChaseShape_Spinne" type="CollisionShape2D" parent="ChaseArea_Spinne"]
+shape = SubResource( 89 )
+
+[node name="AttackArea_Spinne" type="Area2D" parent="."]
+
+[node name="AttackShape_Spinne" type="CollisionShape2D" parent="AttackArea_Spinne"]
+shape = SubResource( 90 )
+
+[node name="DebugLabel" type="Label" parent="."]
+margin_left = -35.0
+margin_top = -39.0
+margin_right = 36.0
+margin_bottom = -25.0
+
+[connection signal="timeout" from="TimerStateChange" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="TimerStateChange" to="." method="_on_TimerStateChange_timeout"]
+[connection signal="timeout" from="TimerCooldown" to="." method="_on_TimerCooldown_timeout"]
 [connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="body_entered" from="ChaseArea_Spinne" to="." method="_on_ChaseArea_Spinne_body_entered"]
+[connection signal="body_exited" from="ChaseArea_Spinne" to="." method="_on_ChaseArea_Spinne_body_exited"]
+[connection signal="body_entered" from="AttackArea_Spinne" to="." method="_on_AttackArea_Spinne_body_entered"]
+[connection signal="body_exited" from="AttackArea_Spinne" to="." method="_on_AttackArea_Spinne_body_exited"]
