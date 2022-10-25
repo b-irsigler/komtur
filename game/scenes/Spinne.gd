@@ -5,8 +5,8 @@ const MOTION_SPEED = 130 # Pixels/second.
 onready var world = get_parent()
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
-onready var timerSC = $TimerStateChange
-onready var timerCD = $TimerCooldown
+onready var timerStateChange = $TimerStateChange
+onready var timerCooldown = $TimerCooldown
 onready var music = $MusicSpinne
 onready var debug = $DebugLabel
 onready var animationState = animationTree.get("parameters/playback")
@@ -32,18 +32,18 @@ func _physics_process(_delta):
 			current_state = State.WALK
 		State.CHASE:
 			if player == null:
-				timerRndState()
+				timerRandomState()
 			else:
 				motion = position.direction_to(player.position)
 				walk(motion)
 		State.ATTACK:
 			#make awesome attack!
 			current_state = State.COOLDOWN
-			timerCD.wait_time = 30
-			timerCD.start()
+			timerCooldown.wait_time = 30
+			timerCooldown.start()
 		State.COOLDOWN:
 			pass
-	debug.text = State.keys()[current_state]
+	debug.text = State.keys()[current_state] + str(timerStateChange.time_left)
 
 func walk(motion):
 	animationTree.set("parameters/Idle/blend_position", motion.normalized())
@@ -52,10 +52,10 @@ func walk(motion):
 	motion = motion.normalized() * MOTION_SPEED
 	move_and_slide(motion)
 
-func timerRndState():
-	timerSC.wait_time = 1
+func timerRandomState():
+	timerStateChange.wait_time = 1
 	current_state = rng.randi_range(0,2)
-	timerSC.start()
+	timerStateChange.start()
 
 func _on_VisibilityNotifier2D_screen_entered():
 	music.volume_db = 0
@@ -67,11 +67,12 @@ func _on_ChaseArea_Spinne_body_entered(body):
 	if player == null and body.name == "Christine":
 		player = body
 		current_state = State.CHASE
+		timerStateChange.stop()
 
 func _on_ChaseArea_Spinne_body_exited(body):
-	if player != null:
+	if player != null and body.name == "Christine":
 		player = null
-		timerRndState()
+		timerRandomState()
 
 func _on_AttackArea_Spinne_body_entered(body):
 	if body.name == "Christine":
@@ -82,11 +83,13 @@ func _on_AttackArea_Spinne_body_exited(body):
 		current_state = State.CHASE
 
 func _on_TimerCooldown_timeout():
+	if current_state != State.COOLDOWN:
+		pass
 	if player == null:
-		timerRndState()
+		timerRandomState()
 	else:
 		current_state = State.CHASE
 
 func _on_TimerStateChange_timeout():
 	if player == null or current_state == State.COOLDOWN:
-		timerRndState()
+		timerRandomState()
