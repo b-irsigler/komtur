@@ -8,6 +8,7 @@ onready var world = get_parent()
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
 onready var timer = $Timer
+onready var music = $MusicSpinne
 onready var animationState = animationTree.get("parameters/playback")
 
 var rng = RandomNumberGenerator.new()
@@ -36,7 +37,12 @@ func walk(motion):
 	motion = motion.normalized() * MOTION_SPEED
 	move_and_slide(motion)
 
-
 func _on_Timer_timeout():
 	timer.wait_time = 1
 	current_state = randi() % State.size()
+
+func _on_VisibilityNotifier2D_screen_entered():
+	music.volume_db = 0
+
+func _on_VisibilityNotifier2D_screen_exited():
+	music.volume_db = -5

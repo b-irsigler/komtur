@@ -600,11 +600,16 @@ anims/RunRightDown = SubResource( 85 )
 anims/RunRightUp = SubResource( 86 )
 anims/RunUp = SubResource( 87 )
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="MusicSpinne" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )
+volume_db = -5.0
 autoplay = true
-max_distance = 600.0
-attenuation = 1.56917
+max_distance = 800.0
+attenuation = 0.840897
 bus = "npc music"
 
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
