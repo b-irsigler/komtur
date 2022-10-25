@@ -603,8 +603,8 @@ anims/RunUp = SubResource( 87 )
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )
 autoplay = true
-max_distance = 1000.0
-attenuation = 0.615572
+max_distance = 600.0
+attenuation = 1.56917
 bus = "npc music"
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
