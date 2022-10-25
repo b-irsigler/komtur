@@ -3,12 +3,14 @@ extends Node2D
 onready var tilemap = $TileMap_Ground
 onready var christine = $Christine
 onready var komtur = $Komtur
+onready var castle = $Castle
 
 export var width  = 200
 export var height  = 200
 
 var start_position_christine = Vector2(width/2, height/2)
 var start_position_komtur = Vector2(width/2, height/2-5)
+var start_position_castle = Vector2(width/2-2, height/2-6)
 
 var temperature = {}
 var moisture = {}
@@ -62,6 +64,7 @@ func _ready():
 	#centering
 	christine.position = tilemap.map_to_world(start_position_christine)
 	komtur.position = tilemap.map_to_world(start_position_komtur)
+	castle.position = tilemap.map_to_world(start_position_castle)
 
 func set_tile(width, height):
 	for x in width:
