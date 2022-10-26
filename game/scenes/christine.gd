@@ -8,8 +8,10 @@ onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
 onready var sprite = $Sprite
 onready var timer = $Timer
+onready var dayTimer = $Timer2
 onready var area = $Area2D
-onready var label = $RichTextLabel
+onready var beechCounterLabel = $BeechCounterLabel
+onready var daysLeftLabel = $DaysLeftLabel
 var running = false
 var jump_height = 40
 var jump_duration = 1
@@ -25,16 +27,20 @@ var dynamic_font = DynamicFont.new()
 func _ready():
 	dynamic_font.font_data = load("res://resources/fonts/lohengrin.regular.ttf")
 	dynamic_font.size = 32
-	label.add_color_override("default_color", Color(1,.84,0,1))
-	label.add_font_override("normal_font", dynamic_font)
+	beechCounterLabel.add_color_override("default_color", Color(1,.84,0,1))
+	beechCounterLabel.add_font_override("normal_font", dynamic_font)
+	daysLeftLabel.add_color_override("default_color", Color(1,.84,0,1))
+	daysLeftLabel.add_font_override("normal_font", dynamic_font)
 
 func _physics_process(_delta):
+	daysLeftLabel.text = "noch %s Tage" % round(dayTimer.time_left / 60)
 	if beech_count < 10:
-		label.text = "Buchen: %s" % beech_count
+		beechCounterLabel.text = "Buchen: %s" % beech_count
 	else:
+		daysLeftLabel.text = ""
 		dynamic_font.size = 128
-		label.text = "Gewonnen!"
-		label.rect_position = Vector2(0,0) - label.rect_size/2
+		beechCounterLabel.text = "Gewonnen!"
+		beechCounterLabel.rect_position = Vector2(0,0) - beechCounterLabel.rect_size/2
 	
 	motion.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 	motion.y = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
