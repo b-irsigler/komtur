@@ -663,4 +663,11 @@ collision_mask = 2
 position = Vector2( 6, 5 )
 shape = SubResource( 94 )
 
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = -502.0
+margin_top = -288.0
+margin_right = -8.0
+margin_bottom = -202.0
+rect_clip_content = false
+
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
