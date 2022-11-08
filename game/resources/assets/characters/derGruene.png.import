@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Der_Gruene.png-a2086fffaba31fe202fc62bd66e72faa.stex"
+path="res://.import/derGruene.png-467fb194c5b61cee180db98d1704a0dc.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/assets/characters/Der_Gruene.png"
-dest_files=[ "res://.import/Der_Gruene.png-a2086fffaba31fe202fc62bd66e72faa.stex" ]
+source_file="res://resources/assets/characters/derGruene.png"
+dest_files=[ "res://.import/derGruene.png-467fb194c5b61cee180db98d1704a0dc.stex" ]
 
 [params]
 
