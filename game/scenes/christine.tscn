@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=2]
+[gd_scene load_steps=65 format=2]
 
 [ext_resource path="res://scenes/christine.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/characters/christine.png" type="Texture" id=2]
@@ -597,6 +597,9 @@ start_node = "Idle"
 [sub_resource type="CircleShape2D" id=94]
 radius = 35.0143
 
+[sub_resource type="CircleShape2D" id=95]
+radius = 58.3095
+
 [node name="Christine" type="KinematicBody2D"]
 script = ExtResource( 1 )
 
@@ -682,5 +685,12 @@ margin_bottom = -239.0
 wait_time = 1800.0
 autostart = true
 
+[node name="IntAreaCastle" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="IntShapeCastle" type="CollisionShape2D" parent="IntAreaCastle"]
+shape = SubResource( 95 )
+
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
-[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="body_entered" from="IntAreaCastle" to="." method="_on_IntAreaCastle_body_entered"]

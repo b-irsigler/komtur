@@ -99,7 +99,7 @@ func chop():
 
 	#This area is for collision layer/mask 2, the same as the one for beeches
 	for body in area.get_overlapping_bodies():
-		if body.is_in_group("beech"):
+		if body:
 			if beech_inventory > 4:
 				emit_signal("BeechesExceeded")
 			else:
@@ -113,8 +113,7 @@ func _on_Timer_timeout():
 	animationState.travel("Run")
 	current_state = State.IDLE
 
-
-func _on_Area2D_body_entered(body):
+func _on_IntAreaCastle_body_entered(body):
 	if body.name == "Castle" and beech_inventory > 0:
 		beech_count += beech_inventory
 		beech_inventory = 0

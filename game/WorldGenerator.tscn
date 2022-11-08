@@ -34,12 +34,14 @@ position = Vector2( 40, 8 )
 
 [node name="Beech" parent="." instance=ExtResource( 3 )]
 position = Vector2( 61, -63 )
+collision_layer = 3
+collision_mask = 3
 script = ExtResource( 6 )
 
 [node name="Castle" parent="." instance=ExtResource( 8 )]
 position = Vector2( 426, -60 )
-collision_layer = 3
-collision_mask = 3
+collision_layer = 5
+collision_mask = 5
 
 [connection signal="NewGame" from="GUI" to="." method="_on_GUI_NewGame"]
 [connection signal="BeechChopped" from="Christine" to="GUI" method="_on_Christine_BeechChopped"]

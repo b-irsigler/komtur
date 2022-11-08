@@ -18,3 +18,4 @@ func _on_Christine_BeechChopped(inventory, count):
 
 func _on_Christine_BeechesExceeded():
 	popup.PopupWithText("Ihr seid voll mit Buchen! Ladet sie am Schloss ab um den Komtur zu besänftigen!")
+	popup.visible = true
