@@ -46,8 +46,6 @@ var object_data = {
 	"barren": {},
 }
 
-var beech_count = 0
-
 func generate_map(per, oct):
 	openSimplexNoise.seed = randi()
 	openSimplexNoise.period = per
