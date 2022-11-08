@@ -75,6 +75,7 @@ func _on_ChaseArea_Spinne_body_exited(body):
 		timerRandomState()
 
 func _on_AttackArea_Spinne_body_entered(body):
+	animationTree.set("parameters/Chop/blend_position", motion.normalized())
 	if body.name == "Christine":
 		current_state = State.ATTACK
 
