@@ -1,10 +1,7 @@
 [gd_scene load_steps=52 format=2]
 
-[ext_resource path="res://resources/assets/characters/komtur.png" type="Texture" id=1]
-[ext_resource path="res://scenes/Komtur.gd" type="Script" id=2]
-
-[sub_resource type="CircleShape2D" id=27]
-radius = 13.1529
+[ext_resource path="res://resources/assets/characters/derGruene.png" type="Texture" id=1]
+[ext_resource path="res://scenes/DerGruene.gd" type="Script" id=2]
 
 [sub_resource type="AnimationNodeAnimation" id=88]
 animation = "IdleLeft"
@@ -98,7 +95,7 @@ blend_mode = 1
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=24]
 
-[sub_resource type="AnimationNodeStateMachine" id=61]
+[sub_resource type="AnimationNodeStateMachine" id=43]
 states/Idle/node = SubResource( 15 )
 states/Idle/position = Vector2( 260, 85 )
 states/Run/node = SubResource( 20 )
@@ -108,9 +105,9 @@ states/stop/position = Vector2( 664.333, 98.1111 )
 transitions = [ "Idle", "Run", SubResource( 23 ), "Run", "Idle", SubResource( 24 ) ]
 start_node = "Idle"
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=62]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=44]
 
-[sub_resource type="Animation" id=63]
+[sub_resource type="Animation" id=45]
 resource_name = "ChopDown"
 length = 0.6
 loop = true
@@ -127,7 +124,7 @@ tracks/0/keys = {
 "values": [ Vector2( 12, 6 ), Vector2( 13, 6 ), Vector2( 14, 6 ), Vector2( 15, 6 ), Vector2( 16, 6 ), Vector2( 17, 6 ) ]
 }
 
-[sub_resource type="Animation" id=64]
+[sub_resource type="Animation" id=46]
 resource_name = "ChopLeft"
 length = 0.6
 loop = true
@@ -144,7 +141,7 @@ tracks/0/keys = {
 "values": [ Vector2( 12, 0 ), Vector2( 13, 0 ), Vector2( 14, 0 ), Vector2( 15, 0 ), Vector2( 16, 0 ), Vector2( 17, 0 ) ]
 }
 
-[sub_resource type="Animation" id=65]
+[sub_resource type="Animation" id=47]
 resource_name = "ChopLeftDown"
 length = 0.6
 loop = true
@@ -161,7 +158,7 @@ tracks/0/keys = {
 "values": [ Vector2( 12, 7 ), Vector2( 13, 7 ), Vector2( 14, 7 ), Vector2( 15, 7 ), Vector2( 16, 7 ), Vector2( 17, 7 ) ]
 }
 
-[sub_resource type="Animation" id=66]
+[sub_resource type="Animation" id=48]
 resource_name = "ChopLeftUp"
 length = 0.6
 loop = true
@@ -178,7 +175,7 @@ tracks/0/keys = {
 "values": [ Vector2( 13, 1 ), Vector2( 14, 1 ), Vector2( 15, 1 ), Vector2( 16, 1 ), Vector2( 17, 1 ), Vector2( 18, 1 ) ]
 }
 
-[sub_resource type="Animation" id=67]
+[sub_resource type="Animation" id=49]
 resource_name = "ChopRight"
 length = 0.6
 loop = true
@@ -195,7 +192,7 @@ tracks/0/keys = {
 "values": [ Vector2( 13, 4 ), Vector2( 14, 4 ), Vector2( 15, 4 ), Vector2( 16, 4 ), Vector2( 17, 4 ), Vector2( 18, 4 ) ]
 }
 
-[sub_resource type="Animation" id=68]
+[sub_resource type="Animation" id=50]
 resource_name = "ChopRightDown"
 length = 0.6
 loop = true
@@ -212,7 +209,7 @@ tracks/0/keys = {
 "values": [ Vector2( 12, 5 ), Vector2( 13, 5 ), Vector2( 14, 5 ), Vector2( 15, 5 ), Vector2( 16, 5 ), Vector2( 17, 5 ) ]
 }
 
-[sub_resource type="Animation" id=69]
+[sub_resource type="Animation" id=51]
 resource_name = "ChopRightUp"
 length = 0.6
 loop = true
@@ -229,7 +226,7 @@ tracks/0/keys = {
 "values": [ Vector2( 13, 3 ), Vector2( 14, 3 ), Vector2( 15, 3 ), Vector2( 16, 3 ), Vector2( 17, 3 ), Vector2( 18, 3 ) ]
 }
 
-[sub_resource type="Animation" id=70]
+[sub_resource type="Animation" id=52]
 resource_name = "ChopUp"
 length = 0.6
 loop = true
@@ -246,7 +243,7 @@ tracks/0/keys = {
 "values": [ Vector2( 13, 2 ), Vector2( 14, 2 ), Vector2( 15, 2 ), Vector2( 16, 2 ), Vector2( 17, 2 ), Vector2( 18, 2 ) ]
 }
 
-[sub_resource type="Animation" id=71]
+[sub_resource type="Animation" id=53]
 resource_name = "IdleDown"
 length = 0.6
 loop = true
@@ -263,7 +260,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 6 ), Vector2( 1, 6 ), Vector2( 2, 6 ), Vector2( 3, 6 ), Vector2( 2, 6 ), Vector2( 1, 6 ) ]
 }
 
-[sub_resource type="Animation" id=72]
+[sub_resource type="Animation" id=54]
 resource_name = "IdleLeft"
 length = 0.6
 loop = true
@@ -280,7 +277,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 1, 0 ), Vector2( 2, 0 ), Vector2( 3, 0 ), Vector2( 2, 0 ), Vector2( 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=73]
+[sub_resource type="Animation" id=55]
 resource_name = "IdleLeftDown"
 length = 0.6
 loop = true
@@ -298,7 +295,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 7 ), Vector2( 1, 7 ), Vector2( 2, 7 ), Vector2( 3, 7 ), Vector2( 2, 7 ), Vector2( 1, 7 ) ]
 }
 
-[sub_resource type="Animation" id=74]
+[sub_resource type="Animation" id=56]
 resource_name = "IdleLeftUp"
 length = 0.6
 loop = true
@@ -315,7 +312,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 1 ), Vector2( 1, 1 ), Vector2( 2, 1 ), Vector2( 3, 1 ), Vector2( 2, 1 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=75]
+[sub_resource type="Animation" id=57]
 resource_name = "IdleRight"
 length = 0.6
 loop = true
@@ -332,7 +329,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 4 ), Vector2( 1, 4 ), Vector2( 2, 4 ), Vector2( 3, 4 ), Vector2( 2, 4 ), Vector2( 1, 4 ) ]
 }
 
-[sub_resource type="Animation" id=76]
+[sub_resource type="Animation" id=58]
 resource_name = "IdleRightDown"
 length = 0.6
 loop = true
@@ -349,7 +346,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 5 ), Vector2( 1, 5 ), Vector2( 2, 5 ), Vector2( 3, 5 ), Vector2( 2, 5 ), Vector2( 1, 5 ) ]
 }
 
-[sub_resource type="Animation" id=77]
+[sub_resource type="Animation" id=59]
 resource_name = "IdleRightUp"
 length = 0.6
 loop = true
@@ -366,7 +363,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 3 ), Vector2( 1, 3 ), Vector2( 2, 3 ), Vector2( 3, 3 ), Vector2( 2, 3 ), Vector2( 1, 3 ) ]
 }
 
-[sub_resource type="Animation" id=78]
+[sub_resource type="Animation" id=60]
 resource_name = "IdleUp"
 length = 0.6
 loop = true
@@ -383,7 +380,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 2 ), Vector2( 1, 2 ), Vector2( 2, 2 ), Vector2( 3, 2 ), Vector2( 2, 2 ), Vector2( 1, 2 ) ]
 }
 
-[sub_resource type="Animation" id=79]
+[sub_resource type="Animation" id=61]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -410,7 +407,7 @@ tracks/1/keys = {
 "values": [ Vector2( 5, 1 ) ]
 }
 
-[sub_resource type="Animation" id=80]
+[sub_resource type="Animation" id=62]
 resource_name = "RunDown"
 length = 0.8
 loop = true
@@ -427,7 +424,7 @@ tracks/0/keys = {
 "values": [ Vector2( 4, 6 ), Vector2( 5, 6 ), Vector2( 6, 6 ), Vector2( 7, 6 ), Vector2( 8, 6 ), Vector2( 9, 6 ), Vector2( 10, 6 ), Vector2( 11, 6 ) ]
 }
 
-[sub_resource type="Animation" id=81]
+[sub_resource type="Animation" id=63]
 resource_name = "RunLeft"
 length = 0.8
 loop = true
@@ -444,7 +441,7 @@ tracks/0/keys = {
 "values": [ Vector2( 4, 0 ), Vector2( 5, 0 ), Vector2( 6, 0 ), Vector2( 7, 0 ), Vector2( 8, 0 ), Vector2( 9, 0 ), Vector2( 10, 0 ), Vector2( 11, 0 ) ]
 }
 
-[sub_resource type="Animation" id=82]
+[sub_resource type="Animation" id=64]
 resource_name = "RunLeftDown"
 length = 0.8
 loop = true
@@ -461,7 +458,7 @@ tracks/0/keys = {
 "values": [ Vector2( 4, 7 ), Vector2( 5, 7 ), Vector2( 6, 7 ), Vector2( 7, 7 ), Vector2( 8, 7 ), Vector2( 9, 7 ), Vector2( 10, 7 ), Vector2( 11, 7 ) ]
 }
 
-[sub_resource type="Animation" id=83]
+[sub_resource type="Animation" id=65]
 resource_name = "RunLeftUp"
 length = 0.8
 loop = true
@@ -478,7 +475,7 @@ tracks/0/keys = {
 "values": [ Vector2( 4, 1 ), Vector2( 5, 1 ), Vector2( 6, 1 ), Vector2( 7, 1 ), Vector2( 8, 1 ), Vector2( 9, 1 ), Vector2( 10, 1 ), Vector2( 11, 1 ) ]
 }
 
-[sub_resource type="Animation" id=84]
+[sub_resource type="Animation" id=66]
 resource_name = "RunRight"
 length = 0.8
 loop = true
@@ -495,7 +492,7 @@ tracks/0/keys = {
 "values": [ Vector2( 4, 4 ), Vector2( 5, 4 ), Vector2( 6, 4 ), Vector2( 7, 4 ), Vector2( 8, 4 ), Vector2( 9, 4 ), Vector2( 10, 4 ), Vector2( 11, 4 ) ]
 }
 
-[sub_resource type="Animation" id=85]
+[sub_resource type="Animation" id=67]
 resource_name = "RunRightDown"
 length = 0.8
 loop = true
@@ -512,7 +509,7 @@ tracks/0/keys = {
 "values": [ Vector2( 4, 5 ), Vector2( 5, 5 ), Vector2( 6, 5 ), Vector2( 7, 5 ), Vector2( 8, 5 ), Vector2( 9, 5 ), Vector2( 10, 5 ), Vector2( 11, 5 ) ]
 }
 
-[sub_resource type="Animation" id=86]
+[sub_resource type="Animation" id=68]
 resource_name = "RunRightUp"
 length = 0.8
 loop = true
@@ -529,7 +526,7 @@ tracks/0/keys = {
 "values": [ Vector2( 4, 3 ), Vector2( 5, 3 ), Vector2( 6, 3 ), Vector2( 7, 3 ), Vector2( 8, 3 ), Vector2( 9, 3 ), Vector2( 10, 3 ), Vector2( 11, 3 ) ]
 }
 
-[sub_resource type="Animation" id=87]
+[sub_resource type="Animation" id=69]
 resource_name = "RunUp"
 length = 0.8
 loop = true
@@ -546,7 +543,10 @@ tracks/0/keys = {
 "values": [ Vector2( 4, 2 ), Vector2( 5, 2 ), Vector2( 6, 2 ), Vector2( 7, 2 ), Vector2( 8, 2 ), Vector2( 9, 2 ), Vector2( 10, 2 ), Vector2( 11, 2 ) ]
 }
 
-[node name="Komtur" type="KinematicBody2D"]
+[sub_resource type="CircleShape2D" id=70]
+radius = 13.1529
+
+[node name="DerGruene" type="KinematicBody2D"]
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
@@ -559,14 +559,11 @@ hframes = 32
 vframes = 8
 frame = 37
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 27 )
-
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 61 )
+tree_root = SubResource( 43 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 62 )
+parameters/playback = SubResource( 44 )
 parameters/Idle/blend_position = Vector2( -0.0168067, 0.586207 )
 parameters/Run/blend_position = Vector2( -0.00172412, 0.0722544 )
 parameters/stop/blend_position = Vector2( 0, 0 )
@@ -576,30 +573,33 @@ autostart = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 0.5
-anims/ChopDown = SubResource( 63 )
-anims/ChopLeft = SubResource( 64 )
-anims/ChopLeftDown = SubResource( 65 )
-anims/ChopLeftUp = SubResource( 66 )
-anims/ChopRight = SubResource( 67 )
-anims/ChopRightDown = SubResource( 68 )
-anims/ChopRightUp = SubResource( 69 )
-anims/ChopUp = SubResource( 70 )
-anims/IdleDown = SubResource( 71 )
-anims/IdleLeft = SubResource( 72 )
-anims/IdleLeftDown = SubResource( 73 )
-anims/IdleLeftUp = SubResource( 74 )
-anims/IdleRight = SubResource( 75 )
-anims/IdleRightDown = SubResource( 76 )
-anims/IdleRightUp = SubResource( 77 )
-anims/IdleUp = SubResource( 78 )
-anims/RESET = SubResource( 79 )
-anims/RunDown = SubResource( 80 )
-anims/RunLeft = SubResource( 81 )
-anims/RunLeftDown = SubResource( 82 )
-anims/RunLeftUp = SubResource( 83 )
-anims/RunRight = SubResource( 84 )
-anims/RunRightDown = SubResource( 85 )
-anims/RunRightUp = SubResource( 86 )
-anims/RunUp = SubResource( 87 )
+anims/ChopDown = SubResource( 45 )
+anims/ChopLeft = SubResource( 46 )
+anims/ChopLeftDown = SubResource( 47 )
+anims/ChopLeftUp = SubResource( 48 )
+anims/ChopRight = SubResource( 49 )
+anims/ChopRightDown = SubResource( 50 )
+anims/ChopRightUp = SubResource( 51 )
+anims/ChopUp = SubResource( 52 )
+anims/IdleDown = SubResource( 53 )
+anims/IdleLeft = SubResource( 54 )
+anims/IdleLeftDown = SubResource( 55 )
+anims/IdleLeftUp = SubResource( 56 )
+anims/IdleRight = SubResource( 57 )
+anims/IdleRightDown = SubResource( 58 )
+anims/IdleRightUp = SubResource( 59 )
+anims/IdleUp = SubResource( 60 )
+anims/RESET = SubResource( 61 )
+anims/RunDown = SubResource( 62 )
+anims/RunLeft = SubResource( 63 )
+anims/RunLeftDown = SubResource( 64 )
+anims/RunLeftUp = SubResource( 65 )
+anims/RunRight = SubResource( 66 )
+anims/RunRightDown = SubResource( 67 )
+anims/RunRightUp = SubResource( 68 )
+anims/RunUp = SubResource( 69 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 70 )
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

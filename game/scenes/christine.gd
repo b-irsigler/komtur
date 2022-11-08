@@ -12,6 +12,7 @@ onready var dayTimer = $Timer2
 onready var area = $Area2D
 onready var beechCounterLabel = $BeechCounterLabel
 onready var daysLeftLabel = $DaysLeftLabel
+onready var tilemap = $"../TileMap_Ground"
 var running = false
 var jump_height = 40
 var jump_duration = 1
@@ -33,6 +34,9 @@ func _ready():
 	daysLeftLabel.add_font_override("normal_font", dynamic_font)
 
 func _physics_process(_delta):
+	
+	print(tilemap.map_to_world(position))
+	
 	daysLeftLabel.text = "noch %s Tage" % round(dayTimer.time_left / 60)
 	if beech_count < 10:
 		beechCounterLabel.text = "Buchen: %s" % beech_count
