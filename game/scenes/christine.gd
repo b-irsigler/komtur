@@ -3,6 +3,9 @@ extends KinematicBody2D
 const MOTION_SPEED = 160 # Pixels/second.
 const RUN_MULT = 10
 
+signal BeechChopped(inventory, count)
+signal BeechesExceeded
+
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
@@ -18,6 +21,7 @@ var jump_duration = 1
 var motion = Vector2()
 var direction = Vector2()
 var beech_count = 0
+var beech_inventory = 0
 
 enum State {IDLE, WALK, RUN, JUMP, CHOP}
 var current_state = State.IDLE
@@ -51,7 +55,7 @@ func _physics_process(_delta):
 	elif current_state != State.JUMP:
 		direction = motion.normalized()
 		current_state = State.WALK
-		
+
 	motion = direction * MOTION_SPEED
 	
 	if Input.is_action_just_pressed("run"):
@@ -95,12 +99,23 @@ func chop():
 
 	#This area is for collision layer/mask 2, the same as the one for beeches
 	for body in area.get_overlapping_bodies():
-		if body:
-			beech_count += 1
-		body.queue_free()
+		if body.is_in_group("beech"):
+			if beech_inventory > 4:
+				emit_signal("BeechesExceeded")
+			else:
+				beech_inventory += 1
+				emit_signal("BeechChopped", beech_inventory, beech_count)
+				body.queue_free()
 		
 
 func _on_Timer_timeout():
 	timer.wait_time = jump_duration
 	animationState.travel("Run")
 	current_state = State.IDLE
+
+
+func _on_Area2D_body_entered(body):
+	if body.name == "Castle" and beech_inventory > 0:
+		beech_count += beech_inventory
+		beech_inventory = 0
+		emit_signal("BeechChopped", beech_inventory, beech_count)

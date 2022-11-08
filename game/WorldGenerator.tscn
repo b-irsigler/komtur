@@ -38,3 +38,9 @@ script = ExtResource( 6 )
 
 [node name="Castle" parent="." instance=ExtResource( 8 )]
 position = Vector2( 426, -60 )
+collision_layer = 3
+collision_mask = 3
+
+[connection signal="NewGame" from="GUI" to="." method="_on_GUI_NewGame"]
+[connection signal="BeechChopped" from="Christine" to="GUI" method="_on_Christine_BeechChopped"]
+[connection signal="BeechesExceeded" from="Christine" to="GUI" method="_on_Christine_BeechesExceeded"]

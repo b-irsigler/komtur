@@ -664,6 +664,7 @@ position = Vector2( 6, 5 )
 shape = SubResource( 94 )
 
 [node name="BeechCounterLabel" type="RichTextLabel" parent="."]
+visible = false
 margin_left = -491.0
 margin_top = -281.0
 margin_right = 3.0
@@ -671,6 +672,7 @@ margin_bottom = -195.0
 rect_clip_content = false
 
 [node name="DaysLeftLabel" type="RichTextLabel" parent="."]
+visible = false
 margin_left = 306.0
 margin_top = -279.0
 margin_right = 503.0
@@ -681,3 +683,4 @@ wait_time = 1800.0
 autostart = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

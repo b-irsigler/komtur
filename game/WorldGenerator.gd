@@ -58,6 +58,9 @@ func generate_map(per, oct):
 	return gridName
 
 func _ready():
+	newgame()
+	
+func newgame():
 	temperature = generate_map(300, 5)
 	moisture = generate_map(300, 5)
 	altitude = generate_map(50, 5)
@@ -136,3 +139,7 @@ func tile_to_scene(random_object, pos):
 	instance.position = tilemap.map_to_world(pos) + Vector2(4, 4)
 	add_child(instance)
 	return instance
+
+
+func _on_GUI_NewGame():
+	newgame()
