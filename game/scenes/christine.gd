@@ -118,3 +118,9 @@ func _on_IntAreaCastle_body_entered(body):
 		beech_count += beech_inventory
 		beech_inventory = 0
 		emit_signal("BeechChopped", beech_inventory, beech_count)
+
+
+func _on_GUI_NewGame():
+	beech_count = 0
+	beech_inventory = 0
+	emit_signal("BeechChopped", beech_inventory, beech_count)
