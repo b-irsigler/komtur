@@ -104,10 +104,11 @@ func chop():
 		if body:
 			if beech_inventory > 4:
 				emit_signal("BeechesExceeded")
-			else:
+			elif not body.ischopped:
 				beech_inventory += 1
 				emit_signal("BeechChopped", beech_inventory, beech_count)
-				body.queue_free()
+				body.chop()
+				#body.queue_free()
 		
 
 func _on_Timer_timeout():
