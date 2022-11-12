@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=2]
+[gd_scene load_steps=67 format=2]
 
 [ext_resource path="res://scenes/christine.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/characters/christine.png" type="Texture" id=2]
@@ -618,6 +618,9 @@ graph_offset = Vector2( 144.95, 0 )
 [sub_resource type="CircleShape2D" id=94]
 radius = 35.0143
 
+[sub_resource type="CircleShape2D" id=132]
+radius = 77.1038
+
 [node name="Christine" type="KinematicBody2D"]
 script = ExtResource( 1 )
 
@@ -675,7 +678,7 @@ parameters/Stop/blend_position = Vector2( 0, 0 )
 parameters/Walk/BlendSpace2D/blend_position = Vector2( 0, 0 )
 parameters/Walk/TimeScale/scale = 1.0
 
-[node name="Timer" type="Timer" parent="."]
+[node name="JumpTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -688,6 +691,7 @@ position = Vector2( 6, 5 )
 shape = SubResource( 94 )
 
 [node name="BeechCounterLabel" type="RichTextLabel" parent="."]
+visible = false
 margin_left = -491.0
 margin_top = -281.0
 margin_right = 3.0
@@ -695,6 +699,7 @@ margin_bottom = -195.0
 rect_clip_content = false
 
 [node name="DaysLeftLabel" type="RichTextLabel" parent="."]
+visible = false
 margin_left = 306.0
 margin_top = -279.0
 margin_right = 503.0
@@ -704,4 +709,12 @@ margin_bottom = -239.0
 wait_time = 600.0
 autostart = true
 
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[node name="InteractionAreaCastle" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="InteractionShapeCastle" type="CollisionShape2D" parent="InteractionAreaCastle"]
+shape = SubResource( 132 )
+
+[connection signal="timeout" from="JumpTimer" to="." method="_on_Timer_timeout"]
+[connection signal="body_entered" from="InteractionAreaCastle" to="." method="_on_IntAreaCastle_body_entered"]

@@ -1,0 +1,69 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://resources/MenuTheme.tres" type="Theme" id=1]
+[ext_resource path="res://scenes/Menu.gd" type="Script" id=2]
+
+[node name="Menu" type="Control"]
+pause_mode = 2
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="MenuBG" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.105882, 0.105882, 0.105882, 0.784314 )
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -286.752
+margin_top = -73.0
+margin_right = 286.752
+margin_bottom = 73.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 200.0
+margin_right = 373.0
+margin_bottom = 207.0
+custom_constants/separation = 14
+alignment = 1
+
+[node name="MenuReason" type="RichTextLabel" parent="CenterContainer/VBoxContainer"]
+margin_right = 173.0
+margin_bottom = 31.0
+text = "Menu Reason"
+fit_content_height = true
+scroll_active = false
+deselect_on_focus_loss_enabled = false
+
+[node name="Control" type="Control" parent="CenterContainer/VBoxContainer"]
+margin_top = 45.0
+margin_right = 173.0
+margin_bottom = 45.0
+
+[node name="ButtonNew" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_top = 59.0
+margin_right = 173.0
+margin_bottom = 99.0
+text = "New Game"
+
+[node name="ButtonExit" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_top = 113.0
+margin_right = 173.0
+margin_bottom = 153.0
+text = "Exit Game"
+
+[node name="ButtonResume" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_top = 167.0
+margin_right = 173.0
+margin_bottom = 207.0
+text = "Resume"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/ButtonNew" to="." method="_on_ButtonNew_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/ButtonExit" to="." method="_on_ButtonExit_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/ButtonResume" to="." method="_on_ButtonResume_pressed"]
