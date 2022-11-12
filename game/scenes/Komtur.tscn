@@ -4,6 +4,7 @@
 [ext_resource path="res://scenes/Komtur.gd" type="Script" id=2]
 
 [sub_resource type="CircleShape2D" id=27]
+radius = 13.1529
 
 [sub_resource type="AnimationNodeAnimation" id=45]
 animation = "IdleLeft"
@@ -547,8 +548,12 @@ tracks/0/keys = {
 
 [node name="Komtur" type="KinematicBody2D"]
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, -28 )
 texture = ExtResource( 1 )
 hframes = 32
 vframes = 8
