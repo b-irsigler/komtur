@@ -4,8 +4,11 @@ signal NewGame
 onready var dayTimer = $"30Tage"
 onready var label_beech = $LabelBeech
 onready var label_time = $LabelTime
+onready var castle =$"../Castle"
 onready var popup = $Popup
 onready var menu = $Menu
+onready var camera = $"../Christine/Camera2D"
+onready var castleIndicator = $CastleIndicator
 #time in seconds for game
 var totaltime = 600
 var timediv
@@ -21,7 +24,8 @@ func _physics_process(delta):
 	label_time.text = "noch %s Tage" % TimerToDays(dayTimer.time_left)
 	if TimerToDays(dayTimer.time_left) == 0:
 		menu.GameFinished(false)
-
+	updateCastleIndicator()
+	
 func TimerToDays(timeval: float = 0):
 	return round(timeval / timediv)
 	#return round(timeval)
@@ -38,3 +42,19 @@ func _on_Christine_BeechChopped(inventory, count):
 func _on_Christine_BeechesExceeded():
 	popup.PopupWithText("Ihr seid voll mit Buchen! Ladet sie am Schloss ab um den Komtur zu besänftigen!")
 	popup.visible = true
+	
+func updateCastleIndicator():
+	var center = camera.get_camera_screen_center()
+	var target = castle.position
+	var vec = target - center
+	var margin = castleIndicator.rect_size
+	var half_size = get_viewport().size * 0.5
+	var clamped_vec = Vector2 (
+			clamp(vec.x, -half_size.x, half_size.x - margin.x),
+			clamp(vec.y, -half_size.y, half_size.y - margin.y)
+		)
+	if clamped_vec == vec:
+		castleIndicator.visible = false
+	else:
+		castleIndicator.visible = true
+		castleIndicator.rect_position = clamped_vec + half_size
