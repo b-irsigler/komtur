@@ -25,7 +25,7 @@ __meta__ = {
 }
 
 [node name="Komtur" parent="." instance=ExtResource( 5 )]
-position = Vector2( 40, 8 )
+position = Vector2( 100, 45 )
 
 [node name="Spinne" parent="." instance=ExtResource( 7 )]
 

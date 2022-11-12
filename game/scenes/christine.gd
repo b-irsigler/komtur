@@ -1,6 +1,5 @@
 extends KinematicBody2D
 
-const MOTION_SPEED = 160 # Pixels/second.
 const RUN_MULT = 10
 
 onready var animationPlayer = $AnimationPlayer
@@ -18,6 +17,8 @@ var jump_duration = 1
 var motion = Vector2()
 var direction = Vector2()
 var beech_count = 0
+var motion_speed = 300
+var animation_speed = 2
 
 enum State {IDLE, WALK, RUN, JUMP, CHOP}
 var current_state = State.IDLE
@@ -33,8 +34,9 @@ func _ready():
 	daysLeftLabel.add_font_override("normal_font", dynamic_font)
 
 func _physics_process(_delta):
-	daysLeftLabel.text = "noch %s Tage" % round(dayTimer.time_left / 60)
-	if beech_count < 10:
+	updateSpeed()
+	daysLeftLabel.text = "noch %s Tage" % round(dayTimer.time_left / 20)
+	if beech_count < 100:
 		beechCounterLabel.text = "Buchen: %s" % beech_count
 	else:
 		daysLeftLabel.text = ""
@@ -52,7 +54,7 @@ func _physics_process(_delta):
 		direction = motion.normalized()
 		current_state = State.WALK
 		
-	motion = direction * MOTION_SPEED
+	motion = direction * motion_speed
 	
 	if Input.is_action_just_pressed("run"):
 		running = not running
@@ -75,12 +77,12 @@ func _physics_process(_delta):
 			chop()
 			
 func idle():
-	animationTree.set("parameters/Idle/blend_position", direction)
+	animationTree.set("parameters/Idle/BlendSpace2D/blend_position", direction)
 	animationState.travel("Idle")
 	
 func walk(motion):
-	animationTree.set("parameters/Run/blend_position", direction)
-	animationState.travel("Run")
+	animationTree.set("parameters/Walk/BlendSpace2D/blend_position", direction)
+	animationState.travel("Walk")
 	move_and_slide(motion)
 
 func jump():
@@ -90,7 +92,7 @@ func jump():
 	move_and_slide(motion)
 	
 func chop():
-	animationTree.set("parameters/Chop/blend_position", direction)
+	animationTree.set("parameters/Chop/BlendSpace2D/blend_position", direction)
 	animationState.travel("Chop")
 
 	#This area is for collision layer/mask 2, the same as the one for beeches
@@ -104,3 +106,18 @@ func _on_Timer_timeout():
 	timer.wait_time = jump_duration
 	animationState.travel("Run")
 	current_state = State.IDLE
+
+func updateSpeed():
+	if Input.is_action_just_pressed("increase_animation_speed"):
+		animation_speed += .1
+	if Input.is_action_just_pressed("decrease_animation_speed"):
+		animation_speed -= .1
+	animationTree.set("parameters/Walk/TimeScale/scale",animation_speed)
+	animationTree.set("parameters/Idle/TimeScale/scale",animation_speed)
+	animationTree.set("parameters/Chop/TimeScale/scale",animation_speed)
+	
+	if Input.is_action_just_pressed("increase_motion_speed"):
+		motion_speed += 5
+	if Input.is_action_just_pressed("decrease_motion_speed"):
+		motion_speed -= 5
+
