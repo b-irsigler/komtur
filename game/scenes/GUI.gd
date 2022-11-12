@@ -7,7 +7,7 @@ onready var label_time = $LabelTime
 onready var popup = $Popup
 onready var menu = $Menu
 #time in seconds for game
-var totaltime = 900
+var totaltime = 600
 var timediv
 
 # Called when the node enters the scene tree for the first time.
@@ -32,6 +32,8 @@ func _on_Menu_NewGame():
 
 func _on_Christine_BeechChopped(inventory, count):
 	label_beech.text = "Buchen: %s | %s" % [count, inventory]
+	if count >= 100:
+		menu.GameFinished(true)
 
 func _on_Christine_BeechesExceeded():
 	popup.PopupWithText("Ihr seid voll mit Buchen! Ladet sie am Schloss ab um den Komtur zu besänftigen!")

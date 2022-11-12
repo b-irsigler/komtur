@@ -618,8 +618,8 @@ graph_offset = Vector2( 144.95, 0 )
 [sub_resource type="CircleShape2D" id=94]
 radius = 35.0143
 
-[sub_resource type="CircleShape2D" id=95]
-radius = 58.3095
+[sub_resource type="CircleShape2D" id=132]
+radius = 77.1038
 
 [node name="Christine" type="KinematicBody2D"]
 script = ExtResource( 1 )
@@ -678,7 +678,7 @@ parameters/Stop/blend_position = Vector2( 0, 0 )
 parameters/Walk/BlendSpace2D/blend_position = Vector2( 0, 0 )
 parameters/Walk/TimeScale/scale = 1.0
 
-[node name="Timer" type="Timer" parent="."]
+[node name="JumpTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -709,12 +709,12 @@ margin_bottom = -239.0
 wait_time = 600.0
 autostart = true
 
-[node name="IntAreaCastle" type="Area2D" parent="."]
+[node name="InteractionAreaCastle" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 4
 
-[node name="IntShapeCastle" type="CollisionShape2D" parent="IntAreaCastle"]
-shape = SubResource( 95 )
+[node name="InteractionShapeCastle" type="CollisionShape2D" parent="InteractionAreaCastle"]
+shape = SubResource( 132 )
 
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
-[connection signal="body_entered" from="IntAreaCastle" to="." method="_on_IntAreaCastle_body_entered"]
+[connection signal="timeout" from="JumpTimer" to="." method="_on_Timer_timeout"]
+[connection signal="body_entered" from="InteractionAreaCastle" to="." method="_on_IntAreaCastle_body_entered"]
