@@ -4,6 +4,8 @@ var motion_speed = 160 # Pixels/second.
 const RUN_MULT = 10
 const max_return_counter = 10
 
+signal KomturAttack
+
 onready var world = get_parent()
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
@@ -67,6 +69,7 @@ func _physics_process(_delta):
 			_play_random_sound()
 			animationTree.set("parameters/Chop/blend_position", motion.normalized())
 			animationState.travel("Chop")
+			emit_signal("KomturAttack")
 			current_state = State.COOLDOWN
 			timerCooldown.wait_time = 30
 			timerCooldown.start()

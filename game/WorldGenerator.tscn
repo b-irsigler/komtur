@@ -43,3 +43,4 @@ collision_mask = 5
 [connection signal="NewGame" from="GUI" to="Christine" method="_on_GUI_NewGame"]
 [connection signal="BeechChopped" from="Christine" to="GUI" method="_on_Christine_BeechChopped"]
 [connection signal="BeechesExceeded" from="Christine" to="GUI" method="_on_Christine_BeechesExceeded"]
+[connection signal="KomturAttack" from="Komtur" to="GUI" method="_on_Komtur_KomturAttack"]
