@@ -205,6 +205,9 @@ script = ExtResource( 3 )
 position = Vector2( 5, -60 )
 texture = ExtResource( 1 )
 
+[node name="Spritetween" type="Tween" parent="."]
+playback_process_mode = 0
+
 [node name="Hole" type="Sprite" parent="."]
 visible = false
 scale = Vector2( 0.1, 0.1 )
@@ -218,4 +221,4 @@ visible = false
 position = Vector2( 0, -47 )
 frames = SubResource( 46 )
 
-[node name="Tween" type="Tween" parent="."]
+[connection signal="tween_completed" from="Spritetween" to="." method="_on_Spritetween_tween_completed"]
