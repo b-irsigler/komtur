@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://WorldGenerator.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/floor/komtur_floortiles.tres" type="TileSet" id=2]
@@ -7,7 +7,9 @@
 [ext_resource path="res://scenes/Komtur.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/Spinne.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/Castle.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scenes/GUI.tscn" type="PackedScene" id=9]
+
+[ext_resource path="res://scenes/DerGruene.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/GUI.tscn" type="PackedScene" id=10]
 
 [node name="WorldGenerator" type="YSort"]
 position = Vector2( 3, -4 )
@@ -38,6 +40,9 @@ position = Vector2( 61, -63 )
 position = Vector2( 426, -60 )
 collision_layer = 5
 collision_mask = 5
+
+[node name="DerGruene" parent="." instance=ExtResource( 9 )]
+position = Vector2( -260, -27 )
 
 [connection signal="NewGame" from="GUI" to="." method="_on_GUI_NewGame"]
 [connection signal="NewGame" from="GUI" to="Christine" method="_on_GUI_NewGame"]
