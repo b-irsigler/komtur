@@ -18,7 +18,7 @@ func _ready():
 	dayTimer.start(totaltime)
 	timediv = totaltime / 30
 	label_time.text = "noch %s Tage" % TimerToDays(dayTimer.time_left)
-	label_beech.text = "Buchen: 0 | 0"
+	label_beech.text = "Buchen im Schloss: %s | getragen: %s" % [0, 0]
 	
 func _physics_process(delta):
 	label_time.text = "noch %s Tage" % TimerToDays(dayTimer.time_left)
@@ -35,7 +35,7 @@ func _on_Menu_NewGame():
 	dayTimer.start(totaltime)
 
 func _on_Christine_BeechChopped(inventory, count):
-	label_beech.text = "Buchen: %s | %s" % [count, inventory]
+	label_beech.text = "Buchen im Schloss: %s | getragen: %s" % [count, inventory]
 	if count >= 100:
 		menu.GameFinished(true)
 
@@ -57,4 +57,4 @@ func updateCastleIndicator():
 		castleIndicator.visible = false
 	else:
 		castleIndicator.visible = true
-		castleIndicator.rect_position = clamped_vec + half_size
+		castleIndicator.rect_position = clamped_vec + half_size + Vector2(5,5)

@@ -10,5 +10,5 @@ func _ready():
 func PopupWithText(PopupText):
 	polabel.text = PopupText
 	polabel.percent_visible = 1.0
-	potween.interpolate_property(polabel, 'percent_visible', 1.0, 0, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT, 3.0)
+	potween.interpolate_property(polabel, 'percent_visible', 1.0, 0, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT, 5.0)
 	potween.start()
