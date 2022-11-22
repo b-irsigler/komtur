@@ -9,7 +9,7 @@ signal KomturAttack
 onready var world = get_parent()
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
-onready var timerReturn = $TimerReturn
+onready var timerStateChange = $TimerStateChange
 onready var timerCooldown = $TimerCooldown
 onready var animationState = animationTree.get("parameters/playback")
 
@@ -23,12 +23,9 @@ onready var sound_4 = preload("res://resources/assets/sfx/komtur_attack4.mp3")
 var sounds : Array
 
 func _ready():
-	# randomize to make sure our random numbers are always random
 	randomize() 
-	# an array of all sounds
 	sounds = [ sound_1, sound_2, sound_3, sound_4 ] 
 	audio.autoplay = false
-	# play a random sound 
 
 enum State {IDLE, WALK, NEW_DIRECTION, RETURN, CHASE, ATTACK, COOLDOWN}
 var rng = RandomNumberGenerator.new()
@@ -41,7 +38,7 @@ func rng_direction():
 	return rng.randf() - .5
 
 func _physics_process(_delta):
-	motion_speed = get_parent().get_node("Christine").motion_speed
+	motion_speed = get_parent().get_node("Christine").motion_speed -10
 	match current_state:
 		State.IDLE:
 			animationState.travel("Idle")
@@ -56,11 +53,11 @@ func _physics_process(_delta):
 			walk(motion)
 			# area which is considered as home
 			if (start_position - position).length() < 2:
-				timerReturn.start()
+				timerStateChange.start()
 				current_state = State.IDLE
 		State.CHASE:
 			if player == null:
-				timerReturn.wait_time = 1
+				timerStateChange.wait_time = 1
 				current_state = rng.randi_range(0,2)
 			else:
 				motion = position.direction_to(player.position)
@@ -71,43 +68,42 @@ func _physics_process(_delta):
 			animationState.travel("Chop")
 			emit_signal("KomturAttack")
 			current_state = State.COOLDOWN
-			timerCooldown.wait_time = 30
-			timerCooldown.start()
+			timerCooldown.start(20)
+			timerStateChange.stop()
 		State.COOLDOWN:
-			animationTree.set("parameters/Idle/blend_position", motion.normalized())
-			animationState.travel("Idle")
+			pass
 				
 func walk(motion):
-	animationTree.set("parameters/Idle/blend_position", motion.normalized())
 	animationTree.set("parameters/Run/blend_position", motion.normalized())
 	animationState.travel("Run")
 	motion = motion.normalized() * motion_speed
 	move_and_slide(motion)
+	
+func timerRandomState():
+	current_state = rng.randi_range(0,2)
+	timerStateChange.start(1)
 
 func _on_TimerReturn_timeout():
 	return_counter += 1
-	if return_counter == max_return_counter:
-		timerReturn.stop()
+	if current_state == State.COOLDOWN:
+		pass
+	elif return_counter == max_return_counter:
+		timerStateChange.stop()
 		current_state = State.RETURN
 		return_counter = 0
 	else:
-		timerReturn.wait_time = 1
-		# supposedly, there is a function randi_range(from,to), but it somehow doesn't exist
-		# It's a function of the random number generator object :D 
-		current_state = rng.randi_range(0,2)
-
+		timerRandomState()
 
 func _on_KomturChaseArea_body_entered(body):
 	if player == null and body.name == "Christine":
 		player = body
 		current_state = State.CHASE
-		timerReturn.stop()
+		timerStateChange.stop()
 
 func _on_KomturChaseArea_body_exited(body):
 	if player != null and body.name == "Christine":
 		player = null
-		timerReturn.wait_time = 1
-		current_state = rng.randi_range(0,2)
+		timerRandomState()
 
 func _on_KomturAttackArea_body_entered(body):
 	if body.name == "Christine":
@@ -118,15 +114,19 @@ func _on_KomturAttackArea_body_exited(body):
 		current_state = State.CHASE
 	
 func _play_random_sound():
-	# get a random number between 0 and 3
 	var sound_index = randi() % 4 
-	# get a sound with random index
 	var sound = sounds[sound_index] 
-	# set the sound to the audio stream player
 	sound.loop = false
 	audio.stream = sound 
-	# play the sound
 	audio.play() 
 
 func _on_KomturSFXPlayer_finished():
 	audio.stop()
+
+func _on_TimerCooldown_timeout():
+	if current_state != State.COOLDOWN:
+		pass
+	if player == null:
+		timerRandomState()
+	else:
+		current_state = State.CHASE

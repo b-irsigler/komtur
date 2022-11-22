@@ -575,7 +575,8 @@ parameters/Idle/blend_position = Vector2( -0.0168067, 0.586207 )
 parameters/Run/blend_position = Vector2( -0.00172412, 0.0722544 )
 parameters/stop/blend_position = Vector2( 0, 0 )
 
-[node name="TimerReturn" type="Timer" parent="."]
+[node name="TimerStateChange" type="Timer" parent="."]
+one_shot = true
 autostart = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -611,6 +612,7 @@ attenuation = 2.2974
 bus = "npc sfx"
 
 [node name="TimerCooldown" type="Timer" parent="."]
+one_shot = true
 
 [node name="KomturChaseArea" type="Area2D" parent="."]
 
@@ -624,8 +626,9 @@ shape = SubResource( 88 )
 scale = Vector2( 5, 5 )
 shape = SubResource( 89 )
 
-[connection signal="timeout" from="TimerReturn" to="." method="_on_TimerReturn_timeout"]
+[connection signal="timeout" from="TimerStateChange" to="." method="_on_TimerReturn_timeout"]
 [connection signal="finished" from="KomturSFXPlayer" to="." method="_on_KomturSFXPlayer_finished"]
+[connection signal="timeout" from="TimerCooldown" to="." method="_on_TimerCooldown_timeout"]
 [connection signal="body_entered" from="KomturChaseArea" to="." method="_on_KomturChaseArea_body_entered"]
 [connection signal="body_exited" from="KomturChaseArea" to="." method="_on_KomturChaseArea_body_exited"]
 [connection signal="body_entered" from="KomturAttackArea" to="." method="_on_KomturAttackArea_body_entered"]
