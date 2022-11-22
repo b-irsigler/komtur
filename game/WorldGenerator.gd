@@ -5,6 +5,7 @@ onready var christine = $Christine
 onready var komtur = $Komtur
 onready var spinne = $Spinne
 onready var castle = $Castle
+onready var dergruene = $DerGruene
 
 export var width  = 200
 export var height  = 200
@@ -13,6 +14,7 @@ var start_position_christine = Vector2(width/2, height/2)
 var start_position_komtur = Vector2(width/2, height/2-5)
 var start_position_spinne = Vector2(width/2, height/2+10)
 var start_position_castle = Vector2(width/2-2, height/2-6)
+var start_position_dergruene = Vector2(rand_range(0,width), rand_range(0,height))
 
 
 var temperature = {}
@@ -70,6 +72,7 @@ func newgame():
 	komtur.position = tilemap.map_to_world(start_position_komtur)
 	spinne.position = tilemap.map_to_world(start_position_spinne)
 	castle.position = tilemap.map_to_world(start_position_castle)
+	dergruene.position = tilemap.map_to_world(start_position_dergruene)
 
 func set_tile(width, height):
 	for x in width:
