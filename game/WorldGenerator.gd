@@ -6,6 +6,7 @@ onready var komtur = $Komtur
 onready var spinne = $Spinne
 onready var castle = $Castle
 onready var dergruene = $DerGruene
+onready var Debug = $DebugCanvas
 
 export var width  = 200
 export var height  = 200
@@ -15,7 +16,6 @@ var start_position_komtur = Vector2(width/2, height/2-5)
 var start_position_spinne = Vector2(width/2, height/2+10)
 var start_position_castle = Vector2(width/2-2, height/2-6)
 var start_position_dergruene = Vector2(rand_range(0,width), rand_range(0,height))
-
 
 var temperature = {}
 var moisture = {}
@@ -61,6 +61,8 @@ func generate_map(per, oct):
 
 func _ready():
 	newgame()
+	Debug.add_stat("Christine", christine, "_get_debug", true)
+	Debug.add_stat("Komtur", komtur, "_get_debug", true)
 	
 func newgame():
 	temperature = generate_map(300, 5)

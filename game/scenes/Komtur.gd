@@ -15,6 +15,9 @@ var current_state = State.IDLE
 var motion = Vector2(rng_direction(), rng_direction())
 var return_counter = 0
 
+func _get_debug():
+	return "Pos: %s, St: %s" % [position.round(), State.keys()[current_state]]
+
 func rng_direction():
 	return rng.randf() - .5
 enum State {IDLE, WALK, NEW_DIRECTION, RETURN}
@@ -55,3 +58,4 @@ func _on_Timer_timeout():
 		timer.wait_time = 1
 		# supposedly, there is a function randi_range(from,to), but it somehow doesn't exist 
 		current_state = randi() % (State.size()-1)
+	print(_get_debug())
