@@ -76,6 +76,9 @@ func newgame():
 	castle.position = tilemap.map_to_world(start_position_castle)
 	dergruene.position = tilemap.map_to_world(start_position_dergruene)
 
+func isborder(x,y,w):
+	return (x < w or x > map_width-w or y < w or y > map_height-w)
+
 func set_tile(width, height):
 	for x in width:
 		for y in height:
@@ -83,6 +86,11 @@ func set_tile(width, height):
 			var alt = altitude[pos]
 			var temp = temperature[pos]
 			var moist = moisture[pos]
+			
+			if isborder(x,y,5):
+				biome[pos] = "map_border"
+				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"map_border")])
+				continue
 			
 			#stones
 			if alt > 0.8:
@@ -113,6 +121,7 @@ func set_tile(width, height):
 			else:
 				biome[pos] = "grass"
 				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"grass")])
+		
 	set_objects()
 
 func _input(event):
