@@ -7,14 +7,14 @@ onready var spinne = $Spinne
 onready var castle = $Castle
 onready var dergruene = $DerGruene
 
-export var width  = 200
-export var height  = 200
+export var map_width  = 200
+export var map_height  = 200
 
-var start_position_christine = Vector2(width/2, height/2)
-var start_position_komtur = Vector2(width/2, height/2-5)
-var start_position_spinne = Vector2(width/2, height/2+10)
-var start_position_castle = Vector2(width/2-2, height/2-6)
-var start_position_dergruene = Vector2(rand_range(0,width), rand_range(0,height))
+var start_position_christine = Vector2(map_width/2, map_height/2)
+var start_position_komtur = Vector2(map_width/2, map_height/2-5)
+var start_position_spinne = Vector2(map_width/2, map_height/2+10)
+var start_position_castle = Vector2(map_width/2-2, map_height/2-6)
+var start_position_dergruene = Vector2(rand_range(0,map_width), rand_range(0,map_height))
 
 
 var temperature = {}
@@ -36,16 +36,18 @@ var biome_data = {
 	"grass": {"grass_1": 0.5, "grass_2": 0.5},
 	"green_grass": {"green_grass": 1},
 	"forest": {"forest_ground_1": 0.4, "forest_ground_2": 0.3, "forest_ground_3": 0.3},
-	"stone": {"stone_1": 0.4, "stone_2": 0.3, "stone_3": 0.3}, 
-	"barren": {"barren": 1},
+	"light_forest": {"forest_ground_1": 0.4, "forest_ground_2": 0.3, "forest_ground_3": 0.3},
+	"stone": {"grass_1": 0.3, "grass_2": 0.25, "stone_1": 0.15, "stone_2": 0.15, "stone_3": 0.15},
+	"map_border" : {"grass_1": 1}
 }
 
 var object_data = {
 	"grass": {"tree_beech": 0.005, "tree_pine": 0.005},
-	"green_grass": {"tree_pine": 0.01},
-	"forest": {"tree_beech": 0.15, "tree_pine": 0.2, "tree_firs": 0.2},
+	"green_grass": {},
+	"forest": {"tree_beech": 0.13, "tree_pine": 0.19, "tree_firs": 0.19},
+	"light_forest": {"tree_beech": 0.05, "tree_pine": 0.1, "tree_firs": 0.1},
 	"stone": {"tree_firs": 0.01}, 
-	"barren": {},
+	"map_border" : {"tree_firs": 1}
 }
 
 func generate_map(per, oct):
@@ -53,8 +55,8 @@ func generate_map(per, oct):
 	openSimplexNoise.period = per
 	openSimplexNoise.octaves = oct
 	var gridName = {}
-	for x in width:
-		for y in height:
+	for x in map_width:
+		for y in map_height:
 			var rand := 2*(abs(openSimplexNoise.get_noise_2d(x,y)))
 			gridName[Vector2(x,y)] = rand
 	return gridName
@@ -66,7 +68,7 @@ func newgame():
 	temperature = generate_map(300, 5)
 	moisture = generate_map(300, 5)
 	altitude = generate_map(50, 5)
-	set_tile(width, height)
+	set_tile(map_width, map_height)
 	#centering
 	christine.position = tilemap.map_to_world(start_position_christine)
 	komtur.position = tilemap.map_to_world(start_position_komtur)
@@ -87,23 +89,26 @@ func set_tile(width, height):
 				biome[pos] = "stone"
 				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"stone")])
 			#Other Biomes
-			elif between(alt, 0, 0.8):
+			elif between(alt, 0, 0.6):
 				#grass
-				if between(moist, 0, 0.9) and between(temp, 0, 0.6):
+				if between(moist, 0, 0.95) and between(temp, 0, 0.4):
 					biome[pos] = "grass"
 					tilemap.set_cellv(pos, tiles[random_tile(biome_data,"grass")])
+				#light forest
+				elif between(moist, 0.2, 0.5) and temp > 0.4:
+					biome[pos] = "light_forest"
+					tilemap.set_cellv(pos, tiles[random_tile(biome_data,"light_forest")])
 				#forest
-				elif between(moist, 0.4, 0.9) and temp > 0.6:
+				elif between(moist, 0.5, 0.95) and temp > 0.4:
 					biome[pos] = "forest"
 					tilemap.set_cellv(pos, tiles[random_tile(biome_data,"forest")])
-				#barren
-				elif temp > 0.6 and moist < 0.4:
-					biome[pos] = "barren"
-					tilemap.set_cellv(pos, tiles[random_tile(biome_data,"barren")])
 				#lush grass
-				elif moist >= 0.9:
+				else:
 					biome[pos] = "green_grass"
 					tilemap.set_cellv(pos, tiles[random_tile(biome_data,"green_grass")])
+			elif between(alt, 0.6, 0.8):
+				biome[pos] = "light_forest"
+				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"light_forest")])
 			#grass -> std
 			else:
 				biome[pos] = "grass"
@@ -118,8 +123,8 @@ func between(val, start, end):
 	if start <= val and val < end:
 		return true
 
-func random_tile(data, biome):
-	var current_biome = data[biome]
+func random_tile(data, thisbiome):
+	var current_biome = data[thisbiome]
 	var rand_num = rand_range(0,1)
 	var running_total = 0
 	for tile in current_biome:
