@@ -29,6 +29,9 @@ var current_state = State.IDLE
 
 var dynamic_font = DynamicFont.new()
 
+func _get_debug():
+	return "Pos: %s, St: %s" % [position.round(), State.keys()[current_state]]
+
 func _ready():
 	dynamic_font.font_data = load("res://resources/fonts/lohengrin.regular.ttf")
 	dynamic_font.size = 32

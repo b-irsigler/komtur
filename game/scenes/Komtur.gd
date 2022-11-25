@@ -34,6 +34,9 @@ var motion = Vector2(rng_direction(), rng_direction())
 var return_counter = 0
 var player = null
 
+func _get_debug():
+	return "Pos: %s, St: %s" % [position.round(), State.keys()[current_state]]
+
 func rng_direction():
 	return rng.randf() - .5
 

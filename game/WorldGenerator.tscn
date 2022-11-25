@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://WorldGenerator.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/floor/komtur_floortiles.tres" type="TileSet" id=2]
@@ -9,12 +9,15 @@
 [ext_resource path="res://scenes/Spinne.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/Castle.tscn" type="PackedScene" id=8]
 [ext_resource path="res://scenes/GUI.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/DebugOverlay.tscn" type="PackedScene" id=10]
 
 [node name="WorldGenerator" type="YSort"]
 position = Vector2( 3, -4 )
 script = ExtResource( 1 )
 
 [node name="GUI" parent="." instance=ExtResource( 9 )]
+
+[node name="DebugCanvas" parent="." instance=ExtResource( 10 )]
 
 [node name="TileMap_Ground" type="TileMap" parent="."]
 mode = 1
