@@ -13,7 +13,6 @@ onready var castleIndicator = $CastleIndicator
 var totaltime = 600
 var timediv
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	dayTimer.start(totaltime)
 	timediv = totaltime / 30
@@ -28,7 +27,6 @@ func _physics_process(delta):
 	
 func TimerToDays(timeval: float = 0):
 	return round(timeval / timediv)
-	#return round(timeval)
 
 func _on_Menu_NewGame():
 	emit_signal("NewGame")
@@ -47,7 +45,7 @@ func updateCastleIndicator():
 	var center = camera.get_camera_screen_center()
 	var target = castle.position
 	var vec = target - center
-	var margin = castleIndicator.rect_size
+	var margin = castleIndicator.rect_size * 0.5
 	var half_size = get_viewport().size * 0.5
 	var clamped_vec = Vector2 (
 			clamp(vec.x, -half_size.x, half_size.x - margin.x),
@@ -57,7 +55,8 @@ func updateCastleIndicator():
 		castleIndicator.visible = false
 	else:
 		castleIndicator.visible = true
-	castleIndicator.rect_position = clamped_vec + half_size + Vector2(5,5)
+	castleIndicator.rect_position = clamped_vec + half_size
+	print(clamped_vec.x," ", half_size.x)
 
 func _on_Komtur_KomturAttack():
 	#subtracts one day from game Time
