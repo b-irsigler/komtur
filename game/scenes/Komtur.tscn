@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=54 format=2]
 
 [ext_resource path="res://resources/assets/characters/komtur.png" type="Texture" id=1]
 [ext_resource path="res://scenes/Komtur.gd" type="Script" id=2]
@@ -546,6 +546,10 @@ tracks/0/keys = {
 "values": [ Vector2( 4, 2 ), Vector2( 5, 2 ), Vector2( 6, 2 ), Vector2( 7, 2 ), Vector2( 8, 2 ), Vector2( 9, 2 ), Vector2( 10, 2 ), Vector2( 11, 2 ) ]
 }
 
+[sub_resource type="CircleShape2D" id=88]
+
+[sub_resource type="CircleShape2D" id=89]
+
 [node name="Komtur" type="KinematicBody2D"]
 script = ExtResource( 2 )
 __meta__ = {
@@ -559,7 +563,7 @@ hframes = 32
 vframes = 8
 frame = 37
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="KomturCollisionShape" type="CollisionShape2D" parent="."]
 shape = SubResource( 27 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
@@ -571,7 +575,8 @@ parameters/Idle/blend_position = Vector2( -0.0168067, 0.586207 )
 parameters/Run/blend_position = Vector2( -0.00172412, 0.0722544 )
 parameters/stop/blend_position = Vector2( 0, 0 )
 
-[node name="Timer" type="Timer" parent="."]
+[node name="TimerStateChange" type="Timer" parent="."]
+one_shot = true
 autostart = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -602,4 +607,29 @@ anims/RunRightDown = SubResource( 85 )
 anims/RunRightUp = SubResource( 86 )
 anims/RunUp = SubResource( 87 )
 
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[node name="KomturSFXPlayer" type="AudioStreamPlayer2D" parent="."]
+attenuation = 2.2974
+bus = "npc sfx"
+
+[node name="TimerCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="KomturChaseArea" type="Area2D" parent="."]
+
+[node name="KomturChaseShape" type="CollisionShape2D" parent="KomturChaseArea"]
+scale = Vector2( 30, 30 )
+shape = SubResource( 88 )
+
+[node name="KomturAttackArea" type="Area2D" parent="."]
+
+[node name="KomturAttackShape" type="CollisionShape2D" parent="KomturAttackArea"]
+scale = Vector2( 5, 5 )
+shape = SubResource( 89 )
+
+[connection signal="timeout" from="TimerStateChange" to="." method="_on_TimerReturn_timeout"]
+[connection signal="finished" from="KomturSFXPlayer" to="." method="_on_KomturSFXPlayer_finished"]
+[connection signal="timeout" from="TimerCooldown" to="." method="_on_TimerCooldown_timeout"]
+[connection signal="body_entered" from="KomturChaseArea" to="." method="_on_KomturChaseArea_body_entered"]
+[connection signal="body_exited" from="KomturChaseArea" to="." method="_on_KomturChaseArea_body_exited"]
+[connection signal="body_entered" from="KomturAttackArea" to="." method="_on_KomturAttackArea_body_entered"]
+[connection signal="body_exited" from="KomturAttackArea" to="." method="_on_KomturAttackArea_body_exited"]

@@ -6,6 +6,7 @@ onready var komtur = $Komtur
 onready var spinne = $Spinne
 onready var castle = $Castle
 onready var dergruene = $DerGruene
+onready var Debug = $DebugCanvas
 
 export var map_width  = 200
 export var map_height  = 200
@@ -15,7 +16,6 @@ var start_position_komtur = Vector2(map_width/2, map_height/2-5)
 var start_position_spinne = Vector2(map_width/2, map_height/2+10)
 var start_position_castle = Vector2(map_width/2-2, map_height/2-6)
 var start_position_dergruene = Vector2(rand_range(0,map_width), rand_range(0,map_height))
-
 
 var temperature = {}
 var moisture = {}
@@ -63,6 +63,8 @@ func generate_map(per, oct):
 
 func _ready():
 	newgame()
+	Debug.add_stat("Christine", christine, "_get_debug", true)
+	Debug.add_stat("Komtur", komtur, "_get_debug", true)
 	
 func newgame():
 	temperature = generate_map(300, 5)
@@ -150,13 +152,11 @@ func set_objects():
 		if random_object != null:
 			tile_to_scene(random_object, pos)
 
-				
 func tile_to_scene(random_object, pos):
 	var instance = object_tiles[str(random_object)].instance()
 	instance.position = tilemap.map_to_world(pos) + Vector2(4, 4)
 	add_child(instance)
 	return instance
 
-
 func _on_GUI_NewGame():
-	newgame()
+	get_tree().reload_current_scene()
