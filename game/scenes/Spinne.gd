@@ -1,7 +1,5 @@
 extends KinematicBody2D
 
-var motion_speed = 130 # Pixels/second.
-
 onready var world = get_parent()
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
@@ -10,6 +8,8 @@ onready var timerCooldown = $TimerCooldown
 onready var music = $MusicSpinne
 onready var debug = $DebugLabel
 onready var animationState = animationTree.get("parameters/playback")
+onready var christine = $"../Christine"
+onready var motion_speed = christine.default_motion_speed * .75
 
 var rng = RandomNumberGenerator.new()
 var current_state = State.IDLE
@@ -22,7 +22,6 @@ func rng_direction():
 enum State {IDLE, WALK, NEW_DIRECTION, CHASE, ATTACK, COOLDOWN}
 
 func _physics_process(_delta):
-	motion_speed = get_parent().get_node("Christine").default_motion_speed
 	match current_state:
 		State.IDLE:
 			animationState.travel("Idle")

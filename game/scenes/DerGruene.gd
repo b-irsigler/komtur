@@ -1,14 +1,12 @@
 extends KinematicBody2D
 
-const MOTION_SPEED = 160 # Pixels/second.
-const RUN_MULT = 10
-const max_return_counter = 10
-
 onready var world = get_parent()
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
 onready var timer = $Timer
 onready var animationState = animationTree.get("parameters/playback")
+onready var christine = $"../Christine"
+onready var motion_speed = christine.default_motion_speed * .85
 
 var rng = RandomNumberGenerator.new()
 var current_state = State.IDLE
@@ -32,7 +30,7 @@ func walk(motion):
 	animationTree.set("parameters/Idle/blend_position", motion.normalized())
 	animationTree.set("parameters/Run/blend_position", motion.normalized())
 	animationState.travel("Run")
-	motion = motion.normalized() * MOTION_SPEED
+	motion = motion.normalized() * motion_speed
 	move_and_slide(motion)
 
 func _on_Timer_timeout():

@@ -1,7 +1,5 @@
 extends KinematicBody2D
 
-var motion_speed = 160 # Pixels/second.
-const RUN_MULT = 10
 const max_return_counter = 10
 
 signal KomturAttack
@@ -12,6 +10,8 @@ onready var animationTree = $AnimationTree
 onready var timerStateChange = $TimerStateChange
 onready var timerCooldown = $TimerCooldown
 onready var animationState = animationTree.get("parameters/playback")
+onready var christine = $"../Christine"
+onready var motion_speed = christine.default_motion_speed * .85
 
 onready var audio = $KomturSFXPlayer
 
@@ -41,7 +41,6 @@ func rng_direction():
 	return rng.randf() - .5
 
 func _physics_process(_delta):
-	motion_speed = get_parent().get_node("Christine").default_motion_speed -10
 	match current_state:
 		State.IDLE:
 			animationState.travel("Idle")
