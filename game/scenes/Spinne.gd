@@ -5,8 +5,8 @@ onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
 onready var timerStateChange = $TimerStateChange
 onready var timerCooldown = $TimerCooldown
+onready var timerAttack = $TimerAttack
 onready var music = $MusicSpinne
-onready var debug = $DebugLabel
 onready var animationState = animationTree.get("parameters/playback")
 onready var christine = $"../Christine"
 onready var motion_speed = christine.default_motion_speed * .75
@@ -16,6 +16,9 @@ var current_state = State.IDLE
 var motion = Vector2(rng_direction(), rng_direction())
 var return_counter = 0
 var player = null
+
+func _get_debug():
+	return "Pos: %s, St: %s" % [position.round(), State.keys()[current_state]]
 
 func rng_direction():
 	return rng.randf() - .5
@@ -37,22 +40,22 @@ func _physics_process(_delta):
 				motion = position.direction_to(player.position)
 				walk(motion)
 		State.ATTACK:
-			#make awesome attack!
-			current_state = State.COOLDOWN
-			timerCooldown.wait_time = 30
-			timerCooldown.start()
-			timerStateChange.stop()
+			attack()
 		State.COOLDOWN:
 			pass
-	debug.text = State.keys()[current_state] + str(timerStateChange.time_left)
 
 func walk(motion):
-	animationTree.set("parameters/Idle/blend_position", motion.normalized())
-	animationTree.set("parameters/Run/blend_position", motion.normalized())
-	animationState.travel("Run")
+	animationTree.set("parameters/Idle/BlendSpace2D/blend_position", motion.normalized())
+	animationTree.set("parameters/Walk/BlendSpace2D/blend_position", motion.normalized())
+	animationState.travel("Walk")
 	motion = motion.normalized() * motion_speed
 	move_and_slide(motion)
 
+func attack():
+	timerAttack.start(.6) # duration of the attack animation
+	animationTree.set("parameters/Chop/BlendSpace2D/blend_position", motion.normalized())
+	animationState.travel("Chop")
+	
 func timerRandomState():
 	current_state = rng.randi_range(0,2)
 	timerStateChange.start(1)
@@ -75,7 +78,7 @@ func _on_ChaseArea_Spinne_body_exited(body):
 		timerRandomState()
 
 func _on_AttackArea_Spinne_body_entered(body):
-	animationTree.set("parameters/Chop/blend_position", motion.normalized())
+	animationTree.set("parameters/Chop/BlendSpace2D/blend_position", motion.normalized())
 	if body.name == "Christine":
 		current_state = State.ATTACK
 
@@ -94,3 +97,11 @@ func _on_TimerCooldown_timeout():
 func _on_TimerStateChange_timeout():
 	if player == null or current_state == State.COOLDOWN:
 		timerRandomState()
+
+func _on_AttackTimer_timeout():
+	animationTree.set("parameters/Idle/BlendSpace2D/blend_position", motion.normalized())
+	animationState.travel("Idle")
+	current_state = State.COOLDOWN
+	timerCooldown.wait_time = 5
+	timerCooldown.start()
+	timerStateChange.stop()

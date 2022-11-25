@@ -63,6 +63,7 @@ func _ready():
 	newgame()
 	Debug.add_stat("Christine", christine, "_get_debug", true)
 	Debug.add_stat("Komtur", komtur, "_get_debug", true)
+	Debug.add_stat("Spinne", spinne, "_get_debug", true)
 	
 func newgame():
 	temperature = generate_map(300, 5)
