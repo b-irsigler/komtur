@@ -96,7 +96,6 @@ func _on_TimerReturn_timeout():
 		return_counter = 0
 	else:
 		timerRandomState()
-	print(_get_debug())
 
 func _on_KomturChaseArea_body_entered(body):
 	if player == null and body.name == "Christine":
