@@ -9,9 +9,11 @@ onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
 onready var timerStateChange = $TimerStateChange
 onready var timerCooldown = $TimerCooldown
+onready var timerAttack = $TimerAttack
 onready var animationState = animationTree.get("parameters/playback")
 onready var christine = $"../Christine"
 onready var motion_speed = christine.default_motion_speed * .85
+onready var animation_speed = christine.default_animation_speed * .85
 
 onready var audio = $KomturSFXPlayer
 
@@ -26,6 +28,9 @@ func _ready():
 	randomize() 
 	sounds = [ sound_1, sound_2, sound_3, sound_4 ] 
 	audio.autoplay = false
+	animationTree.set("parameters/Walk/TimeScale/scale",animation_speed)
+	animationTree.set("parameters/Idle/TimeScale/scale",animation_speed)
+	animationTree.set("parameters/Chop/TimeScale/scale",animation_speed)
 
 enum State {IDLE, WALK, NEW_DIRECTION, RETURN, CHASE, ATTACK, COOLDOWN}
 var rng = RandomNumberGenerator.new()
@@ -65,21 +70,22 @@ func _physics_process(_delta):
 				motion = position.direction_to(player.position)
 				walk(motion)
 		State.ATTACK:
-			_play_random_sound()
-			animationTree.set("parameters/Chop/blend_position", motion.normalized())
-			animationState.travel("Chop")
-			emit_signal("KomturAttack")
-			current_state = State.COOLDOWN
-			timerCooldown.start(20)
-			timerStateChange.stop()
+			attack()
 		State.COOLDOWN:
 			pass
 				
 func walk(motion):
-	animationTree.set("parameters/Run/blend_position", motion.normalized())
-	animationState.travel("Run")
+	animationTree.set("parameters/Walk/BlendSpace2D/blend_position", motion.normalized())
+	animationState.travel("Walk")
 	motion = motion.normalized() * motion_speed
 	move_and_slide(motion)
+	
+func attack():
+	_play_random_sound()
+	
+	timerAttack.start(.6)
+	animationTree.set("parameters/Chop/BlendSpace2D/blend_position", motion.normalized())
+	animationState.travel("Chop")
 	
 func timerRandomState():
 	current_state = rng.randi_range(0,2)
@@ -132,3 +138,12 @@ func _on_TimerCooldown_timeout():
 		timerRandomState()
 	else:
 		current_state = State.CHASE
+
+func _on_TimerAttack_timeout():
+	emit_signal("KomturAttack")
+	animationTree.set("parameters/Idle/BlendSpace2D/blend_position", motion.normalized())
+	animationState.travel("Idle")
+	current_state = State.COOLDOWN
+	timerCooldown.wait_time = 5
+	timerCooldown.start()
+	timerStateChange.stop()

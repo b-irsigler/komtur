@@ -10,12 +10,18 @@ onready var music = $MusicSpinne
 onready var animationState = animationTree.get("parameters/playback")
 onready var christine = $"../Christine"
 onready var motion_speed = christine.default_motion_speed * .75
+onready var animation_speed = christine.default_animation_speed * .75
 
 var rng = RandomNumberGenerator.new()
 var current_state = State.IDLE
 var motion = Vector2(rng_direction(), rng_direction())
 var return_counter = 0
 var player = null
+
+func _ready():
+	animationTree.set("parameters/Walk/TimeScale/scale",animation_speed)
+	animationTree.set("parameters/Idle/TimeScale/scale",animation_speed)
+	animationTree.set("parameters/Chop/TimeScale/scale",animation_speed)
 
 func _get_debug():
 	return "Pos: %s, St: %s" % [position.round(), State.keys()[current_state]]
@@ -52,7 +58,7 @@ func walk(motion):
 	move_and_slide(motion)
 
 func attack():
-	timerAttack.start(.6) # duration of the attack animation
+	timerAttack.start(.6)
 	animationTree.set("parameters/Chop/BlendSpace2D/blend_position", motion.normalized())
 	animationState.travel("Chop")
 	
