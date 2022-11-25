@@ -22,7 +22,7 @@ func rng_direction():
 enum State {IDLE, WALK, NEW_DIRECTION, CHASE, ATTACK, COOLDOWN}
 
 func _physics_process(_delta):
-	motion_speed = get_parent().get_node("Christine").motion_speed
+	motion_speed = get_parent().get_node("Christine").default_motion_speed
 	match current_state:
 		State.IDLE:
 			animationState.travel("Idle")

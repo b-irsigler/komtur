@@ -41,7 +41,7 @@ func rng_direction():
 	return rng.randf() - .5
 
 func _physics_process(_delta):
-	motion_speed = get_parent().get_node("Christine").motion_speed -10
+	motion_speed = get_parent().get_node("Christine").default_motion_speed -10
 	match current_state:
 		State.IDLE:
 			animationState.travel("Idle")
