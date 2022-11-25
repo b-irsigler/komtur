@@ -56,7 +56,6 @@ func updateCastleIndicator():
 	else:
 		castleIndicator.visible = true
 	castleIndicator.rect_position = clamped_vec + half_size
-	print(clamped_vec.x," ", half_size.x)
 
 func _on_Komtur_KomturAttack():
 	#subtracts one day from game Time

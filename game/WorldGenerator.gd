@@ -13,7 +13,7 @@ export var height  = 200
 
 var start_position_christine = Vector2(width/2, height/2)
 var start_position_komtur = Vector2(width/2, height/2-5)
-var start_position_spinne = Vector2(width/2, height/2+10)
+var start_position_spinne = Vector2(rand_range(0,width), rand_range(0,height))
 var start_position_castle = Vector2(width/2-2, height/2-6)
 var start_position_dergruene = Vector2(rand_range(0,width), rand_range(0,height))
 
@@ -64,6 +64,7 @@ func _ready():
 	Debug.add_stat("Christine", christine, "_get_debug", true)
 	Debug.add_stat("Komtur", komtur, "_get_debug", true)
 	Debug.add_stat("Spinne", spinne, "_get_debug", true)
+	Debug.add_stat("DerGruene", dergruene, "_get_debug", true)
 	
 func newgame():
 	temperature = generate_map(300, 5)

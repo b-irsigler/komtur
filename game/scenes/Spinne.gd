@@ -17,6 +17,7 @@ var current_state = State.IDLE
 var motion = Vector2(rng_direction(), rng_direction())
 var return_counter = 0
 var player = null
+var teleport_probability = .01
 
 func _ready():
 	animationTree.set("parameters/Walk/TimeScale/scale",animation_speed)
@@ -102,7 +103,19 @@ func _on_TimerCooldown_timeout():
 
 func _on_TimerStateChange_timeout():
 	if player == null or current_state == State.COOLDOWN:
+		teleport()
 		timerRandomState()
+
+func teleport():
+	if randf() < teleport_probability:
+		var vec = christine.position - position
+		var half_size = get_viewport().size * 0.5
+		var clamped_vec = Vector2 (
+				clamp(vec.x, -half_size.x, half_size.x),
+				clamp(vec.y, -half_size.y, half_size.y)
+			)
+		if clamped_vec != vec:
+			position = christine.position + 2 * christine.motion
 
 func _on_AttackTimer_timeout():
 	animationTree.set("parameters/Idle/BlendSpace2D/blend_position", motion.normalized())

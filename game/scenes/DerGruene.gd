@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+const teleport_probability = .01
+
 onready var world = get_parent()
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
@@ -11,6 +13,9 @@ onready var motion_speed = christine.default_motion_speed * .85
 var rng = RandomNumberGenerator.new()
 var current_state = State.IDLE
 var motion = Vector2(rng_direction(), rng_direction())
+
+func _get_debug():
+	return "Pos: %s, St: %s" % [position.round(), State.keys()[current_state]]
 
 func rng_direction():
 	return rng.randf() - .5
@@ -32,7 +37,20 @@ func walk(motion):
 	animationState.travel("Run")
 	motion = motion.normalized() * motion_speed
 	move_and_slide(motion)
+	
+func teleport():
+	if randf() < teleport_probability:
+		var vec = christine.position - position
+		var half_size = get_viewport().size * 0.5
+		var clamped_vec = Vector2 (
+				clamp(vec.x, -half_size.x, half_size.x),
+				clamp(vec.y, -half_size.y, half_size.y)
+			)
+		if clamped_vec != vec:
+			position = christine.position + 2 * christine.motion
 
 func _on_Timer_timeout():
 	timer.wait_time = 1
+	teleport()
 	current_state = rng.randi_range(0,State.size()-1)
+	
