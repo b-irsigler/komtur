@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/komtur_attack3.mp3-2cc1f9d16bd4e3c0c334a7d4affde98f.mp3str"
+
+[deps]
+
+source_file="res://resources/assets/sfx/komtur_attack3.mp3"
+dest_files=[ "res://.import/komtur_attack3.mp3-2cc1f9d16bd4e3c0c334a7d4affde98f.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

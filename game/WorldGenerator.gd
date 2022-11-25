@@ -136,13 +136,11 @@ func set_objects():
 		if random_object != null:
 			tile_to_scene(random_object, pos)
 
-				
 func tile_to_scene(random_object, pos):
 	var instance = object_tiles[str(random_object)].instance()
 	instance.position = tilemap.map_to_world(pos) + Vector2(4, 4)
 	add_child(instance)
 	return instance
 
-
 func _on_GUI_NewGame():
-	newgame()
+	get_tree().reload_current_scene()
