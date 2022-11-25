@@ -641,7 +641,6 @@ margin_top = -39.0
 margin_right = 36.0
 margin_bottom = -25.0
 
-[connection signal="timeout" from="TimerStateChange" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="TimerStateChange" to="." method="_on_TimerStateChange_timeout"]
 [connection signal="timeout" from="TimerCooldown" to="." method="_on_TimerCooldown_timeout"]
 [connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]

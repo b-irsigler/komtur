@@ -42,6 +42,7 @@ func _physics_process(_delta):
 			current_state = State.COOLDOWN
 			timerCooldown.wait_time = 30
 			timerCooldown.start()
+			timerStateChange.stop()
 		State.COOLDOWN:
 			pass
 	debug.text = State.keys()[current_state] + str(timerStateChange.time_left)
@@ -54,9 +55,8 @@ func walk(motion):
 	move_and_slide(motion)
 
 func timerRandomState():
-	timerStateChange.wait_time = 1
 	current_state = rng.randi_range(0,2)
-	timerStateChange.start()
+	timerStateChange.start(1)
 
 func _on_VisibilityNotifier2D_screen_entered():
 	music.volume_db = 0
