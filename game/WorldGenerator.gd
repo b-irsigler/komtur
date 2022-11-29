@@ -91,7 +91,7 @@ func set_tile(width, height):
 			var temp = temperature[pos]
 			var moist = moisture[pos]
 			
-			if isborder(x,y,5):
+			if isborder(x,y,10):
 				biome[pos] = "map_border"
 				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"map_border")])
 				continue
