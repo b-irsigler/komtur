@@ -21,8 +21,10 @@ var motion = Vector2()
 var direction = Vector2()
 var beech_count = 0
 var beech_inventory = 0
-var motion_speed = 300
-var animation_speed = 2
+var default_motion_speed = 300
+var current_motion_speed = default_motion_speed
+var default_animation_speed = 2
+var current_animation_speed = default_animation_speed
 
 enum State {IDLE, WALK, RUN, JUMP, CHOP}
 var current_state = State.IDLE
@@ -61,7 +63,7 @@ func _physics_process(_delta):
 		direction = motion.normalized()
 		current_state = State.WALK
 
-	motion = direction * motion_speed
+	motion = direction * current_motion_speed
 	
 	if Input.is_action_just_pressed("run"):
 		running = not running
@@ -132,14 +134,17 @@ func _on_GUI_NewGame():
 
 func updateSpeed():
 	if Input.is_action_just_pressed("increase_animation_speed"):
-		animation_speed += .1
+		default_animation_speed += .1
 	if Input.is_action_just_pressed("decrease_animation_speed"):
-		animation_speed -= .1
-	animationTree.set("parameters/Walk/TimeScale/scale",animation_speed)
-	animationTree.set("parameters/Idle/TimeScale/scale",animation_speed)
-	animationTree.set("parameters/Chop/TimeScale/scale",animation_speed)
+		default_animation_speed -= .1
+	animationTree.set("parameters/Walk/TimeScale/scale",default_animation_speed)
+	animationTree.set("parameters/Idle/TimeScale/scale",default_animation_speed)
+	animationTree.set("parameters/Chop/TimeScale/scale",default_animation_speed)
 	
 	if Input.is_action_just_pressed("increase_motion_speed"):
-		motion_speed += 5
+		default_motion_speed += 5
 	if Input.is_action_just_pressed("decrease_motion_speed"):
-		motion_speed -= 5
+		default_motion_speed -= 5
+		
+	current_animation_speed = default_animation_speed * (1 - .05 * beech_inventory)
+	current_motion_speed = default_motion_speed * (1 - .05 * beech_inventory)
