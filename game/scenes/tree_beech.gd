@@ -21,7 +21,5 @@ func chop():
 	collision.disabled = true
 	#queue_free()
 
-
-
-func _on_Spritetween_tween_completed(object, key):
+func _on_Spritetween_tween_completed(_object, _key):
 	beechsprite.visible = false
