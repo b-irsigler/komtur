@@ -82,10 +82,12 @@ func walk(motion):
 	
 func attack():
 	_play_random_sound()
-	
 	timerAttack.start(.6)
 	animationTree.set("parameters/Chop/BlendSpace2D/blend_position", motion.normalized())
 	animationState.travel("Chop")
+	emit_signal("KomturAttack")
+	timerStateChange.stop()
+	current_state = State.COOLDOWN
 	
 func timerRandomState():
 	current_state = rng.randi_range(0,2)
@@ -109,7 +111,7 @@ func _on_KomturChaseArea_body_entered(body):
 		timerStateChange.stop()
 
 func _on_KomturChaseArea_body_exited(body):
-	if player != null and body.name == "Christine":
+	if player != null and body.name == "Christine" and current_state == State.CHASE:
 		player = null
 		timerRandomState()
 
@@ -118,8 +120,9 @@ func _on_KomturAttackArea_body_entered(body):
 		current_state = State.ATTACK
 
 func _on_KomturAttackArea_body_exited(body):
-	if body.name == "Christine" and current_state != State.COOLDOWN:
-		current_state = State.CHASE
+	pass
+	#if body.name == "Christine" and current_state != State.COOLDOWN:
+	#	current_state = State.CHASE
 	
 func _play_random_sound():
 	var sound_index = randi() % 4 
@@ -140,10 +143,8 @@ func _on_TimerCooldown_timeout():
 		current_state = State.CHASE
 
 func _on_TimerAttack_timeout():
-	emit_signal("KomturAttack")
+	#emit_signal("KomturAttack")
 	animationTree.set("parameters/Idle/BlendSpace2D/blend_position", motion.normalized())
 	animationState.travel("Idle")
-	current_state = State.COOLDOWN
 	timerCooldown.wait_time = 5
 	timerCooldown.start()
-	timerStateChange.stop()

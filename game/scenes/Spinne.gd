@@ -62,6 +62,9 @@ func attack():
 	timerAttack.start(.6)
 	animationTree.set("parameters/Chop/BlendSpace2D/blend_position", motion.normalized())
 	animationState.travel("Chop")
+	timerCooldown.start(5)
+	timerStateChange.stop()
+	current_state = State.COOLDOWN
 	
 func timerRandomState():
 	current_state = rng.randi_range(0,2)
@@ -80,7 +83,7 @@ func _on_ChaseArea_Spinne_body_entered(body):
 		timerStateChange.stop()
 
 func _on_ChaseArea_Spinne_body_exited(body):
-	if player != null and body.name == "Christine":
+	if player != null and body.name == "Christine" and current_state == State.CHASE:
 		player = null
 		timerRandomState()
 
@@ -90,8 +93,9 @@ func _on_AttackArea_Spinne_body_entered(body):
 		current_state = State.ATTACK
 
 func _on_AttackArea_Spinne_body_exited(body):
-	if body.name == "Christine" and current_state != State.COOLDOWN:
-		current_state = State.CHASE
+	pass
+	#if body.name == "Christine" and current_state != State.COOLDOWN:
+	#	current_state = State.CHASE
 
 func _on_TimerCooldown_timeout():
 	if current_state != State.COOLDOWN:
@@ -120,7 +124,3 @@ func teleport():
 func _on_AttackTimer_timeout():
 	animationTree.set("parameters/Idle/BlendSpace2D/blend_position", motion.normalized())
 	animationState.travel("Idle")
-	current_state = State.COOLDOWN
-	timerCooldown.wait_time = 5
-	timerCooldown.start()
-	timerStateChange.stop()
