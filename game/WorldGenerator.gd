@@ -7,6 +7,7 @@ onready var spinne = $Spinne
 onready var castle = $Castle
 onready var dergruene = $DerGruene
 onready var Debug = $DebugCanvas
+onready var gui = $GUI
 
 export var map_width  = 200
 export var map_height  = 200
@@ -62,6 +63,13 @@ func generate_map(per, oct):
 	return gridName
 
 func _ready():
+	christine.connect("DealAccepted",dergruene,"_on_Christine_DealAccepted")
+	christine.connect("DealAccepted",spinne,"_on_Christine_DealAccepted")
+	christine.connect("DealAccepted",self,"_on_Christine_DealAccepted")
+	christine.connect("DealNotAccepted",dergruene,"_on_Christine_DealNotAccepted")
+	christine.connect("DealAccepted",gui,"_on_Christine_DealAccepted")
+	dergruene.connect("DerGrueneConversation",gui,"_on_DerGruene_DerGrueneConversation")
+	dergruene.connect("DerGrueneConversation",christine,"_on_DerGruene_DerGrueneConversation")
 	newgame()
 	Debug.add_stat("Christine", christine, "_get_debug", true)
 	Debug.add_stat("Komtur", komtur, "_get_debug", true)
@@ -76,7 +84,6 @@ func newgame():
 	#centering
 	christine.position = tilemap.map_to_world(start_position_christine)
 	komtur.position = tilemap.map_to_world(start_position_komtur)
-	spinne.position = tilemap.map_to_world(start_position_spinne)
 	castle.position = tilemap.map_to_world(start_position_castle)
 	dergruene.position = tilemap.map_to_world(start_position_dergruene)
 
@@ -162,3 +169,9 @@ func tile_to_scene(random_object, pos):
 
 func _on_GUI_NewGame():
 	get_tree().reload_current_scene()
+
+func _on_Christine_DealAccepted():
+	if spinne.isSleeping():
+		spinne.position = tilemap.map_to_world(start_position_spinne)
+		spinne.scale = Vector2(.3,.3)
+	spinne.scale += Vector2(.3,.3)

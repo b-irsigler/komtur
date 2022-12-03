@@ -61,3 +61,10 @@ func _on_Komtur_KomturAttack():
 	#subtracts one day from game Time
 	var curTime = dayTimer.time_left
 	dayTimer.start(curTime-timediv)
+
+func _on_DerGruene_DerGrueneConversation(active):
+	popup.PopupWithText("Versprecht ihr ein ungetauftes Kind fuer ein Dutzend Buchen? (y/n)")
+	popup.visible = active
+
+func _on_Christine_DealAccepted():
+	popup.visible = false
