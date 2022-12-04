@@ -63,8 +63,9 @@ func _on_Komtur_KomturAttack():
 	dayTimer.start(curTime-timediv)
 
 func _on_DerGruene_DerGrueneConversation(active):
-	popup.PopupWithText("Versprecht ihr ein ungetauftes Kind fuer ein Dutzend Buchen? (y/n)")
 	popup.visible = active
+	if active:
+		popup.PopupWithText("Versprecht ihr ein ungetauftes Kind fuer ein Dutzend Buchen? (y/n)")
 
 func _on_Christine_DealAccepted():
 	popup.visible = false

@@ -32,8 +32,10 @@ func _physics_process(_delta):
 		State.NEW_DIRECTION:
 			motion = Vector2(rng_direction(), rng_direction())
 			current_state = State.WALK
+		#Talk is only a one-time-trigger
 		State.TALK:
 			talk()
+			current_state = State.IDLE
 				
 func walk(motion):
 	animationTree.set("parameters/Idle/blend_position", motion.normalized())

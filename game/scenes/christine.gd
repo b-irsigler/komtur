@@ -73,7 +73,7 @@ func _physics_process(_delta):
 	if Input.is_action_just_pressed("jump") and current_state != State.JUMP:
 		current_state = State.JUMP
 		timer.start()
-	if Input.is_action_pressed("chop"):
+	if Input.is_action_just_pressed("chop"):
 		current_state = State.CHOP
 
 	if is_deal_offered:
