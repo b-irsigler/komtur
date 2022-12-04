@@ -72,8 +72,9 @@ func _on_Area2D_body_entered(body):
 		timerStateChange.stop()
 		
 func _on_Area2D_body_exited(body):
-	timerStateChange.start()
-	emit_signal("DerGrueneConversation", false)
+	if body.name == "Christine":
+		timerStateChange.start()
+		emit_signal("DerGrueneConversation", false)
 	
 func _on_Christine_DealAccepted():
 	current_state = State.WALK
