@@ -64,8 +64,7 @@ func _physics_process(_delta):
 				current_state = State.IDLE
 		State.CHASE:
 			if player == null:
-				timerStateChange.wait_time = 1
-				current_state = rng.randi_range(0,2)
+				timerRandomState()
 			else:
 				motion = position.direction_to(player.position)
 				walk(motion)
@@ -111,7 +110,7 @@ func _on_KomturChaseArea_body_entered(body):
 		timerStateChange.stop()
 
 func _on_KomturChaseArea_body_exited(body):
-	if player != null and body.name == "Christine" and current_state == State.CHASE:
+	if player != null and body.name == "Christine":
 		player = null
 		timerRandomState()
 
@@ -135,15 +134,12 @@ func _on_KomturSFXPlayer_finished():
 	audio.stop()
 
 func _on_TimerCooldown_timeout():
-	if current_state != State.COOLDOWN:
-		pass
-	if player == null:
-		timerRandomState()
-	else:
+	if current_state == State.COOLDOWN:
 		current_state = State.CHASE
+	elif player == null:
+		timerRandomState()
 
 func _on_TimerAttack_timeout():
-	#emit_signal("KomturAttack")
 	animationTree.set("parameters/Idle/BlendSpace2D/blend_position", motion.normalized())
 	animationState.travel("Idle")
 	timerCooldown.wait_time = 5
