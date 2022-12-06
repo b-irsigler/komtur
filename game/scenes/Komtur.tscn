@@ -703,7 +703,7 @@ parameters/Walk/TimeScale/scale = 1.0
 [node name="TimerAttack" type="Timer" parent="."]
 one_shot = true
 
-[connection signal="timeout" from="TimerStateChange" to="." method="_on_TimerReturn_timeout"]
+[connection signal="timeout" from="TimerStateChange" to="." method="_on_TimerStateChange_timeout"]
 [connection signal="finished" from="KomturSFXPlayer" to="." method="_on_KomturSFXPlayer_finished"]
 [connection signal="timeout" from="TimerCooldown" to="." method="_on_TimerCooldown_timeout"]
 [connection signal="body_entered" from="KomturChaseArea" to="." method="_on_KomturChaseArea_body_entered"]
