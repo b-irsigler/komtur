@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+signal hasAttacked
+
 onready var world = get_parent()
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
@@ -96,6 +98,7 @@ func _on_AttackArea_Spinne_body_entered(body):
 	animationTree.set("parameters/Chop/BlendSpace2D/blend_position", motion.normalized())
 	if body.name == "Christine":
 		current_state = State.ATTACK
+		emit_signal("hasAttacked")
 
 func _on_AttackArea_Spinne_body_exited(body):
 	pass

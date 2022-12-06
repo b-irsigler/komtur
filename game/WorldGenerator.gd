@@ -8,6 +8,7 @@ onready var castle = $Castle
 onready var dergruene = $DerGruene
 onready var Debug = $DebugCanvas
 onready var gui = $GUI
+onready var chapel = $Chapel
 
 export var map_width  = 200
 export var map_height  = 200
@@ -17,6 +18,7 @@ var start_position_komtur = Vector2(map_width/2, map_height/2-5)
 var start_position_spinne = Vector2(rand_range(0,map_width), rand_range(0,map_height))
 var start_position_castle = Vector2(map_width/2-2, map_height/2-6)
 var start_position_dergruene = Vector2(rand_range(0,map_width), rand_range(0,map_height))
+var start_position_chapel = start_position_castle+Vector2(rand_range(-1,1), rand_range(-1,1)).normalized()*50
 
 var temperature = {}
 var moisture = {}
@@ -70,11 +72,13 @@ func _ready():
 	christine.connect("DealAccepted",gui,"_on_Christine_DealAccepted")
 	dergruene.connect("DerGrueneConversation",gui,"_on_DerGruene_DerGrueneConversation")
 	dergruene.connect("DerGrueneConversation",christine,"_on_DerGruene_DerGrueneConversation")
+	spinne.connect("hasAttacked", christine, "_on_Spinne_hasAttacked")
 	newgame()
 	Debug.add_stat("Christine", christine, "_get_debug", true)
 	Debug.add_stat("Komtur", komtur, "_get_debug", true)
 	Debug.add_stat("Spinne", spinne, "_get_debug", true)
 	Debug.add_stat("DerGruene", dergruene, "_get_debug", true)
+	Debug.add_stat("Chapel", chapel, "_get_debug", true)
 	
 func newgame():
 	temperature = generate_map(300, 5)
@@ -86,9 +90,16 @@ func newgame():
 	komtur.position = tilemap.map_to_world(start_position_komtur)
 	castle.position = tilemap.map_to_world(start_position_castle)
 	dergruene.position = tilemap.map_to_world(start_position_dergruene)
+	chapel.position = tilemap.map_to_world(start_position_chapel)
 
 func isborder(x,y,w):
 	return (x < w or x > map_width-w or y < w or y > map_height-w)
+	
+func isAroundCastle(x,y,w):
+	return (start_position_castle-Vector2(x,y)).length()<w
+	
+func isAroundChapel(x,y,w):
+	return (start_position_chapel-Vector2(x,y)).length()<w
 
 func set_tile(width, height):
 	for x in width:
@@ -103,6 +114,16 @@ func set_tile(width, height):
 				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"map_border")])
 				continue
 			
+			if isAroundCastle(x,y,15):
+				biome[pos] = "grass"
+				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"grass")])
+				continue
+			
+			if isAroundChapel(x,y,5):
+				biome[pos] = "green_grass"
+				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"green_grass")])
+				continue
+				
 			#stones
 			if alt > 0.8:
 				biome[pos] = "stone"
