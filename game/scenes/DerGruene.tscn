@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=53 format=2]
 
 [ext_resource path="res://resources/assets/characters/derGruene.png" type="Texture" id=1]
 [ext_resource path="res://scenes/DerGruene.gd" type="Script" id=2]
@@ -546,6 +546,10 @@ tracks/0/keys = {
 [sub_resource type="CircleShape2D" id=70]
 radius = 13.1529
 
+[sub_resource type="CapsuleShape2D" id=89]
+radius = 130.0
+height = 0.0
+
 [node name="DerGruene" type="KinematicBody2D"]
 script = ExtResource( 2 )
 __meta__ = {
@@ -568,7 +572,7 @@ parameters/Idle/blend_position = Vector2( -0.0168067, 0.586207 )
 parameters/Run/blend_position = Vector2( -0.00172412, 0.0722544 )
 parameters/stop/blend_position = Vector2( 0, 0 )
 
-[node name="Timer" type="Timer" parent="."]
+[node name="TimerStateChange" type="Timer" parent="."]
 autostart = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -602,4 +606,11 @@ anims/RunUp = SubResource( 69 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 70 )
 
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 89 )
+
+[connection signal="timeout" from="TimerStateChange" to="." method="_on_Timer_timeout"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]

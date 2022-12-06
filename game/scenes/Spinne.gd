@@ -13,7 +13,7 @@ onready var motion_speed = christine.default_motion_speed * .75
 onready var animation_speed = christine.default_animation_speed * .75
 
 var rng = RandomNumberGenerator.new()
-var current_state = State.IDLE
+var current_state = State.SLEEP
 var motion = Vector2(rng_direction(), rng_direction())
 var return_counter = 0
 var player = null
@@ -29,7 +29,7 @@ func _get_debug():
 
 func rng_direction():
 	return rng.randf() - .5
-enum State {IDLE, WALK, NEW_DIRECTION, CHASE, ATTACK, COOLDOWN}
+enum State {IDLE, WALK, NEW_DIRECTION, CHASE, ATTACK, COOLDOWN, SLEEP}
 
 func _physics_process(_delta):
 	match current_state:
@@ -50,6 +50,8 @@ func _physics_process(_delta):
 			attack()
 		State.COOLDOWN:
 			pass
+		State.SLEEP:
+			timerStateChange.stop()
 
 func walk(motion):
 	animationTree.set("parameters/Idle/BlendSpace2D/blend_position", motion.normalized())
@@ -69,6 +71,9 @@ func attack():
 func timerRandomState():
 	current_state = rng.randi_range(0,2)
 	timerStateChange.start(1)
+	
+func isSleeping():
+	return current_state == State.SLEEP
 
 func _on_VisibilityNotifier2D_screen_entered():
 	music.volume_db = 0
@@ -94,8 +99,8 @@ func _on_AttackArea_Spinne_body_entered(body):
 
 func _on_AttackArea_Spinne_body_exited(body):
 	pass
-	#if body.name == "Christine" and current_state != State.COOLDOWN:
-	#	current_state = State.CHASE
+	if body.name == "Christine" and current_state != State.COOLDOWN:
+		current_state = State.CHASE
 
 func _on_TimerCooldown_timeout():
 	if current_state != State.COOLDOWN:
@@ -124,3 +129,6 @@ func teleport():
 func _on_AttackTimer_timeout():
 	animationTree.set("parameters/Idle/BlendSpace2D/blend_position", motion.normalized())
 	animationState.travel("Idle")
+
+func _on_Christine_DealAccepted():
+	timerRandomState()

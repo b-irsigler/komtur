@@ -4,6 +4,8 @@ const RUN_MULT = 10
 
 signal BeechChopped(inventory, count)
 signal BeechesExceeded
+signal DealAccepted
+signal DealNotAccepted
 
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
@@ -25,6 +27,7 @@ var default_motion_speed = 300
 var current_motion_speed = default_motion_speed
 var default_animation_speed = 2
 var current_animation_speed = default_animation_speed
+var is_deal_offered = false
 
 enum State {IDLE, WALK, RUN, JUMP, CHOP}
 var current_state = State.IDLE
@@ -70,8 +73,19 @@ func _physics_process(_delta):
 	if Input.is_action_just_pressed("jump") and current_state != State.JUMP:
 		current_state = State.JUMP
 		timer.start()
-	if Input.is_action_pressed("chop"):
+	if Input.is_action_just_pressed("chop"):
 		current_state = State.CHOP
+
+	if is_deal_offered:
+		if Input.is_action_just_pressed("yes"):
+			emit_signal("DealAccepted")
+			beech_count += 12
+			emit_signal("BeechChopped", beech_inventory, beech_count)
+			is_deal_offered = false
+		if Input.is_action_just_pressed("no"):
+			emit_signal("DealNotAccepted")
+			is_deal_offered = false
+		
 		
 	match current_state:
 		State.IDLE:
@@ -148,3 +162,6 @@ func updateSpeed():
 		
 	current_animation_speed = default_animation_speed * (1 - .05 * beech_inventory)
 	current_motion_speed = default_motion_speed * (1 - .05 * beech_inventory)
+
+func _on_DerGruene_DerGrueneConversation(active):
+	is_deal_offered = active
