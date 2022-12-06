@@ -52,6 +52,11 @@ func _physics_process(_delta):
 		State.WALK:
 			walk(motion)
 		State.NEW_DIRECTION:
+			#Instead of any new direction, always walk towards 
+			#Christines position if inside a radius a around castle
+			#The intersection of radius a and the line connecting christine and castle
+			#balance timer state change to 5s or more
+			#result: Christine staying still will result in Komtur finding her
 			motion = Vector2(rng_direction(), rng_direction())
 			current_state = State.WALK
 		State.RETURN:
