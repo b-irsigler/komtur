@@ -196,3 +196,4 @@ func _on_Christine_DealAccepted():
 		spinne.position = tilemap.map_to_world(start_position_spinne)
 		spinne.scale = Vector2(.3,.3)
 	spinne.scale += Vector2(.3,.3)
+	spinne.teleport_probability *= 2
