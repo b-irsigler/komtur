@@ -12,8 +12,8 @@ onready var timerCooldown = $TimerCooldown
 onready var timerAttack = $TimerAttack
 onready var animationState = animationTree.get("parameters/playback")
 onready var christine = $"../Christine"
-onready var motion_speed = christine.default_motion_speed * .85
-onready var animation_speed = christine.default_animation_speed * .85
+onready var motion_speed = christine.default_motion_speed * .8
+onready var animation_speed = christine.default_animation_speed * .8
 
 onready var audio = $KomturSFXPlayer
 
