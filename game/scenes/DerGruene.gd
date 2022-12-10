@@ -11,6 +11,9 @@ onready var timerStateChange = $TimerStateChange
 onready var animationState = animationTree.get("parameters/playback")
 onready var christine = $"../Christine"
 onready var motion_speed = christine.default_motion_speed * .30
+onready var animationTeleport = $AnimationTeleport
+onready var timerAnimationTeleport = $TimerAnimationTeleport
+onready var fxTween = $FXTween
 
 var rng = RandomNumberGenerator.new()
 var current_state = State.IDLE
@@ -77,9 +80,21 @@ func _on_Area2D_body_exited(body):
 		emit_signal("DerGrueneConversation", false)
 	
 func _on_Christine_DealAccepted():
+	current_state = State.IDLE
+	fxTween.interpolate_property($Sprite, "scale", self.get_scale(), Vector2(0, 0), 0.5, Tween.TRANS_LINEAR,Tween.EASE_IN, 0.5)
+	fxTween.start()
+	animationTeleport.play()
+	#position = Vector2(-20000, 0)
+	timerAnimationTeleport.start(2)
+
+func _on_Christine_DealNotAccepted():
 	current_state = State.WALK
 	timerStateChange.start()
-	
-func _on_Christine_DealNotAccepted():
+
+func _on_TimerAnimationTeleport_timeout():
+	position = Vector2(-20000, 0)
+	animationTeleport.stop()
+	animationTeleport.frame = 0
+	$Sprite.scale = Vector2(1.0,1.0)
 	current_state = State.WALK
 	timerStateChange.start()
