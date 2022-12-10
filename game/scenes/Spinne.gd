@@ -77,9 +77,11 @@ func isSleeping():
 
 func _on_VisibilityNotifier2D_screen_entered():
 	music.volume_db = 0
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("bg music"), -16)
 
 func _on_VisibilityNotifier2D_screen_exited():
 	music.volume_db = -5
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("bg music"), -8)
 
 func _on_ChaseArea_Spinne_body_entered(body):
 	if player == null and body.name == "Christine":

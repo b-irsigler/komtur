@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scenes/Spinne.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/characters/Spinne.png" type="Texture" id=2]
-[ext_resource path="res://resources/assets/music/Spinne.mp3" type="AudioStream" id=3]
+[ext_resource path="res://resources/assets/music/DSS_SpinneTheme.mp3" type="AudioStream" id=3]
 
 [sub_resource type="CircleShape2D" id=88]
 radius = 10.0154

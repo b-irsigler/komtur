@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://WorldGenerator.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/floor/komtur_floortiles.tres" type="TileSet" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://scenes/Castle.tscn" type="PackedScene" id=8]
 [ext_resource path="res://scenes/GUI.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/DebugOverlay.tscn" type="PackedScene" id=10]
+[ext_resource path="res://resources/assets/music/DSS_MainTheme_pt1.mp3" type="AudioStream" id=11]
 
 [node name="WorldGenerator" type="YSort"]
 position = Vector2( 3, -4 )
@@ -47,6 +48,13 @@ collision_mask = 5
 
 [node name="DerGruene" parent="." instance=ExtResource( 6 )]
 position = Vector2( -199, -88 )
+
+[node name="AudioPlayer_MainTheme" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
+stream = ExtResource( 11 )
+volume_db = -7.0
+autoplay = true
+bus = "bg music"
 
 [connection signal="NewGame" from="GUI" to="." method="_on_GUI_NewGame"]
 [connection signal="NewGame" from="GUI" to="Christine" method="_on_GUI_NewGame"]
