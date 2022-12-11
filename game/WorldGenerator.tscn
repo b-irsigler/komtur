@@ -60,7 +60,6 @@ __meta__ = {
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="Chapel"]
 position = Vector2( -9.92896, 59.5 )
 rotation = 0.785398
-scale = Vector2( 1, 1 )
 polygon = PoolVector2Array( 1.01038, -8.78857, -112.834, 25.8597, -77.4785, -88.6916, 36.3657, -120.511 )
 
 [node name="Sprite" type="Sprite" parent="Chapel"]

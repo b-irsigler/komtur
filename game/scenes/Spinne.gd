@@ -27,7 +27,7 @@ func _ready():
 	animationTree.set("parameters/Chop/TimeScale/scale",animation_speed)
 
 func _get_debug():
-	return "Pos: %s, St: %s" % [position.round(), State.keys()[current_state]]
+	return "Pos: %s, St: %s, TSC: %f" % [position.round(), State.keys()[current_state], timerStateChange.time_left]
 
 func rng_direction():
 	return rng.randf() - .5
@@ -71,7 +71,9 @@ func attack():
 	current_state = State.COOLDOWN
 	
 func timerRandomState():
-	current_state = rng.randi_range(0,2)
+	var randn = rng.randi_range(0,2)
+	current_state = randn
+	print('blah ', randn)
 	timerStateChange.start(1)
 	
 func isSleeping():
@@ -134,4 +136,9 @@ func _on_AttackTimer_timeout():
 	animationState.travel("Idle")
 
 func _on_Christine_DealAccepted():
+	if isSleeping():
+		position = world.tilemap.map_to_world(world.start_position_spinne)
+		scale = Vector2(.3,.3)
+	scale += Vector2(.3,.3)
+	teleport_probability *= 2
 	timerRandomState()
