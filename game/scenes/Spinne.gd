@@ -1,42 +1,45 @@
 extends KinematicBody2D
 
-signal hasAttacked
 
-onready var world = get_parent()
-onready var animationPlayer = $AnimationPlayer
-onready var animationTree = $AnimationTree
-onready var timerStateChange = $TimerStateChange
-onready var timerCooldown = $TimerCooldown
-onready var timerAttack = $TimerAttack
-onready var music = $MusicSpinne
-onready var animationState = animationTree.get("parameters/playback")
-onready var christine = $"../Christine"
-onready var motion_speed = christine.default_motion_speed * .75
-onready var animation_speed = christine.default_animation_speed * .75
+signal attacked
 
-var rng = RandomNumberGenerator.new()
+var random_number_generator = RandomNumberGenerator.new()
 var current_state = State.SLEEP
 var motion = Vector2(rng_direction(), rng_direction())
 var return_counter = 0
 var player = null
 var teleport_probability = .01
 
+onready var world = get_parent()
+onready var position_spinne = Vector2(rand_range(0, world.map_width), rand_range(0, world.map_height))
+onready var animation_tree = $AnimationTree
+onready var state_change_timer = $TimerStateChange
+onready var cooldown_timer = $TimerCooldown
+onready var attack_timer = $TimerAttack
+onready var music = $MusicSpinne
+onready var animation_state = animation_tree.get("parameters/playback")
+onready var christine = $"../Christine"
+onready var motion_speed = christine.default_motion_speed * .75
+onready var animation_speed = christine.default_animation_speed * .75
+
+
 func _ready():
-	animationTree.set("parameters/Walk/TimeScale/scale",animation_speed)
-	animationTree.set("parameters/Idle/TimeScale/scale",animation_speed)
-	animationTree.set("parameters/Chop/TimeScale/scale",animation_speed)
+	attack_timer.connect("timeout", self, "_on_attack_timer_timeout")
+	animation_tree.set("parameters/Walk/TimeScale/scale",animation_speed)
+	animation_tree.set("parameters/Idle/TimeScale/scale",animation_speed)
+	animation_tree.set("parameters/Chop/TimeScale/scale",animation_speed)
 
 func _get_debug():
-	return "Pos: %s, St: %s, TSC: %f" % [position.round(), State.keys()[current_state], timerStateChange.time_left]
+	return "Pos: %s, St: %s, TSC: %f" % [position.round(), State.keys()[current_state], state_change_timer.time_left]
 
 func rng_direction():
-	return rng.randf() - .5
+	return random_number_generator.randf() - .5
 enum State {IDLE, WALK, NEW_DIRECTION, CHASE, ATTACK, COOLDOWN, SLEEP}
 
 func _physics_process(_delta):
 	match current_state:
 		State.IDLE:
-			animationState.travel("Idle")
+			animation_state.travel("Idle")
 		State.WALK:
 			walk(motion)
 		State.NEW_DIRECTION:
@@ -44,7 +47,7 @@ func _physics_process(_delta):
 			current_state = State.WALK
 		State.CHASE:
 			if player == null:
-				timerRandomState()
+				start_random_state_change_timer()
 			else:
 				motion = position.direction_to(player.position)
 				walk(motion)
@@ -53,30 +56,28 @@ func _physics_process(_delta):
 		State.COOLDOWN:
 			pass
 		State.SLEEP:
-			timerStateChange.stop()
+			state_change_timer.stop()
 
-func walk(motion):
-	animationTree.set("parameters/Idle/BlendSpace2D/blend_position", motion.normalized())
-	animationTree.set("parameters/Walk/BlendSpace2D/blend_position", motion.normalized())
-	animationState.travel("Walk")
+func walk(walk_motion):
+	animation_tree.set("parameters/Idle/BlendSpace2D/blend_position", walk_motion.normalized())
+	animation_tree.set("parameters/Walk/BlendSpace2D/blend_position", walk_motion.normalized())
+	animation_state.travel("Walk")
 	motion = motion.normalized() * motion_speed
 	move_and_slide(motion)
 
 func attack():
-	timerAttack.start(.6)
-	animationTree.set("parameters/Chop/BlendSpace2D/blend_position", motion.normalized())
-	animationState.travel("Chop")
-	timerCooldown.start(5)
-	timerStateChange.stop()
+	attack_timer.start(.6)
+	animation_tree.set("parameters/Chop/BlendSpace2D/blend_position", motion.normalized())
+	animation_state.travel("Chop")
+	cooldown_timer.start(5)
+	state_change_timer.stop()
 	current_state = State.COOLDOWN
 	
-func timerRandomState():
-	var randn = rng.randi_range(0,2)
-	current_state = randn
-	print('blah ', randn)
-	timerStateChange.start(1)
+func start_random_state_change_timer():
+	current_state = random_number_generator.randi_range(0,2)
+	state_change_timer.start(1)
 	
-func isSleeping():
+func is_sleeping():
 	return current_state == State.SLEEP
 
 func _on_VisibilityNotifier2D_screen_entered():
@@ -89,18 +90,18 @@ func _on_ChaseArea_Spinne_body_entered(body):
 	if player == null and body.name == "Christine":
 		player = body
 		current_state = State.CHASE
-		timerStateChange.stop()
+		state_change_timer.stop()
 
 func _on_ChaseArea_Spinne_body_exited(body):
 	if player != null and body.name == "Christine" and current_state == State.CHASE:
 		player = null
-		timerRandomState()
+		start_random_state_change_timer()
 
 func _on_AttackArea_Spinne_body_entered(body):
-	animationTree.set("parameters/Chop/BlendSpace2D/blend_position", motion.normalized())
+	animation_tree.set("parameters/Chop/BlendSpace2D/blend_position", motion.normalized())
 	if body.name == "Christine":
 		current_state = State.ATTACK
-		emit_signal("hasAttacked")
+		emit_signal("attacked")
 
 func _on_AttackArea_Spinne_body_exited(body):
 	pass
@@ -111,14 +112,14 @@ func _on_TimerCooldown_timeout():
 	if current_state != State.COOLDOWN:
 		pass
 	if player == null:
-		timerRandomState()
+		start_random_state_change_timer()
 	else:
 		current_state = State.CHASE
 
 func _on_TimerStateChange_timeout():
 	if player == null or current_state == State.COOLDOWN:
 		teleport()
-		timerRandomState()
+		start_random_state_change_timer()
 
 func teleport():
 	if randf() < teleport_probability:
@@ -131,14 +132,15 @@ func teleport():
 		if clamped_vec != vec:
 			position = christine.position + 2 * christine.motion
 
-func _on_AttackTimer_timeout():
-	animationTree.set("parameters/Idle/BlendSpace2D/blend_position", motion.normalized())
-	animationState.travel("Idle")
+func _on_attack_timer_timeout():
+	animation_tree.set("parameters/Idle/BlendSpace2D/blend_position", motion.normalized())
+	animation_state.travel("Idle")
 
-func _on_Christine_DealAccepted():
-	if isSleeping():
-		position = world.tilemap.map_to_world(world.start_position_spinne)
+func _on_Christine_deal_accepted():
+	if is_sleeping():
+		position = world.tilemap.map_to_world(position_spinne)
 		scale = Vector2(.3,.3)
 	scale += Vector2(.3,.3)
 	teleport_probability *= 2
-	timerRandomState()
+	start_random_state_change_timer()
+

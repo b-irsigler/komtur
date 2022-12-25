@@ -636,7 +636,7 @@ frame = 37
 [node name="KomturCollisionShape" type="CollisionShape2D" parent="."]
 shape = SubResource( 27 )
 
-[node name="TimerStateChange" type="Timer" parent="."]
+[node name="StateChangeTimer" type="Timer" parent="."]
 one_shot = true
 autostart = true
 
@@ -672,7 +672,7 @@ anims/RunUp = SubResource( 87 )
 attenuation = 2.2974
 bus = "npc sfx"
 
-[node name="TimerCooldown" type="Timer" parent="."]
+[node name="CooldownTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="KomturChaseArea" type="Area2D" parent="."]
@@ -700,14 +700,14 @@ parameters/Stop/blend_position = Vector2( 0, 0 )
 parameters/Walk/BlendSpace2D/blend_position = Vector2( 0, 0 )
 parameters/Walk/TimeScale/scale = 1.0
 
-[node name="TimerAttack" type="Timer" parent="."]
+[node name="AttackTimer" type="Timer" parent="."]
 one_shot = true
 
-[connection signal="timeout" from="TimerStateChange" to="." method="_on_TimerStateChange_timeout"]
+[connection signal="timeout" from="StateChangeTimer" to="." method="_on_TimerStateChange_timeout"]
 [connection signal="finished" from="KomturSFXPlayer" to="." method="_on_KomturSFXPlayer_finished"]
-[connection signal="timeout" from="TimerCooldown" to="." method="_on_TimerCooldown_timeout"]
+[connection signal="timeout" from="CooldownTimer" to="." method="_on_TimerCooldown_timeout"]
 [connection signal="body_entered" from="KomturChaseArea" to="." method="_on_KomturChaseArea_body_entered"]
 [connection signal="body_exited" from="KomturChaseArea" to="." method="_on_KomturChaseArea_body_exited"]
 [connection signal="body_entered" from="KomturAttackArea" to="." method="_on_KomturAttackArea_body_entered"]
 [connection signal="body_exited" from="KomturAttackArea" to="." method="_on_KomturAttackArea_body_exited"]
-[connection signal="timeout" from="TimerAttack" to="." method="_on_TimerAttack_timeout"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_TimerAttack_timeout"]

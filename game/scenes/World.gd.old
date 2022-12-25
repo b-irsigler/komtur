@@ -1,0 +1,170 @@
+extends Node2D
+
+export var map_width = 200
+export var map_height = 200
+
+var start_position_castle = Vector2(map_width/2-2, map_height/2-6)
+var start_position_chapel = start_position_castle+Vector2(rand_range(-1,1), rand_range(-1,1)).normalized()*50
+
+
+onready var tilemap = $TileMap_Ground
+onready var christine = $Christine
+onready var komtur = $Komtur
+onready var spinne = $Spinne
+onready var castle = $Castle
+onready var der_gruene = $DerGruene
+onready var debug = $DebugCanvas
+onready var gui = $GUI
+onready var chapel = $Chapel
+
+
+func generate_map(per, oct):
+	open_simplex_noise.seed = randi()
+	open_simplex_noise.period = per
+	open_simplex_noise.octaves = oct
+	var grid_name = {}
+	for x in map_width:
+		for y in map_height:
+			var rand := 2*(abs(open_simplex_noise.get_noise_2d(x,y)))
+			grid_name[Vector2(x,y)] = rand
+	return grid_name
+
+
+func _ready():
+	gui.connect("new_game",christine,"_on_Gui_new_game")
+	christine.connect("beech_inventory_exceeded", gui, "_on_Christine_beech_inventory_exceeded")
+	christine.connect("beech_chopped",gui,"_on_Christine_beech_chopped")
+	christine.connect("deal_accepted",der_gruene,"_on_Christine_deal_accepted")
+	christine.connect("deal_accepted",spinne,"_on_Christine_deal_accepted")
+	christine.connect("deal_accepted",self,"_on_Christine_deal_accepted")
+	christine.connect("deal_denied",der_gruene,"_on_Christine_deal_denied")
+	christine.connect("deal_accepted",gui,"_on_Christine_deal_accepted")
+	der_gruene.connect("conversation_started",gui,"_on_DerGruene_conversation_started")
+	der_gruene.connect("conversation_started",christine,"_on_DerGruene_conversation_started")
+	spinne.connect("attacked", christine, "_on_Spinne_attacked")
+	start_new_game()
+	debug.add_stat("Christine", christine, "_get_debug", true)
+	debug.add_stat("Komtur", komtur, "_get_debug", true)
+	debug.add_stat("Spinne", spinne, "_get_debug", true)
+	debug.add_stat("DerGruene", der_gruene, "_get_debug", true)
+	debug.add_stat("Chapel", chapel, "_get_debug", true)
+
+
+func start_new_game():
+	temperature = generate_map(300, 5)
+	moisture = generate_map(300, 5)
+	altitude = generate_map(50, 5)
+	set_tile(map_width, map_height)
+	#centering
+	christine.position = tilemap.map_to_world(christine.start_position)
+	komtur.position = tilemap.map_to_world(komtur.start_position)
+	castle.position = tilemap.map_to_world(start_position_castle)
+	der_gruene.position = tilemap.map_to_world(der_gruene.start_position)
+	chapel.position = tilemap.map_to_world(start_position_chapel)
+
+
+func is_border(position, border_width):
+	var temp = position.x < border_width
+	temp = temp or position.x > map_width - border_width
+	temp = temp or position.y < border_width
+	temp = temp or position.y > map_height - border_width
+	return temp
+
+
+func is_close_to_castle(position, radius):
+	return (start_position_castle - position).length() < radius
+
+
+func is_close_to_chapel(position, radius):
+	return (start_position_chapel - position).length() < radius
+
+
+func set_tile(width, height):
+	for x in width:
+		for y in height:
+			var pos = Vector2(x, y)
+			var alt = altitude[pos]
+			var temp = temperature[pos]
+			var moist = moisture[pos]
+			
+			if is_border(pos, 10):
+				biome[pos] = "map_border"
+				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"map_border")])
+				continue
+			
+			if is_close_to_castle(pos, 15):
+				biome[pos] = "grass"
+				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"grass")])
+				continue
+			
+			if is_close_to_chapel(pos, 5):
+				biome[pos] = "green_grass"
+				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"green_grass")])
+				continue
+				
+			if alt > 0.8:
+				biome[pos] = "stone"
+				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"stone")])
+			elif between(alt, 0, 0.6):
+				if between(moist, 0, 0.95) and between(temp, 0, 0.4):
+					biome[pos] = "grass"
+					tilemap.set_cellv(pos, tiles[random_tile(biome_data,"grass")])
+				elif between(moist, 0.2, 0.5) and temp > 0.4:
+					biome[pos] = "light_forest"
+					tilemap.set_cellv(pos, tiles[random_tile(biome_data,"light_forest")])
+				elif between(moist, 0.5, 0.95) and temp > 0.4:
+					biome[pos] = "forest"
+					tilemap.set_cellv(pos, tiles[random_tile(biome_data,"forest")])
+				else:
+					biome[pos] = "green_grass"
+					tilemap.set_cellv(pos, tiles[random_tile(biome_data,"green_grass")])
+			elif between(alt, 0.6, 0.8):
+				biome[pos] = "light_forest"
+				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"light_forest")])
+			else:
+				biome[pos] = "grass"
+				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"grass")])
+		
+	set_objects()
+
+
+func _input(event):
+	if event.is_action_pressed("new_world"):
+		get_tree().reload_current_scene()
+
+
+func between(val, start, end):
+	if start <= val and val < end:
+		return true
+
+
+func random_tile(data, thisbiome):
+	var current_biome = data[thisbiome]
+	var rand_num = rand_range(0,1)
+	var running_total = 0
+	for tile in current_biome:
+		running_total = running_total + current_biome[tile]
+		if rand_num <= running_total:
+			return tile
+
+
+func set_objects():
+	objects = {}
+	for pos in biome:
+		var current_biome = biome[pos]
+		var random_object = random_tile(object_data, current_biome)
+		objects[pos] = random_object
+		if random_object != null:
+			tile_to_scene(random_object, pos)
+
+
+func tile_to_scene(random_object, pos):
+	var instance = object_tiles[str(random_object)].instance()
+	instance.position = tilemap.map_to_world(pos) + Vector2(4, 4)
+	add_child(instance)
+	return instance
+
+
+func _on_gui_new_game():
+	get_tree().reload_current_scene()
+

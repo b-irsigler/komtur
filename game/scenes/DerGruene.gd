@@ -1,10 +1,18 @@
 extends KinematicBody2D
 
-const TELEPORT_PROBABILITY = .01
 
-signal DerGrueneConversation(active)
+signal conversation_started(active)
+
+enum State {IDLE, WALK, NEW_DIRECTION, TALK}
+
+const TELEPORT_PROBABILITY = .05
+
+var rng = RandomNumberGenerator.new()
+var current_state = State.IDLE
+var motion = Vector2(rng_direction(), rng_direction())
 
 onready var world = get_parent()
+onready var start_position = Vector2(rand_range(0, world.map_width), rand_range(0, world.map_height))
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
 onready var timerStateChange = $TimerStateChange
@@ -12,16 +20,14 @@ onready var animationState = animationTree.get("parameters/playback")
 onready var christine = $"../Christine"
 onready var motion_speed = christine.default_motion_speed * .30
 
-var rng = RandomNumberGenerator.new()
-var current_state = State.IDLE
-var motion = Vector2(rng_direction(), rng_direction())
 
 func _get_debug():
 	return "Pos: %s, St: %s" % [position.round(), State.keys()[current_state]]
 
+
 func rng_direction():
 	return rng.randf() - .5
-enum State {IDLE, WALK, NEW_DIRECTION, TALK}
+
 
 func _physics_process(_delta):
 	match current_state:
@@ -36,14 +42,16 @@ func _physics_process(_delta):
 		State.TALK:
 			talk()
 			current_state = State.IDLE
-				
-func walk(motion):
-	animationTree.set("parameters/Idle/blend_position", motion.normalized())
-	animationTree.set("parameters/Run/blend_position", motion.normalized())
+
+
+func walk(walk_motion):
+	animationTree.set("parameters/Idle/blend_position", walk_motion.normalized())
+	animationTree.set("parameters/Run/blend_position", walk_motion.normalized())
 	animationState.travel("Run")
 	motion = motion.normalized() * motion_speed
-	move_and_slide(motion)
-	
+	move_and_slide(walk_motion)
+
+
 func teleport():
 	if randf() < TELEPORT_PROBABILITY:
 		var vec = christine.position - position
@@ -54,32 +62,39 @@ func teleport():
 			)
 		if clamped_vec != vec:
 			position = christine.position + 2 * christine.motion
-			
+
+
 func talk():
 	var direction = christine.position - position
 	animationTree.set("parameters/Idle/blend_position", direction.normalized())
 	animationState.travel("Idle")
-	emit_signal("DerGrueneConversation", true)
+	emit_signal("conversation_started", true)
+
 
 func _on_Timer_timeout():
 	timerStateChange.wait_time = 1
 	teleport()
 	current_state = rng.randi_range(0,State.size()-2)
-	
+
+
 func _on_Area2D_body_entered(body):
 	if body.name == "Christine":
 		current_state = State.TALK
 		timerStateChange.stop()
-		
+
+
 func _on_Area2D_body_exited(body):
 	if body.name == "Christine":
 		timerStateChange.start()
-		emit_signal("DerGrueneConversation", false)
-	
-func _on_Christine_DealAccepted():
+		emit_signal("started_conversation", false)
+
+
+func _on_Christine_deal_accepted():
 	current_state = State.WALK
 	timerStateChange.start()
-	
-func _on_Christine_DealNotAccepted():
+
+
+func _on_Christine_deal_denied():
 	current_state = State.WALK
 	timerStateChange.start()
+
