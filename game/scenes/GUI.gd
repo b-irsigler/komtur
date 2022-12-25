@@ -58,9 +58,8 @@ func updateCastleIndicator():
 	castleIndicator.rect_position = clamped_vec + half_size
 
 func _on_Komtur_KomturAttack():
-	#subtracts one day from game Time
-	var curTime = dayTimer.time_left
-	dayTimer.start(curTime-timediv)
+	#currently no function intended, leave signal for easy reconnection
+	pass
 
 func _on_DerGruene_DerGrueneConversation(active):
 	popup.visible = active

@@ -12,8 +12,8 @@ onready var timerCooldown = $TimerCooldown
 onready var timerAttack = $TimerAttack
 onready var animationState = animationTree.get("parameters/playback")
 onready var christine = $"../Christine"
-onready var motion_speed = christine.default_motion_speed * .85
-onready var animation_speed = christine.default_animation_speed * .85
+onready var motion_speed = christine.default_motion_speed * .7
+onready var animation_speed = christine.default_animation_speed * .7
 
 onready var audio = $KomturSFXPlayer
 
@@ -24,6 +24,16 @@ onready var sound_4 = preload("res://resources/assets/sfx/komtur_attack4.mp3")
 
 var sounds : Array
 
+enum State {IDLE, WALK, NEW_DIRECTION, INTERCEPT, RETURN, CHASE, ATTACK, COOLDOWN}
+var rng = RandomNumberGenerator.new()
+var current_state = State.IDLE
+var motion = Vector2(rng_direction(), rng_direction())
+var return_counter = 0
+var player = null
+var intercept_aim = Vector2(0,0)
+var CASTLE_POS = Vector2(0,0)
+var INTERCEPT_RADIUS = 1500
+
 func _ready():
 	randomize() 
 	sounds = [ sound_1, sound_2, sound_3, sound_4 ] 
@@ -31,16 +41,10 @@ func _ready():
 	animationTree.set("parameters/Walk/TimeScale/scale",animation_speed)
 	animationTree.set("parameters/Idle/TimeScale/scale",animation_speed)
 	animationTree.set("parameters/Chop/TimeScale/scale",animation_speed)
-
-enum State {IDLE, WALK, NEW_DIRECTION, RETURN, CHASE, ATTACK, COOLDOWN}
-var rng = RandomNumberGenerator.new()
-var current_state = State.IDLE
-var motion = Vector2(rng_direction(), rng_direction())
-var return_counter = 0
-var player = null
+	#CASTLE_POS = world.tilemap.map_to_world(world.start_position_castle)
 
 func _get_debug():
-	return "Pos: %s, St: %s" % [position.round(), State.keys()[current_state]]
+	return "Pos: %s, St: %s, Aim: %s" % [position.round(), State.keys()[current_state], intercept_aim.round()]
 
 func rng_direction():
 	return rng.randf() - .5
@@ -54,6 +58,27 @@ func _physics_process(_delta):
 		State.NEW_DIRECTION:
 			motion = Vector2(rng_direction(), rng_direction())
 			current_state = State.WALK
+		State.INTERCEPT:
+			#walk towards Christines position if inside a radius a around castle
+			#The intersection of radius a and the line connecting christine and castle
+			#balance timer state change to 5s or more
+			#result: Christine staying still will result in Komtur finding her
+			timerStateChange.stop()
+			if intercept_aim.length() == 0:
+				var ChristineToCastle = christine.position - world.tilemap.map_to_world(world.start_position_castle)
+				if  ChristineToCastle.length() < INTERCEPT_RADIUS:
+					intercept_aim = christine.position
+					motion = position.direction_to(christine.position)
+				else:
+					intercept_aim = ChristineToCastle.normalized()*INTERCEPT_RADIUS + world.tilemap.map_to_world(world.start_position_castle)
+					motion = position.direction_to(intercept_aim)
+				#start timer so if Komtur gets stuck, he will do something else after some time
+				timerCooldown.start(10)
+			elif (position - intercept_aim).length() < 150:
+				timerRandomState()
+				intercept_aim = Vector2(0,0)
+			else:
+				walk(motion)
 		State.RETURN:
 			var start_position = world.tilemap.map_to_world(world.start_position_komtur)
 			motion = start_position - position
@@ -63,9 +88,13 @@ func _physics_process(_delta):
 				timerStateChange.start()
 				current_state = State.IDLE
 		State.CHASE:
+			#wrong state if play is null
 			if player == null:
-				timerStateChange.wait_time = 1
-				current_state = rng.randi_range(0,2)
+				timerRandomState()
+			#break off chase after certain distance from castle
+			elif (position - world.tilemap.map_to_world(world.start_position_castle)).length() > 1800:
+				timerRandomState()
+			#actual chase
 			else:
 				motion = position.direction_to(player.position)
 				walk(motion)
@@ -74,11 +103,11 @@ func _physics_process(_delta):
 		State.COOLDOWN:
 			pass
 				
-func walk(motion):
-	animationTree.set("parameters/Walk/BlendSpace2D/blend_position", motion.normalized())
+func walk(motionvec):
+	animationTree.set("parameters/Walk/BlendSpace2D/blend_position", motionvec.normalized())
 	animationState.travel("Walk")
-	motion = motion.normalized() * motion_speed
-	move_and_slide(motion)
+	motionvec = motionvec.normalized() * motion_speed
+	move_and_slide(motionvec)
 	
 func attack():
 	_play_random_sound()
@@ -90,28 +119,25 @@ func attack():
 	current_state = State.COOLDOWN
 	
 func timerRandomState():
-	current_state = rng.randi_range(0,2)
+	current_state = rng.randi_range(0,3)
 	timerStateChange.start(1)
-
-func _on_TimerReturn_timeout():
-	return_counter += 1
+	
+func _on_TimerStateChange_timeout():
 	if current_state == State.COOLDOWN:
 		pass
-	elif return_counter == max_return_counter:
-		timerStateChange.stop()
-		current_state = State.RETURN
-		return_counter = 0
 	else:
 		timerRandomState()
+	#pass # Replace with function body.
 
 func _on_KomturChaseArea_body_entered(body):
 	if player == null and body.name == "Christine":
 		player = body
 		current_state = State.CHASE
 		timerStateChange.stop()
+		intercept_aim = Vector2(0,0)
 
 func _on_KomturChaseArea_body_exited(body):
-	if player != null and body.name == "Christine" and current_state == State.CHASE:
+	if player != null and body.name == "Christine":
 		player = null
 		timerRandomState()
 
@@ -135,16 +161,16 @@ func _on_KomturSFXPlayer_finished():
 	audio.stop()
 
 func _on_TimerCooldown_timeout():
-	if current_state != State.COOLDOWN:
-		pass
-	if player == null:
-		timerRandomState()
-	else:
+	if current_state == State.COOLDOWN:
 		current_state = State.CHASE
+	elif player == null:
+		timerRandomState()
 
 func _on_TimerAttack_timeout():
-	#emit_signal("KomturAttack")
 	animationTree.set("parameters/Idle/BlendSpace2D/blend_position", motion.normalized())
 	animationState.travel("Idle")
 	timerCooldown.wait_time = 5
 	timerCooldown.start()
+
+
+
