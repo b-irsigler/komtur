@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://WorldGenerator.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/floor/komtur_floortiles.tres" type="TileSet" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://scenes/Castle.tscn" type="PackedScene" id=8]
 [ext_resource path="res://scenes/GUI.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/DebugOverlay.tscn" type="PackedScene" id=10]
+[ext_resource path="res://resources/assets/buildings/Chapel_2.png" type="Texture" id=11]
+[ext_resource path="res://Chapel.gd" type="Script" id=12]
 
 [node name="WorldGenerator" type="YSort"]
 position = Vector2( 3, -4 )
@@ -47,6 +49,23 @@ collision_mask = 5
 
 [node name="DerGruene" parent="." instance=ExtResource( 6 )]
 position = Vector2( -199, -88 )
+
+[node name="Chapel" type="StaticBody2D" parent="."]
+position = Vector2( 1219, -291 )
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Chapel"]
+position = Vector2( -9.92896, 59.5 )
+rotation = 0.785398
+polygon = PoolVector2Array( 1.01038, -8.78857, -112.834, 25.8597, -77.4785, -88.6916, 36.3657, -120.511 )
+
+[node name="Sprite" type="Sprite" parent="Chapel"]
+position = Vector2( -2, -79 )
+scale = Vector2( 1.99219, 1.99219 )
+texture = ExtResource( 11 )
 
 [connection signal="NewGame" from="GUI" to="." method="_on_GUI_NewGame"]
 [connection signal="NewGame" from="GUI" to="Christine" method="_on_GUI_NewGame"]

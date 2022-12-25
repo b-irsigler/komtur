@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+signal hasAttacked
+
 onready var world = get_parent()
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
@@ -25,7 +27,7 @@ func _ready():
 	animationTree.set("parameters/Chop/TimeScale/scale",animation_speed)
 
 func _get_debug():
-	return "Pos: %s, St: %s" % [position.round(), State.keys()[current_state]]
+	return "Pos: %s, St: %s, TSC: %f" % [position.round(), State.keys()[current_state], timerStateChange.time_left]
 
 func rng_direction():
 	return rng.randf() - .5
@@ -69,7 +71,9 @@ func attack():
 	current_state = State.COOLDOWN
 	
 func timerRandomState():
-	current_state = rng.randi_range(0,2)
+	var randn = rng.randi_range(0,2)
+	current_state = randn
+	print('blah ', randn)
 	timerStateChange.start(1)
 	
 func isSleeping():
@@ -96,6 +100,7 @@ func _on_AttackArea_Spinne_body_entered(body):
 	animationTree.set("parameters/Chop/BlendSpace2D/blend_position", motion.normalized())
 	if body.name == "Christine":
 		current_state = State.ATTACK
+		emit_signal("hasAttacked")
 
 func _on_AttackArea_Spinne_body_exited(body):
 	pass
@@ -131,4 +136,9 @@ func _on_AttackTimer_timeout():
 	animationState.travel("Idle")
 
 func _on_Christine_DealAccepted():
+	if isSleeping():
+		position = world.tilemap.map_to_world(world.start_position_spinne)
+		scale = Vector2(.3,.3)
+	scale += Vector2(.3,.3)
+	teleport_probability *= 2
 	timerRandomState()

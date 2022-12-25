@@ -7,6 +7,7 @@ signal BeechesExceeded
 signal DealAccepted
 signal DealNotAccepted
 
+onready var world = get_parent()
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
@@ -165,3 +166,8 @@ func updateSpeed():
 
 func _on_DerGruene_DerGrueneConversation(active):
 	is_deal_offered = active
+
+func _on_Spinne_hasAttacked():
+	position = world.tilemap.map_to_world(world.start_position_chapel+Vector2(0,1.5))
+	beech_inventory = 0
+	emit_signal("BeechChopped", beech_inventory, beech_count)

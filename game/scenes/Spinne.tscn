@@ -640,8 +640,6 @@ scale = Vector2( 1.8, 1.8 )
 shape = SubResource( 88 )
 
 [node name="TimerStateChange" type="Timer" parent="."]
-one_shot = true
-autostart = true
 
 [node name="TimerCooldown" type="Timer" parent="."]
 one_shot = true
