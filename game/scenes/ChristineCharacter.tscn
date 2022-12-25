@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/Character.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/ChristineCharacter.gd" type="Script" id=2]
+
+[node name="ChristineCharacter" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="WalkState" parent="StateMachine/State" index="0"]
+animation_name = null
+
+[node name="IdleState" parent="StateMachine/State" index="1"]
+animation_name = null
+
+[node name="JumpState" parent="StateMachine/State" index="2"]
+animation_name = null

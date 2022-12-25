@@ -8,6 +8,40 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node",
+"class": "BaseState",
+"language": "GDScript",
+"path": "res://scenes/State.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Character",
+"language": "GDScript",
+"path": "res://Character.gd"
+}, {
+"base": "BaseState",
+"class": "IdleState",
+"language": "GDScript",
+"path": "res://scenes/IdleState.gd"
+}, {
+"base": "Node",
+"class": "StateManager",
+"language": "GDScript",
+"path": "res://scenes/StateManager.gd"
+}, {
+"base": "BaseState",
+"class": "WalkState",
+"language": "GDScript",
+"path": "res://scenes/WalkState.gd"
+} ]
+_global_script_class_icons={
+"BaseState": "",
+"Character": "",
+"IdleState": "",
+"StateManager": "",
+"WalkState": ""
+}
+
 [application]
 
 config/name="Die Schwarze Spinne"
