@@ -3,6 +3,8 @@ extends Node
 
 onready var world = get_parent()
 onready var tilemap = $"../TileMap_Ground"
+onready var castle = $"../Castle"
+onready var chapel = $"../Chapel"
 
 var temperature = {}
 var moisture = {}
@@ -35,6 +37,8 @@ var object_data = {
 	"map_border" : {"tree_firs": 1}
 }
 
+func _ready():
+	generate_new_game()
 
 func generate_map(per, oct):
 	open_simplex_noise.seed = randi()
@@ -55,7 +59,6 @@ func generate_new_game():
 	set_tile(world.map_width, world.map_height)
 
 
-
 func set_tile(width, height):
 	for x in width:
 		for y in height:
@@ -69,12 +72,12 @@ func set_tile(width, height):
 				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"map_border")])
 				continue
 			
-			if is_close_to_castle(pos, 15):
+			if castle.is_close_to_castle(pos):
 				biome[pos] = "grass"
 				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"grass")])
 				continue
 			
-			if is_close_to_chapel(pos, 5):
+			if chapel.is_close_to_chapel(pos):
 				biome[pos] = "green_grass"
 				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"green_grass")])
 				continue
@@ -122,15 +125,6 @@ func is_border(position, border_width):
 	temp = temp or position.y > world.map_height - border_width
 	return temp
 
-
-func is_close_to_castle(position, radius):
-	return (world.start_position_castle - position).length() < radius
-
-
-func is_close_to_chapel(position, radius):
-	return (world.start_position_chapel - position).length() < radius
-	
-	
 
 func between(val, start, end):
 	if start <= val and val < end:

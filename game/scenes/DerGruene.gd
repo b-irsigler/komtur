@@ -3,53 +3,75 @@ extends KinematicBody2D
 
 signal conversation_started(active)
 
-enum State {IDLE, WALK, NEW_DIRECTION, TALK}
+enum State {IDLE, WALK, NEW_DIRECTION, CONVERSATION, AFTER_CONVERSATION}
 
-const TELEPORT_PROBABILITY = .05
+const TELEPORT_PROBABILITY = .015
 
-var rng = RandomNumberGenerator.new()
+var random_number_generator = RandomNumberGenerator.new()
 var current_state = State.IDLE
-var motion = Vector2(rng_direction(), rng_direction())
+var motion = Vector2.ZERO
+var direction = Vector2(rng_direction(), rng_direction()).normalized()
+var start_position
 
 onready var world = get_parent()
-onready var start_position = Vector2(rand_range(0, world.map_width), rand_range(0, world.map_height))
-onready var animationPlayer = $AnimationPlayer
-onready var animationTree = $AnimationTree
-onready var timerStateChange = $TimerStateChange
-onready var animationState = animationTree.get("parameters/playback")
+onready var tilemap = $"../TileMap_Ground"
+onready var castle = $"../Castle"
+onready var animation_tree = $AnimationTree
+onready var state_change_timer = $StateChangeTimer
+onready var after_conversation_timer = $AfterConversationTimer
+onready var conversation_area = $ConversationArea
+onready var animation_state = animation_tree.get("parameters/playback")
 onready var christine = $"../Christine"
 onready var motion_speed = christine.default_motion_speed * .30
+
+
+func _ready():
+	state_change_timer.connect("timeout", self, "_on_StateChangeTimer_timeout")
+	after_conversation_timer.connect("timeout", self, "_on_AfterConversationTimer_timeout")
+	to_start_position()
 
 
 func _get_debug():
 	return "Pos: %s, St: %s" % [position.round(), State.keys()[current_state]]
 
 
-func rng_direction():
-	return rng.randf() - .5
-
-
 func _physics_process(_delta):
+	motion = motion_speed * direction
+	
+	if conversation_area.overlaps_body(christine):
+		if not current_state == State.AFTER_CONVERSATION:
+			if not current_state == State.CONVERSATION:
+				emit_signal("conversation_started", true)
+				state_change_timer.stop()
+				current_state = State.CONVERSATION
+	
 	match current_state:
 		State.IDLE:
-			animationState.travel("Idle")
+			animation_state.travel("Idle")
 		State.WALK:
-			walk(motion)
+			walk()
 		State.NEW_DIRECTION:
-			motion = Vector2(rng_direction(), rng_direction())
+			direction = Vector2(rng_direction(), rng_direction()).normalized()
 			current_state = State.WALK
-		#Talk is only a one-time-trigger
-		State.TALK:
-			talk()
-			current_state = State.IDLE
+		State.CONVERSATION:
+			conversation()
+			if not conversation_area.overlaps_body(christine):
+				current_state = State.IDLE
+				state_change_timer.start()
+				emit_signal("conversation_started", false)
+		State.AFTER_CONVERSATION:
+			after_conversation()
 
 
-func walk(walk_motion):
-	animationTree.set("parameters/Idle/blend_position", walk_motion.normalized())
-	animationTree.set("parameters/Run/blend_position", walk_motion.normalized())
-	animationState.travel("Run")
-	motion = motion.normalized() * motion_speed
-	move_and_slide(walk_motion)
+func rng_direction():
+	return random_number_generator.randf() - .5
+
+
+func walk():
+	animation_tree.set("parameters/Idle/blend_position", direction)
+	animation_tree.set("parameters/Run/blend_position", direction)
+	animation_state.travel("Run")
+	move_and_slide(motion)
 
 
 func teleport():
@@ -60,41 +82,64 @@ func teleport():
 				clamp(vec.x, -half_size.x, half_size.x),
 				clamp(vec.y, -half_size.y, half_size.y)
 			)
-		if clamped_vec != vec:
+		if clamped_vec != vec and not castle.is_character_close_to_castle(position):
+			print("der gruene tele")
 			position = christine.position + 2 * christine.motion
 
 
-func talk():
-	var direction = christine.position - position
-	animationTree.set("parameters/Idle/blend_position", direction.normalized())
-	animationState.travel("Idle")
-	emit_signal("conversation_started", true)
+func conversation():
+	direction = (christine.position - position).normalized()
+	animation_tree.set("parameters/Idle/blend_position", direction)
+	animation_state.travel("Idle")
 
 
-func _on_Timer_timeout():
-	timerStateChange.wait_time = 1
+func to_start_position():
+	var is_close_to_castle = true
+	while is_close_to_castle:
+		randomize()
+		start_position = Vector2(rand_range(0, world.map_width), rand_range(0, world.map_height))
+		is_close_to_castle = castle.is_close_to_castle(start_position)
+		
+	position = tilemap.map_to_world(start_position)
+
+
+func _on_StateChangeTimer_timeout():
+	state_change_timer.wait_time = 1
 	teleport()
-	current_state = rng.randi_range(0,State.size()-2)
-
-
-func _on_Area2D_body_entered(body):
-	if body.name == "Christine":
-		current_state = State.TALK
-		timerStateChange.stop()
-
-
-func _on_Area2D_body_exited(body):
-	if body.name == "Christine":
-		timerStateChange.start()
-		emit_signal("started_conversation", false)
+	var state_array = [State.IDLE, State.WALK, State.NEW_DIRECTION]
+	state_array.shuffle()
+	current_state = state_array[0]
 
 
 func _on_Christine_deal_accepted():
-	current_state = State.WALK
-	timerStateChange.start()
+	deal_finished()
 
 
 func _on_Christine_deal_denied():
-	current_state = State.WALK
-	timerStateChange.start()
+	deal_finished()
 
+
+func deal_finished():
+	motion_speed *= 3
+	emit_signal("conversation_started", false)
+	current_state = State.AFTER_CONVERSATION
+	direction *= -1
+
+
+func after_conversation():
+	walk()
+	var vec = christine.position - position
+	var half_size = get_viewport().size * 0.5
+	var clamped_vec = Vector2(
+			clamp(vec.x, -half_size.x, half_size.x),
+			clamp(vec.y, -half_size.y, half_size.y)
+		)
+	if clamped_vec != vec:
+		position = Vector2(rand_range(0, world.map_width), rand_range(0, world.map_height))
+		motion_speed /= 3
+		current_state = State.WALK
+		state_change_timer.start(1)
+
+
+func _on_Gui_new_game():
+	to_start_position()

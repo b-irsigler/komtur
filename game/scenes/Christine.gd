@@ -23,10 +23,12 @@ var default_animation_speed = 1.5
 var current_animation_speed = default_animation_speed
 var is_deal_offered = false
 var current_state = State.IDLE
-var dynamic_font = DynamicFont.new()
+#var dynamic_font = DynamicFont.new()
+var life = 10
 
 onready var world = get_parent()
 onready var start_position = Vector2(world.map_width/2 - 3, world.map_height/2 + 3)
+onready var tilemap = $"../TileMap_Ground"
 onready var sprite = $Sprite
 onready var jump_timer = $JumpTimer
 onready var day_timer = $DayTimer
@@ -36,21 +38,17 @@ onready var days_left_label = $DaysLeftLabel
 onready var animation_player = $AnimationPlayer
 onready var animation_tree = $AnimationTree
 onready var animation_state = animation_tree.get("parameters/playback")
-
+onready var chapel = $"../Chapel"
 
 func _get_debug():
-	return "Pos: %s, St: %s" % [position.round(), State.keys()[current_state]]
+	return "Pos: %s, St: %s" % [position.round(), 
+		State.keys()[current_state]]
 
 
 func _ready():
-	dynamic_font.font_data = load("res://resources/fonts/lohengrin.regular.ttf")
-	dynamic_font.size = 32
-	beech_counter_label.add_color_override("default_color", Color(1,.84,0,1))
-	beech_counter_label.add_font_override("normal_font", dynamic_font)
-	days_left_label.add_color_override("default_color", Color(1,.84,0,1))
-	days_left_label.add_font_override("normal_font", dynamic_font)
-	
-	jump_timer.connect("timeout",self,"_on_jump_timer_timeout") 
+	jump_timer.connect("timeout",self,"_on_jump_timer_timeout")
+	position = tilemap.map_to_world(start_position)
+	#to_start_position()
 
 
 func _physics_process(_delta):
@@ -73,14 +71,13 @@ func _physics_process(_delta):
 	if Input.is_action_just_pressed("jump") and current_state != State.JUMP:
 		current_state = State.JUMP
 		jump_timer.start()
-	if Input.is_action_just_pressed("chop"):
+	if Input.is_action_pressed("chop"):
 		current_state = State.CHOP
 
 	if is_deal_offered:
 		if Input.is_action_just_pressed("yes"):
 			emit_signal("deal_accepted")
-			beech_count += 12
-			emit_signal("beech_chopped", beech_inventory, beech_count)
+			update_beech_counters(0, 12)
 			is_deal_offered = false
 		if Input.is_action_just_pressed("no"):
 			emit_signal("deal_denied")
@@ -92,7 +89,7 @@ func _physics_process(_delta):
 		State.WALK:
 			if running:
 				motion *= RUN_MULT
-			walk(motion)
+			walk()
 		State.JUMP:
 			jump()
 		State.CHOP:
@@ -104,10 +101,10 @@ func idle():
 	animation_state.travel("Idle")
 
 
-func walk(walk_motion):
+func walk():
 	animation_tree.set("parameters/Walk/BlendSpace2D/blend_position", direction)
 	animation_state.travel("Walk")
-	move_and_slide(walk_motion)
+	move_and_slide(motion)
 
 
 func jump():
@@ -123,13 +120,22 @@ func chop():
 
 	#This area is for collision layer/mask 2, the same as the one for beeches
 	for body in chop_area.get_overlapping_bodies():
-		if body:
-			if beech_inventory > 4:
-				emit_signal("beech_inventory_exceeded")
-			elif not body.ischopped:
-				beech_inventory += 1
-				emit_signal("beech_chopped", beech_inventory, beech_count)
-				body.chop()
+		if beech_inventory >= 5:
+			emit_signal("beech_inventory_exceeded")
+		elif not body.is_chopped:
+			if body.chop():
+				update_beech_counters(1, 0)
+
+
+func to_start_position():
+	pass
+	#position = tilemap.map_to_world(start_position)
+
+
+func update_beech_counters(beech_inventory_increment, beech_count_increment):
+	beech_inventory += beech_inventory_increment
+	beech_count += beech_count_increment
+	emit_signal("beech_chopped", beech_inventory, beech_count)
 
 
 func _on_jump_timer_timeout():
@@ -140,15 +146,13 @@ func _on_jump_timer_timeout():
 
 func _on_IntAreaCastle_body_entered(body):
 	if body.name == "Castle" and beech_inventory > 0:
-		beech_count += beech_inventory
-		beech_inventory = 0
-		emit_signal("beech_chopped", beech_inventory, beech_count)
+		update_beech_counters(-beech_inventory, beech_inventory)
 
 
-func _on_gui_new_game():
-	beech_count = 0
-	beech_inventory = 0
-	emit_signal("beech_chopped", beech_inventory, beech_count)
+func _on_Gui_new_game():
+	pass
+	#update_beech_counters(-beech_inventory, -beech_count)
+	#to_start_position()
 
 
 func update_speed():
@@ -156,9 +160,9 @@ func update_speed():
 		default_animation_speed += .1
 	if Input.is_action_just_pressed("decrease_animation_speed"):
 		default_animation_speed -= .1
-	animation_tree.set("parameters/Walk/TimeScale/scale",default_animation_speed)
-	animation_tree.set("parameters/Idle/TimeScale/scale",default_animation_speed)
-	animation_tree.set("parameters/Chop/TimeScale/scale",default_animation_speed)
+	animation_tree.set("parameters/Walk/TimeScale/scale", default_animation_speed)
+	animation_tree.set("parameters/Idle/TimeScale/scale", default_animation_speed)
+	animation_tree.set("parameters/Chop/TimeScale/scale", default_animation_speed)
 	
 	if Input.is_action_just_pressed("increase_motion_speed"):
 		default_motion_speed += 5
@@ -173,8 +177,11 @@ func _on_DerGruene_conversation_started(active):
 	is_deal_offered = active
 
 
-func _on_Spinne_attacked():
-	position = world.tilemap.map_to_world(world.start_position_chapel+Vector2(0,1.5))
-	beech_inventory = 0
-	emit_signal("beech_chopped", beech_inventory, beech_count)
+func _on_Spinne_has_attacked(damage):
+	if life <= 0:
+		position = chapel.position + world.tilemap.map_to_world(Vector2(0,1.5))
+		update_beech_counters(-beech_inventory, 0)
+		life = 10
+	else:
+		life -= damage
 

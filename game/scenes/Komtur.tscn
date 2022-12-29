@@ -443,6 +443,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="CircleShape2D" id=88]
+radius = 6.37225
 
 [sub_resource type="CircleShape2D" id=89]
 
@@ -710,4 +711,3 @@ one_shot = true
 [connection signal="body_exited" from="KomturChaseArea" to="." method="_on_KomturChaseArea_body_exited"]
 [connection signal="body_entered" from="KomturAttackArea" to="." method="_on_KomturAttackArea_body_entered"]
 [connection signal="body_exited" from="KomturAttackArea" to="." method="_on_KomturAttackArea_body_exited"]
-[connection signal="timeout" from="AttackTimer" to="." method="_on_TimerAttack_timeout"]

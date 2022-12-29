@@ -39,5 +39,6 @@ func _on_ButtonExit_pressed():
 
 
 func _on_ButtonNew_pressed():
+	print("_on_ButtonNew_pressed() Menu")
 	emit_signal("new_game")
 	self.is_paused = false

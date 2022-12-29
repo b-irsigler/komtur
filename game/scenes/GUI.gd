@@ -17,7 +17,7 @@ onready var castle_indicator = $CastleIndicator
 
 
 func _ready():
-	menu.connect("new_game",self,"_on_menu_new_game") 
+	menu.connect("new_game",self,"_on_Menu_new_game") 
 	game_timer.start(total_time_seconds)
 	total_time_seconds_per_30_days = total_time_seconds / 30
 	label_time.text = "noch %s Tage" % timer_to_days(game_timer.time_left)
@@ -53,6 +53,7 @@ func update_castle_indicator():
 
 
 func _on_Menu_new_game():
+	print("_on_Menu_new_game GUI")
 	emit_signal("new_game")
 	game_timer.start(total_time_seconds)
 
@@ -72,6 +73,7 @@ func _on_DerGruene_conversation_started(active):
 	popup.visible = active
 	if active:
 		popup.show_popup("Versprecht ihr ein ungetauftes Kind fuer ein Dutzend Buchen? (y/n)")
+
 
 func _on_Christine_deal_accepted():
 	popup.visible = false

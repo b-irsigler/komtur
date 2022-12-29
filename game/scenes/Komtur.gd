@@ -18,6 +18,7 @@ var intercept_aim = Vector2(0,0)
 
 onready var world = get_parent()
 onready var start_position = Vector2(world.map_width/2, world.map_height/2 - 1)
+onready var tilemap = $"../TileMap_Ground"
 onready var state_change_timer = $StateChangeTimer
 onready var cooldown_timer = $CooldownTimer
 onready var attack_timer = $AttackTimer
@@ -32,6 +33,7 @@ onready var sound_4 = preload("res://resources/assets/sfx/komtur_attack4.mp3")
 onready var animation_player = $AnimationPlayer
 onready var animation_tree = $AnimationTree
 onready var animation_state = animation_tree.get("parameters/playback")
+onready var castle = $"../Castle"
 
 
 func _ready():
@@ -41,6 +43,8 @@ func _ready():
 	animation_tree.set("parameters/Walk/TimeScale/scale",animation_speed)
 	animation_tree.set("parameters/Idle/TimeScale/scale",animation_speed)
 	animation_tree.set("parameters/Chop/TimeScale/scale",animation_speed)
+	attack_timer.connect("timeout", self, "_on_attack_timer_timeout")
+	to_start_position()
 
 
 func _get_debug():
@@ -67,12 +71,12 @@ func _physics_process(_delta):
 			#result: Christine staying still will result in Komtur finding her
 			state_change_timer.stop()
 			if intercept_aim.length() == 0:
-				var ChristineToCastle = christine.position - world.tilemap.map_to_world(world.start_position_castle)
+				var ChristineToCastle = christine.position - castle.position
 				if  ChristineToCastle.length() < INTERCEPT_RADIUS:
 					intercept_aim = christine.position
 					motion = position.direction_to(christine.position)
 				else:
-					intercept_aim = ChristineToCastle.normalized()*INTERCEPT_RADIUS + world.tilemap.map_to_world(world.start_position_castle)
+					intercept_aim = ChristineToCastle.normalized()*INTERCEPT_RADIUS + castle.position
 					motion = position.direction_to(intercept_aim)
 				#start timer so if Komtur gets stuck, he will do something else after some time
 				cooldown_timer.start(10)
@@ -94,7 +98,7 @@ func _physics_process(_delta):
 			if player == null:
 				timerRandomState()
 			#break off chase after certain distance from castle
-			elif (position - world.tilemap.map_to_world(world.start_position_castle)).length() > 1800:
+			elif (position - castle.position).length() > 1800:
 				timerRandomState()
 			#actual chase
 			else:
@@ -127,7 +131,11 @@ func timerRandomState():
 	current_state = random_number_generator.randi_range(0,3)
 	state_change_timer.start(1)
 
-	
+
+func to_start_position():
+	position = tilemap.map_to_world(start_position)
+
+
 func _on_TimerStateChange_timeout():
 	if current_state == State.COOLDOWN:
 		pass
@@ -153,6 +161,7 @@ func _on_KomturChaseArea_body_exited(body):
 func _on_KomturAttackArea_body_entered(body):
 	if body.name == "Christine":
 		current_state = State.ATTACK
+		christine.default_motion_speed /= 2
 
 
 func _on_KomturAttackArea_body_exited(_body):
@@ -185,4 +194,8 @@ func _on_attack_timer_timeout():
 	animation_state.travel("Idle")
 	cooldown_timer.wait_time = 5
 	cooldown_timer.start()
+	christine.default_motion_speed *= 2
 
+
+func _on_Gui_new_game():
+	to_start_position()
