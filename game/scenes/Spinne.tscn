@@ -710,6 +710,8 @@ parameters/Walk/TimeScale/scale = 1.0
 [node name="AttackTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="RayCast2D" type="RayCast2D" parent="."]
+
 [connection signal="timeout" from="StateChangeTimer" to="." method="_on_TimerStateChange_timeout"]
 [connection signal="timeout" from="CooldownTimer" to="." method="_on_TimerCooldown_timeout"]
 [connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]

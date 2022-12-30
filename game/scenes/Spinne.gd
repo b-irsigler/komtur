@@ -27,6 +27,7 @@ onready var animation_state = animation_tree.get("parameters/playback")
 onready var christine = $"../Christine"
 onready var motion_speed = christine.default_motion_speed * .75
 onready var animation_speed = christine.default_animation_speed * .75
+onready var raycast = $RayCast2D
 
 
 func _ready():
@@ -45,6 +46,11 @@ func rng_direction():
 
 func _physics_process(_delta):
 	motion = direction * motion_speed
+	
+	raycast.cast_to = 100 * motion.normalized()
+	if raycast.is_colliding():
+		if raycast.get_collider() != christine:
+			State.NEW_DIRECTION
 	
 	if chase_area.overlaps_body(christine):
 		if current_state != State.CHASE:

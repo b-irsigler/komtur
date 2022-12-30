@@ -704,6 +704,9 @@ parameters/Walk/TimeScale/scale = 1.0
 [node name="AttackTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="RayCast2D" type="RayCast2D" parent="."]
+enabled = true
+
 [connection signal="timeout" from="StateChangeTimer" to="." method="_on_TimerStateChange_timeout"]
 [connection signal="finished" from="KomturSFXPlayer" to="." method="_on_KomturSFXPlayer_finished"]
 [connection signal="timeout" from="CooldownTimer" to="." method="_on_TimerCooldown_timeout"]

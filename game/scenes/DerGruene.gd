@@ -23,7 +23,7 @@ onready var conversation_area = $ConversationArea
 onready var animation_state = animation_tree.get("parameters/playback")
 onready var christine = $"../Christine"
 onready var motion_speed = christine.default_motion_speed * .30
-
+onready var raycast = $RayCast2D
 
 func _ready():
 	state_change_timer.connect("timeout", self, "_on_StateChangeTimer_timeout")
@@ -37,6 +37,11 @@ func _get_debug():
 
 func _physics_process(_delta):
 	motion = motion_speed * direction
+	
+	raycast.cast_to = 100 * motion.normalized()
+	if raycast.is_colliding():
+		if raycast.get_collider() != christine:
+			State.NEW_DIRECTION
 	
 	if conversation_area.overlaps_body(christine):
 		if not current_state == State.AFTER_CONVERSATION:

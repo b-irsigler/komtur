@@ -613,3 +613,5 @@ shape = SubResource( 89 )
 
 [node name="AfterConversationTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="RayCast2D" type="RayCast2D" parent="."]

@@ -34,6 +34,7 @@ onready var animation_player = $AnimationPlayer
 onready var animation_tree = $AnimationTree
 onready var animation_state = animation_tree.get("parameters/playback")
 onready var castle = $"../Castle"
+onready var raycast = $RayCast2D
 
 
 func _ready():
@@ -48,7 +49,7 @@ func _ready():
 
 
 func _get_debug():
-	return "Pos: %s, St: %s, Aim: %s" % [position.round(), State.keys()[current_state], intercept_aim.round()]
+	return "Pos: %s, St: %s, is_colliding: %s" % [position.round(), State.keys()[current_state], raycast.is_colliding()]
 
 
 func rng_direction():
@@ -56,6 +57,10 @@ func rng_direction():
 
 
 func _physics_process(_delta):
+	raycast.cast_to = 100 * motion.normalized()
+	if raycast.is_colliding():
+		if raycast.get_collider() != christine:
+			State.NEW_DIRECTION
 	match current_state:
 		State.IDLE:
 			animation_state.travel("Idle")

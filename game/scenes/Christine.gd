@@ -40,15 +40,14 @@ onready var animation_tree = $AnimationTree
 onready var animation_state = animation_tree.get("parameters/playback")
 onready var chapel = $"../Chapel"
 
+
 func _get_debug():
-	return "Pos: %s, St: %s" % [position.round(), 
-		State.keys()[current_state]]
+	return "Pos: %s, St: %s" % [position.round(), State.keys()[current_state]]
 
 
 func _ready():
 	jump_timer.connect("timeout",self,"_on_jump_timer_timeout")
 	position = tilemap.map_to_world(start_position)
-	#to_start_position()
 
 
 func _physics_process(_delta):
