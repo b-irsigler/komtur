@@ -88,7 +88,6 @@ func teleport():
 				clamp(vec.y, -half_size.y, half_size.y)
 			)
 		if clamped_vec != vec and not castle.is_character_close_to_castle(position):
-			print("der gruene tele")
 			position = christine.position + 2 * christine.motion
 
 

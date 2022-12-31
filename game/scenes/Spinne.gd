@@ -137,7 +137,6 @@ func teleport():
 				clamp(vec.y, -half_size.y, half_size.y)
 			)
 		if clamped_vec != vec:
-			print("spinne tele")
 			position = christine.position + 2 * christine.motion
 
 

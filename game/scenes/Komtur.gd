@@ -124,7 +124,7 @@ func walk(walk_motion):
 
 func attack():
 	_play_random_sound()
-	attack_timer.start(.6)
+	attack_timer.start(1)
 	animation_tree.set("parameters/Chop/BlendSpace2D/blend_position", motion.normalized())
 	animation_state.travel("Chop")
 	emit_signal("KomturAttack")
