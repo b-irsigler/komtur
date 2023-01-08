@@ -33,7 +33,7 @@ theme = ExtResource( 3 )
 text = "Zeit:"
 align = 2
 
-[node name="30Tage" type="Timer" parent="."]
+[node name="GameTimer" type="Timer" parent="."]
 wait_time = 30.0
 one_shot = true
 
@@ -66,5 +66,3 @@ margin_bottom = 135.0
 rect_scale = Vector2( 0.5, 0.5 )
 theme = ExtResource( 3 )
 text = "S"
-
-[connection signal="NewGame" from="Menu" to="." method="_on_Menu_NewGame"]

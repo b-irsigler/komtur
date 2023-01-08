@@ -1,0 +1,6 @@
+class_name Character extends KinematicBody2D
+
+
+onready var animation_player = $AnimationPlayer
+onready var animation_tree = $AnimationTree
+onready var animation_state = animation_tree.get("parameters/playback")
