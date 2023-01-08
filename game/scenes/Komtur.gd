@@ -45,7 +45,7 @@ func _ready():
 	animation_tree.set("parameters/Idle/TimeScale/scale",animation_speed)
 	animation_tree.set("parameters/Chop/TimeScale/scale",animation_speed)
 	attack_timer.connect("timeout", self, "_on_attack_timer_timeout")
-	to_start_position()
+	position = tilemap.map_to_world(start_position)
 
 
 func _get_debug():
@@ -137,10 +137,6 @@ func timerRandomState():
 	state_change_timer.start(1)
 
 
-func to_start_position():
-	position = tilemap.map_to_world(start_position)
-
-
 func _on_TimerStateChange_timeout():
 	if current_state == State.COOLDOWN:
 		pass
@@ -195,6 +191,3 @@ func _on_attack_timer_timeout():
 	cooldown_timer.start()
 	christine.default_motion_speed *= 2
 
-
-func _on_Gui_new_game():
-	to_start_position()

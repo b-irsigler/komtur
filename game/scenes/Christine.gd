@@ -38,10 +38,12 @@ onready var animation_player = $AnimationPlayer
 onready var animation_tree = $AnimationTree
 onready var animation_state = animation_tree.get("parameters/playback")
 onready var chapel = $"../Chapel"
+onready var castle = $"../Castle"
 
 
 func _get_debug():
-	return "Pos: %s, St: %s" % [position.round(), State.keys()[current_state]]
+	return "Pos: %s, St: %s, is_on_berhegen: %s" % [position.round(), 
+		State.keys()[current_state], castle.is_on_berhegen(position,1000)]
 
 
 func _ready():

@@ -32,19 +32,19 @@ format = 1
 position = Vector2( 109, -148 )
 
 [node name="Christine" parent="." instance=ExtResource( 4 )]
-position = Vector2( -3, 4 )
+position = Vector2( -384, 6400 )
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Komtur" parent="." instance=ExtResource( 5 )]
-position = Vector2( 326, 244 )
+position = Vector2( 64, 6368 )
 
 [node name="Spinne" parent="." instance=ExtResource( 7 )]
 position = Vector2( -427, -427 )
 
 [node name="Castle" parent="." instance=ExtResource( 8 )]
-position = Vector2( 426, -60 )
+position = Vector2( 256, 6144 )
 collision_layer = 5
 collision_mask = 5
 script = ExtResource( 14 )
