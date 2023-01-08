@@ -60,7 +60,7 @@ func _physics_process(_delta):
 	raycast.cast_to = 100 * motion.normalized()
 	if raycast.is_colliding():
 		if raycast.get_collider() != christine:
-			State.NEW_DIRECTION
+			current_state = State.NEW_DIRECTION
 	match current_state:
 		State.IDLE:
 			animation_state.travel("Idle")
@@ -167,12 +167,6 @@ func _on_KomturAttackArea_body_entered(body):
 	if body.name == "Christine":
 		current_state = State.ATTACK
 		christine.default_motion_speed /= 2
-
-
-func _on_KomturAttackArea_body_exited(_body):
-	pass
-	#if body.name == "Christine" and current_state != State.COOLDOWN:
-	#	current_state = State.CHASE
 
 
 func _play_random_sound():

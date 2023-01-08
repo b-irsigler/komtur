@@ -21,10 +21,6 @@ onready var tilemap = $TileMap_Ground
 
 func _ready():
 	gui.connect("new_game", self, "_on_Gui_new_game")
-	gui.connect("new_game", christine, "_on_Gui_new_game")
-	gui.connect("new_game", der_gruene, "_on_Gui_new_game")
-	gui.connect("new_game", komtur, "_on_Gui_new_game")
-	gui.connect("new_game", spinne, "_on_Gui_new_game")
 	christine.connect("beech_inventory_exceeded", gui, "_on_Christine_beech_inventory_exceeded")
 	christine.connect("beech_chopped", gui, "_on_Christine_beech_chopped")
 	christine.connect("deal_accepted", der_gruene, "_on_Christine_deal_accepted")
@@ -34,7 +30,6 @@ func _ready():
 	der_gruene.connect("conversation_started", gui, "_on_DerGruene_conversation_started")
 	der_gruene.connect("conversation_started", christine, "_on_DerGruene_conversation_started")
 	spinne.connect("has_attacked", christine, "_on_Spinne_has_attacked")
-	#start_new_game()
 	debug.add_stat("Christine", christine, "_get_debug", true)
 	debug.add_stat("Komtur", komtur, "_get_debug", true)
 	debug.add_stat("Spinne", spinne, "_get_debug", true)

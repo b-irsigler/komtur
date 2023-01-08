@@ -713,4 +713,3 @@ enabled = true
 [connection signal="body_entered" from="KomturChaseArea" to="." method="_on_KomturChaseArea_body_entered"]
 [connection signal="body_exited" from="KomturChaseArea" to="." method="_on_KomturChaseArea_body_exited"]
 [connection signal="body_entered" from="KomturAttackArea" to="." method="_on_KomturAttackArea_body_entered"]
-[connection signal="body_exited" from="KomturAttackArea" to="." method="_on_KomturAttackArea_body_exited"]

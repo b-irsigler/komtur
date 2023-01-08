@@ -23,7 +23,6 @@ var default_animation_speed = 1.5
 var current_animation_speed = default_animation_speed
 var is_deal_offered = false
 var current_state = State.IDLE
-#var dynamic_font = DynamicFont.new()
 var life = 10
 
 onready var world = get_parent()
@@ -126,11 +125,6 @@ func chop():
 				update_beech_counters(1, 0)
 
 
-func to_start_position():
-	pass
-	#position = tilemap.map_to_world(start_position)
-
-
 func update_beech_counters(beech_inventory_increment, beech_count_increment):
 	beech_inventory += beech_inventory_increment
 	beech_count += beech_count_increment
@@ -146,12 +140,6 @@ func _on_jump_timer_timeout():
 func _on_IntAreaCastle_body_entered(body):
 	if body.name == "Castle" and beech_inventory > 0:
 		update_beech_counters(-beech_inventory, beech_inventory)
-
-
-func _on_Gui_new_game():
-	pass
-	#update_beech_counters(-beech_inventory, -beech_count)
-	#to_start_position()
 
 
 func update_speed():

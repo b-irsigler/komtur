@@ -41,7 +41,7 @@ func _physics_process(_delta):
 	raycast.cast_to = 100 * motion.normalized()
 	if raycast.is_colliding():
 		if raycast.get_collider() != christine:
-			State.NEW_DIRECTION
+			current_state = State.NEW_DIRECTION
 	
 	if conversation_area.overlaps_body(christine):
 		if not current_state == State.AFTER_CONVERSATION:
