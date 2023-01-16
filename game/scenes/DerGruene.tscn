@@ -572,7 +572,7 @@ parameters/Idle/blend_position = Vector2( -0.0168067, 0.586207 )
 parameters/Run/blend_position = Vector2( -0.00172412, 0.0722544 )
 parameters/stop/blend_position = Vector2( 0, 0 )
 
-[node name="TimerStateChange" type="Timer" parent="."]
+[node name="StateChangeTimer" type="Timer" parent="."]
 autostart = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -606,11 +606,12 @@ anims/RunUp = SubResource( 69 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 70 )
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="ConversationArea" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ConversationArea"]
 shape = SubResource( 89 )
 
-[connection signal="timeout" from="TimerStateChange" to="." method="_on_Timer_timeout"]
-[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
+[node name="AfterConversationTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
