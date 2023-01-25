@@ -107,7 +107,7 @@ func is_sleeping():
 
 func _on_VisibilityNotifier2D_screen_entered():
 	music.volume_db = 0
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("bg music"), -16)
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("bg music"), -24)
 
 
 func _on_VisibilityNotifier2D_screen_exited():
