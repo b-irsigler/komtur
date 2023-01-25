@@ -1,6 +1,6 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://WorldGenerator.gd" type="Script" id=1]
+[ext_resource path="res://scenes/World.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/floor/komtur_floortiles.tres" type="TileSet" id=2]
 [ext_resource path="res://scenes/tree_beech.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/christine.tscn" type="PackedScene" id=4]
@@ -10,9 +10,11 @@
 [ext_resource path="res://scenes/Castle.tscn" type="PackedScene" id=8]
 [ext_resource path="res://scenes/GUI.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/DebugOverlay.tscn" type="PackedScene" id=10]
-[ext_resource path="res://resources/assets/music/DSS_MainTheme_pt1.mp3" type="AudioStream" id=11]
+[ext_resource path="res://scenes/Chapel.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scenes/WorldGen.gd" type="Script" id=13]
+[ext_resource path="res://scenes/Castle.gd" type="Script" id=14]
 
-[node name="WorldGenerator" type="YSort"]
+[node name="World" type="YSort"]
 position = Vector2( 3, -4 )
 script = ExtResource( 1 )
 
@@ -26,38 +28,31 @@ tile_set = ExtResource( 2 )
 cell_size = Vector2( 128, 64 )
 format = 1
 
+[node name="Beech" parent="." instance=ExtResource( 3 )]
+position = Vector2( 109, -148 )
+
 [node name="Christine" parent="." instance=ExtResource( 4 )]
-position = Vector2( -3, 4 )
+position = Vector2( -384, 6400 )
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Komtur" parent="." instance=ExtResource( 5 )]
-position = Vector2( 326, 244 )
+position = Vector2( 64, 6368 )
 
 [node name="Spinne" parent="." instance=ExtResource( 7 )]
 position = Vector2( -427, -427 )
 
-[node name="Beech" parent="." instance=ExtResource( 3 )]
-position = Vector2( 109, -148 )
-
 [node name="Castle" parent="." instance=ExtResource( 8 )]
-position = Vector2( 426, -60 )
+position = Vector2( 256, 6144 )
 collision_layer = 5
 collision_mask = 5
+script = ExtResource( 14 )
 
 [node name="DerGruene" parent="." instance=ExtResource( 6 )]
 position = Vector2( -199, -88 )
 
-[node name="AudioPlayer_MainTheme" type="AudioStreamPlayer" parent="."]
-pause_mode = 2
-stream = ExtResource( 11 )
-volume_db = -7.0
-autoplay = true
-bus = "bg music"
+[node name="Chapel" parent="." instance=ExtResource( 11 )]
 
-[connection signal="NewGame" from="GUI" to="." method="_on_GUI_NewGame"]
-[connection signal="NewGame" from="GUI" to="Christine" method="_on_GUI_NewGame"]
-[connection signal="BeechChopped" from="Christine" to="GUI" method="_on_Christine_BeechChopped"]
-[connection signal="BeechesExceeded" from="Christine" to="GUI" method="_on_Christine_BeechesExceeded"]
-[connection signal="KomturAttack" from="Komtur" to="GUI" method="_on_Komtur_KomturAttack"]
+[node name="WorldGen" type="Node" parent="."]
+script = ExtResource( 13 )

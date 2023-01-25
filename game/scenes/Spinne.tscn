@@ -444,7 +444,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="CircleShape2D" id=89]
-radius = 465.155
+radius = 228.84
 
 [sub_resource type="CircleShape2D" id=90]
 radius = 60.0
@@ -639,11 +639,9 @@ rotation = 1.5708
 scale = Vector2( 1.8, 1.8 )
 shape = SubResource( 88 )
 
-[node name="TimerStateChange" type="Timer" parent="."]
-one_shot = true
-autostart = true
+[node name="StateChangeTimer" type="Timer" parent="."]
 
-[node name="TimerCooldown" type="Timer" parent="."]
+[node name="CooldownTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -684,16 +682,16 @@ bus = "npc music"
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
-[node name="ChaseArea_Spinne" type="Area2D" parent="."]
+[node name="ChaseArea" type="Area2D" parent="."]
 visible = false
 
-[node name="ChaseShape_Spinne" type="CollisionShape2D" parent="ChaseArea_Spinne"]
+[node name="ChaseShape" type="CollisionShape2D" parent="ChaseArea"]
 shape = SubResource( 89 )
 
-[node name="AttackArea_Spinne" type="Area2D" parent="."]
+[node name="AttackArea" type="Area2D" parent="."]
 visible = false
 
-[node name="AttackShape_Spinne" type="CollisionShape2D" parent="AttackArea_Spinne"]
+[node name="AttackShape" type="CollisionShape2D" parent="AttackArea"]
 shape = SubResource( 90 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
@@ -709,15 +707,12 @@ parameters/Stop/blend_position = Vector2( 0, 0 )
 parameters/Walk/BlendSpace2D/blend_position = Vector2( 0, 0 )
 parameters/Walk/TimeScale/scale = 1.0
 
-[node name="TimerAttack" type="Timer" parent="."]
+[node name="AttackTimer" type="Timer" parent="."]
 one_shot = true
 
-[connection signal="timeout" from="TimerStateChange" to="." method="_on_TimerStateChange_timeout"]
-[connection signal="timeout" from="TimerCooldown" to="." method="_on_TimerCooldown_timeout"]
+[node name="RayCast2D" type="RayCast2D" parent="."]
+
+[connection signal="timeout" from="StateChangeTimer" to="." method="_on_TimerStateChange_timeout"]
+[connection signal="timeout" from="CooldownTimer" to="." method="_on_TimerCooldown_timeout"]
 [connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
-[connection signal="body_entered" from="ChaseArea_Spinne" to="." method="_on_ChaseArea_Spinne_body_entered"]
-[connection signal="body_exited" from="ChaseArea_Spinne" to="." method="_on_ChaseArea_Spinne_body_exited"]
-[connection signal="body_entered" from="AttackArea_Spinne" to="." method="_on_AttackArea_Spinne_body_entered"]
-[connection signal="body_exited" from="AttackArea_Spinne" to="." method="_on_AttackArea_Spinne_body_exited"]
-[connection signal="timeout" from="TimerAttack" to="." method="_on_AttackTimer_timeout"]
