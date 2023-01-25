@@ -55,7 +55,7 @@ position = Vector2( -199, -88 )
 
 [node name="Chapel" parent="." instance=ExtResource( 11 )]
 
-[node name="WorldGen" type="Node" parent="."]
+[node name="WorldGen" type="YSort" parent="."]
 script = ExtResource( 13 )
 
 [node name="AudioPlayer_MainTheme" type="AudioStreamPlayer" parent="."]
