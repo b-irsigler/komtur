@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/gruene_laugh.mp3-83c41a3c8efc71ba95dd5e642b34974c.mp3str"
+
+[deps]
+
+source_file="res://resources/assets/sfx/gruene_laugh.mp3"
+dest_files=[ "res://.import/gruene_laugh.mp3-83c41a3c8efc71ba95dd5e642b34974c.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

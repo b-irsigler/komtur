@@ -126,6 +126,8 @@ func _on_Christine_deal_denied():
 
 
 func deal_finished():
+	$GrueneSpeechAudioPlayer.stop()
+	$GrueneLaughSFXPlayer.play()
 	motion_speed *= 3
 	emit_signal("conversation_started", false)
 	current_state = State.AFTER_CONVERSATION
