@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/christine_death.mp3-af17531db3097e31a17cf34d122e1cd8.mp3str"
+
+[deps]
+
+source_file="res://resources/assets/sfx/christine_death.mp3"
+dest_files=[ "res://.import/christine_death.mp3-af17531db3097e31a17cf34d122e1cd8.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

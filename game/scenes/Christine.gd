@@ -168,6 +168,7 @@ func _on_DerGruene_conversation_started(active):
 
 func _on_Spinne_has_attacked(damage):
 	if life <= 0:
+		$ChristineSFXAudioPlayer.play()
 		position = chapel.position + world.tilemap.map_to_world(Vector2(0,1.5))
 		update_beech_counters(-beech_inventory, 0)
 		life = 10

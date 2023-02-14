@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/spinne_noise.mp3-8b59214bd1cb8ab56ec0493e786b600b.mp3str"
+
+[deps]
+
+source_file="res://resources/assets/music/spinne_noise.mp3"
+dest_files=[ "res://.import/spinne_noise.mp3-8b59214bd1cb8ab56ec0493e786b600b.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
