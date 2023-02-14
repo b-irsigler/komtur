@@ -106,11 +106,15 @@ func is_sleeping():
 
 
 func _on_VisibilityNotifier2D_screen_entered():
-	music.volume_db = 0
+	return
+	#music.volume_db = 0
+	#AudioServer.set_bus_volume_db(AudioServer.get_bus_index("bg music"), -24)
 
 
 func _on_VisibilityNotifier2D_screen_exited():
-	music.volume_db = -5
+	return
+	#music.volume_db = -5
+	#AudioServer.set_bus_volume_db(AudioServer.get_bus_index("bg music"), -8)
 
 
 func _on_TimerCooldown_timeout():

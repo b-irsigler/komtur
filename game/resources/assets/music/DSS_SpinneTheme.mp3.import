@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/DSS_SpinneTheme.mp3-dd1bc5c05ad56032ca8cc20d6a8bcdc1.mp3str"
+
+[deps]
+
+source_file="res://resources/assets/music/DSS_SpinneTheme.mp3"
+dest_files=[ "res://.import/DSS_SpinneTheme.mp3-dd1bc5c05ad56032ca8cc20d6a8bcdc1.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

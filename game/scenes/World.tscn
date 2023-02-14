@@ -1,9 +1,9 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://scenes/World.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/floor/komtur_floortiles.tres" type="TileSet" id=2]
 [ext_resource path="res://scenes/tree_beech.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scenes/christine.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/Christine.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/Komtur.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/DerGruene.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/Spinne.tscn" type="PackedScene" id=7]
@@ -11,6 +11,7 @@
 [ext_resource path="res://scenes/GUI.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/DebugOverlay.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scenes/Chapel.tscn" type="PackedScene" id=11]
+[ext_resource path="res://resources/assets/music/DSS_MainTheme_pt1.mp3" type="AudioStream" id=12]
 [ext_resource path="res://scenes/WorldGen.gd" type="Script" id=13]
 [ext_resource path="res://scenes/Castle.gd" type="Script" id=14]
 
@@ -56,3 +57,9 @@ position = Vector2( -199, -88 )
 
 [node name="WorldGen" type="YSort" parent="."]
 script = ExtResource( 13 )
+
+[node name="AudioPlayer_MainTheme" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 12 )
+volume_db = -12.0
+autoplay = true
+bus = "bg music"

@@ -72,6 +72,8 @@ func _physics_process(_delta):
 		current_state = State.JUMP
 		jump_timer.start()
 	if Input.is_action_pressed("chop"):
+		if not $DigSFXPlayer.playing and chop_area.get_overlapping_bodies().size() > 0:
+			$DigSFXPlayer.play()
 		current_state = State.CHOP
 
 	if is_deal_offered:
@@ -122,9 +124,12 @@ func chop():
 	for body in chop_area.get_overlapping_bodies():
 		if beech_inventory >= 5:
 			emit_signal("beech_inventory_exceeded")
+			$DigSFXPlayer.stop()
 		elif not body.is_chopped:
 			if body.chop():
 				update_beech_counters(1, 0)
+				$DigSFXPlayer.stop()
+				$TreeFallingSFXPlayer.play()
 
 
 func update_beech_counters(beech_inventory_increment, beech_count_increment):
@@ -168,6 +173,7 @@ func _on_DerGruene_conversation_started(active):
 
 func _on_Spinne_has_attacked(damage):
 	if life <= 0:
+		$DeathSFXPlayer.play()
 		position = chapel.position + world.tilemap.map_to_world(Vector2(0,1.5))
 		update_beech_counters(-beech_inventory, 0)
 		life = 10

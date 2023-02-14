@@ -47,6 +47,7 @@ func _physics_process(_delta):
 		if not current_state == State.AFTER_CONVERSATION:
 			if not current_state == State.CONVERSATION:
 				emit_signal("conversation_started", true)
+				$GrueneSpeechAudioPlayer.play()
 				state_change_timer.stop()
 				current_state = State.CONVERSATION
 	
@@ -64,6 +65,7 @@ func _physics_process(_delta):
 				current_state = State.IDLE
 				state_change_timer.start()
 				emit_signal("conversation_started", false)
+				$GrueneSpeechAudioPlayer.stop()
 		State.AFTER_CONVERSATION:
 			after_conversation()
 

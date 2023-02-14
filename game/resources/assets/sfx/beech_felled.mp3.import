@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/beech_felled.mp3-0c5797d461529b9ee15385aa30af4ec6.mp3str"
+
+[deps]
+
+source_file="res://resources/assets/sfx/beech_felled.mp3"
+dest_files=[ "res://.import/beech_felled.mp3-0c5797d461529b9ee15385aa30af4ec6.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

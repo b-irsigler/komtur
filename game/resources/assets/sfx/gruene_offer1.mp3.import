@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/gruene_offer1.mp3-a33601d7beef7d1dabb0c0828385e71d.mp3str"
+
+[deps]
+
+source_file="res://resources/assets/sfx/gruene_offer1.mp3"
+dest_files=[ "res://.import/gruene_offer1.mp3-a33601d7beef7d1dabb0c0828385e71d.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
