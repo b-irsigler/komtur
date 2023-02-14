@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/christine_digging.mp3-05c1e3b879e695bead08b0c5bc09bfe3.mp3str"
+
+[deps]
+
+source_file="res://resources/assets/sfx/christine_digging.mp3"
+dest_files=[ "res://.import/christine_digging.mp3-05c1e3b879e695bead08b0c5bc09bfe3.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
