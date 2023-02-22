@@ -24,6 +24,8 @@ onready var animation_state = animation_tree.get("parameters/playback")
 onready var christine = $"../Christine"
 onready var motion_speed = christine.default_motion_speed * .30
 onready var raycast = $RayCast2D
+onready var teleport_animation = $GrueneTeleportAnimation
+onready var fx_tween = $FxTween
 
 func _ready():
 	state_change_timer.connect("timeout", self, "_on_StateChangeTimer_timeout")
@@ -45,7 +47,7 @@ func _physics_process(_delta):
 	
 	if conversation_area.overlaps_body(christine):
 		if not current_state == State.AFTER_CONVERSATION:
-			if not current_state == State.CONVERSATION:
+			if not current_state == State.CONVERSATION and after_conversation_timer.is_stopped():
 				emit_signal("conversation_started", true)
 				$GrueneSpeechAudioPlayer.play()
 				state_change_timer.stop()
@@ -92,12 +94,10 @@ func teleport():
 		if clamped_vec != vec and not castle.is_character_close_to_castle(position):
 			position = christine.position + 2 * christine.motion
 
-
 func conversation():
 	direction = (christine.position - position).normalized()
 	animation_tree.set("parameters/Idle/blend_position", direction)
 	animation_state.travel("Idle")
-
 
 func to_start_position():
 	var is_close_to_castle = true
@@ -108,22 +108,26 @@ func to_start_position():
 		
 	position = tilemap.map_to_world(start_position)
 
-
 func _on_StateChangeTimer_timeout():
 	state_change_timer.wait_time = 1
 	teleport()
 	var state_array = [State.IDLE, State.WALK, State.NEW_DIRECTION]
 	state_array.shuffle()
 	current_state = state_array[0]
-
+	
+func _on_AfterConversationTimer_timeout():
+	position = Vector2(-20000, 0)
+	teleport_animation.stop()
+	teleport_animation.frame = 0
+	$Sprite.scale = Vector2(1.0,1.0)
+	current_state = State.WALK
+	state_change_timer.start()
 
 func _on_Christine_deal_accepted():
 	deal_finished()
 
-
 func _on_Christine_deal_denied():
 	deal_finished()
-
 
 func deal_finished():
 	$GrueneSpeechAudioPlayer.stop()
@@ -133,8 +137,14 @@ func deal_finished():
 	current_state = State.AFTER_CONVERSATION
 	direction *= -1
 
-
 func after_conversation():
+	current_state = State.IDLE
+	fx_tween.interpolate_property($Sprite, "scale", self.get_scale(), Vector2(0, 0), 0.5, Tween.TRANS_LINEAR,Tween.EASE_IN, 0.5)
+	fx_tween.start()
+	teleport_animation.play()
+	after_conversation_timer.start(2)
+
+func after_conversation_backup():
 	walk()
 	var vec = christine.position - position
 	var half_size = get_viewport().size * 0.5
