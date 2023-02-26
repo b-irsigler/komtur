@@ -39,6 +39,7 @@ onready var animation_tree = $AnimationTree
 onready var animation_state = animation_tree.get("parameters/playback")
 onready var chapel = $"../Chapel"
 onready var castle = $"../Castle"
+onready var beech = $"../Beech"
 
 
 func _get_debug():
@@ -146,6 +147,13 @@ func _on_jump_timer_timeout():
 
 func _on_IntAreaCastle_body_entered(body):
 	if body.name == "Castle" and beech_inventory > 0:
+		
+		for i in range(beech_inventory):
+			var instance = preload("res://scenes/tree_beech.tscn").instance()
+			instance.position = tilemap.map_to_world(castle.start_position 
+				+ Vector2(beech_count + i% 2 - 2, beech_count + i / 2 + 1))
+			world.add_child(instance)
+			print(instance.position)
 		update_beech_counters(-beech_inventory, beech_inventory)
 
 
