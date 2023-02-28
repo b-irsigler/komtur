@@ -98,6 +98,9 @@ func _physics_process(_delta):
 		State.CHOP:
 			chop()
 
+	for body in chop_area.get_overlapping_bodies():
+		body.is_selected = true
+	
 
 func idle():
 	animation_tree.set("parameters/Idle/BlendSpace2D/blend_position", direction)
@@ -193,3 +196,6 @@ func _on_Spinne_has_attacked(damage):
 	else:
 		life -= damage
 
+
+func _on_ChopArea_body_exited(body):
+	body.is_selected = false
