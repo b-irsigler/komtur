@@ -137,7 +137,19 @@ func update_beech_counters(beech_inventory_increment, beech_count_increment):
 	beech_inventory += beech_inventory_increment
 	beech_count += beech_count_increment
 	emit_signal("beech_chopped", beech_inventory, beech_count)
-
+	print("beech counters", beech_count, ",", beech_count_increment)
+	var alameda_positions = []
+	for i in range(10):
+		alameda_positions += [Vector2(i,i), Vector2(i+1,i)]
+		alameda_positions += [Vector2(5-i,5+i), Vector2(5-i+1,5+i)]
+		alameda_positions += [Vector2(10+i,10+i), Vector2(10+i+1,10+i)]
+		alameda_positions += [Vector2(15-i,15+i), Vector2(15-i+1,15+i)]
+		alameda_positions += [Vector2(20+i,20+i), Vector2(20+i+1,20+i)]
+	for beech_position in alameda_positions:
+		var instance = preload("res://scenes/tree_beech.tscn").instance()
+		instance.position = tilemap.map_to_world(castle.start_position 
+			+ beech_position)
+		world.add_child(instance)
 
 func _on_jump_timer_timeout():
 	jump_timer.wait_time = jump_duration
@@ -147,13 +159,6 @@ func _on_jump_timer_timeout():
 
 func _on_IntAreaCastle_body_entered(body):
 	if body.name == "Castle" and beech_inventory > 0:
-		
-		for i in range(beech_inventory):
-			var instance = preload("res://scenes/tree_beech.tscn").instance()
-			instance.position = tilemap.map_to_world(castle.start_position 
-				+ Vector2(beech_count + i% 2 - 2, beech_count + i / 2 + 1))
-			world.add_child(instance)
-			print(instance.position)
 		update_beech_counters(-beech_inventory, beech_inventory)
 
 
