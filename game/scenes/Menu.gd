@@ -5,6 +5,8 @@ var is_paused = false setget set_is_paused
 onready var menu_reason = $CenterContainer/VBoxContainer/MenuReason
 onready var menu_resume = $CenterContainer/VBoxContainer/ButtonResume
 
+func _ready():
+	visible = false
 
 #Negates current is_paused state if Esc is pressed
 func _unhandled_input(event):

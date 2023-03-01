@@ -28,13 +28,13 @@ margin_bottom = 73.0
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 margin_left = 174.0
 margin_right = 398.0
-margin_bottom = 207.0
+margin_bottom = 216.0
 custom_constants/separation = 14
 alignment = 1
 
 [node name="MenuReason" type="RichTextLabel" parent="CenterContainer/VBoxContainer"]
 margin_right = 224.0
-margin_bottom = 31.0
+margin_bottom = 40.0
 theme = ExtResource( 1 )
 bbcode_enabled = true
 bbcode_text = "[center]Menütitel[/center]"
@@ -44,26 +44,26 @@ scroll_active = false
 deselect_on_focus_loss_enabled = false
 
 [node name="Control" type="Control" parent="CenterContainer/VBoxContainer"]
-margin_top = 45.0
+margin_top = 54.0
 margin_right = 224.0
-margin_bottom = 45.0
+margin_bottom = 54.0
 
 [node name="ButtonNew" type="Button" parent="CenterContainer/VBoxContainer"]
-margin_top = 59.0
+margin_top = 68.0
 margin_right = 224.0
-margin_bottom = 99.0
+margin_bottom = 108.0
 text = "Neues Spiel"
 
 [node name="ButtonExit" type="Button" parent="CenterContainer/VBoxContainer"]
-margin_top = 113.0
+margin_top = 122.0
 margin_right = 224.0
-margin_bottom = 153.0
+margin_bottom = 162.0
 text = "Spiel Verlassen"
 
 [node name="ButtonResume" type="Button" parent="CenterContainer/VBoxContainer"]
-margin_top = 167.0
+margin_top = 176.0
 margin_right = 224.0
-margin_bottom = 207.0
+margin_bottom = 216.0
 text = "Fortfahren"
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ButtonNew" to="." method="_on_ButtonNew_pressed"]

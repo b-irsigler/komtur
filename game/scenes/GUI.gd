@@ -12,17 +12,21 @@ onready var label_time = $LabelTime
 onready var castle =$"../Castle"
 onready var popup = $Popup
 onready var menu = $Menu
+onready var intro_screen = $IntroScreen
 onready var camera = $"../Christine/Camera2D"
 onready var castle_indicator = $CastleIndicator
 
 
 func _ready():
-	menu.connect("new_game",self,"_on_Menu_new_game") 
+	menu.connect("new_game",self,"_on_Menu_new_game")
+	#intro_screen.connect("text_intro_button_pressed", self, "_on_intro_button_pressed") 
+	
 	game_timer.start(total_time_seconds)
 	total_time_seconds_per_30_days = total_time_seconds / 30
 	label_time.text = "noch %s Tage" % timer_to_days(game_timer.time_left)
 	label_beech.text = "Buchen im Schloss: %s | getragen: %s" % [0, 0]
-
+	
+	intro_screen._start()
 
 func _physics_process(_delta):
 	label_time.text = "noch %s Tage" % timer_to_days(game_timer.time_left)
@@ -53,7 +57,7 @@ func update_castle_indicator():
 
 
 func _on_Menu_new_game():
-	print("_on_Menu_new_game GUI")
+	#intro_screen._start()
 	emit_signal("new_game")
 	game_timer.start(total_time_seconds)
 
