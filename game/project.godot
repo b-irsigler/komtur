@@ -8,20 +8,37 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Resource",
+"class": "DialogueResource",
+"language": "GDScript",
+"path": "res://addons/dialogue_manager/dialogue_resource.gd"
+} ]
+_global_script_class_icons={
+"DialogueResource": ""
+}
+
 [application]
 
 config/name="Die Schwarze Spinne"
-config/description="This demo shows a traditional isometric view with depth sorting.
+config/description="Isometrisches Rollenspiel basierend auf Jeremias Gotthelf's \"Die Schwarze Spinne\".
 
-A character can move around the level and will also slide around objects,
-as well as be occluded when standing in front or behind them."
+Ziel des Spiels ist es, innerhalb von 30 Tagen 100 Buchen zu sammeln und zum Schloss Bärhegen zu bringen."
 run/main_scene="res://scenes/World.tscn"
+
+[autoload]
+
+DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 
 [display]
 
 window/dpi/allow_hidpi=true
 window/stretch/mode="2d"
 window/stretch/aspect="expand"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/dialogue_manager/plugin.cfg" )
 
 [gdnative]
 
@@ -148,7 +165,6 @@ use_pixel_snap=true
 
 [rendering]
 
-quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
 environment/default_clear_color=Color( 0.0784314, 0.105882, 0.145098, 1 )
