@@ -106,7 +106,7 @@ func to_start_position():
 		
 	position = tilemap.map_to_world(start_position)
 	#TESTING
-	position = tilemap.map_to_world(christine.start_position+Vector2(0,4))
+	#position = tilemap.map_to_world(christine.start_position+Vector2(0,4))
 
 
 func _on_StateChangeTimer_timeout():
