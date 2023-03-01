@@ -103,8 +103,6 @@ func to_start_position():
 		is_close_to_castle = castle.is_close_to_castle(start_position)
 		
 	position = tilemap.map_to_world(start_position)
-	#TESTING
-	position = tilemap.map_to_world(christine.start_position)
 
 
 func _on_StateChangeTimer_timeout():
