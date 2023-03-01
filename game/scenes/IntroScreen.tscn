@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://resources/MenuTheme.tres" type="Theme" id=1]
+
+[node name="IntroScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Background" type="ColorRect" parent="."]
+margin_right = 1024.0
+margin_bottom = 600.0
+color = Color( 0.1, 0.1, 0.1, 0.78 )
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+margin_right = 1024.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 1024, 600 )
+patch_margin_left = 20
+patch_margin_top = 20
+patch_margin_right = 20
+patch_margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect"]
+margin_right = 1024.0
+margin_bottom = 600.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="NinePatchRect/VBoxContainer"]
+margin_right = 1024.0
+
+[node name="Button" type="Button" parent="NinePatchRect/VBoxContainer"]
+margin_top = 4.0
+margin_right = 1024.0
+margin_bottom = 44.0
+theme = ExtResource( 1 )
+text = "Spiel Starten"
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_right = 40.0
+margin_bottom = 40.0

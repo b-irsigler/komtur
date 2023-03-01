@@ -11,7 +11,7 @@ func _unhandled_input(event):
 	if event.is_action_pressed("ui_cancel"):
 		self.is_paused = !is_paused
 		menu_resume.visible = true
-		menu_reason.text = "Game Paused"
+		menu_reason.text = "Spiel Pausiert"
 
 #setting the is_paused variable will execute this function:
 #toggles menu visibility and game pause mode

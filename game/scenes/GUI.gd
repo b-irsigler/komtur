@@ -72,7 +72,7 @@ func _on_Christine_beech_inventory_exceeded():
 func _on_DerGruene_conversation_started(active):
 	popup.visible = active
 	if active:
-		popup.show_popup("Versprecht ihr ein ungetauftes Kind fuer ein Dutzend Buchen? (y/n)", 12.0)
+		popup.show_popup("Versprecht ihr ein ungetauftes Kind für ein Dutzend Buchen? (y/n)", 12.0)
 
 
 func _on_Christine_deal_accepted():
