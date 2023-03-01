@@ -1,0 +1,86 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://addons/dialogue_manager/dialogue_resource.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+resource_version = 2
+syntax_version = 2
+raw_text = "~ Gruene_Offer
+
+Der Grüne: Ich sehe, ihr benötigt Buchen. Ich benötige ein ungetauftes Kind. Wie der Zufall so spiel, können wir uns also gegenseitig helfen.
+Der Grüne: Was wählt ihr?
+- Ja, ich nehme die Buchen und verspreche das ungetaufte Kind
+	do deal_accepted_from_dialog()
+- Nein, verschwinde, du Teufel! 
+	do deal_denied_from_dialog()"
+errors = [  ]
+titles = {
+"Gruene_Offer": "2"
+}
+lines = {
+"0": {
+"next_id": "2",
+"text": "Gruene_Offer",
+"type": "title"
+},
+"2": {
+"character": "Der Grüne",
+"character_replacements": [  ],
+"next_id": "3",
+"replacements": [  ],
+"text": "Ich sehe, ihr benötigt Buchen. Ich benötige ein ungetauftes Kind. Wie der Zufall so spiel, können wir uns also gegenseitig helfen.",
+"translation_key": "Ich sehe, ihr benötigt Buchen. Ich benötige ein ungetauftes Kind. Wie der Zufall so spiel, können wir uns also gegenseitig helfen.",
+"type": "dialogue"
+},
+"3": {
+"character": "Der Grüne",
+"character_replacements": [  ],
+"next_id": "4",
+"replacements": [  ],
+"text": "Was wählt ihr?",
+"translation_key": "Was wählt ihr?",
+"type": "dialogue"
+},
+"4": {
+"next_id": "5",
+"next_id_after": "end!",
+"replacements": [  ],
+"responses": PoolStringArray( "4", "6" ),
+"text": "Ja, ich nehme die Buchen und verspreche das ungetaufte Kind",
+"translation_key": "Ja, ich nehme die Buchen und verspreche das ungetaufte Kind",
+"type": "response"
+},
+"5": {
+"mutation": {
+"expression": [ {
+"function": "deal_accepted_from_dialog",
+"type": "function",
+"value": [  ]
+} ]
+},
+"next_id": "end!",
+"parent_id": "4",
+"type": "mutation"
+},
+"6": {
+"next_id": "7",
+"next_id_after": "end!",
+"replacements": [  ],
+"text": "Nein, verschwinde, du Teufel!",
+"translation_key": "Nein, verschwinde, du Teufel!",
+"type": "response"
+},
+"7": {
+"mutation": {
+"expression": [ {
+"function": "deal_denied_from_dialog",
+"type": "function",
+"value": [  ]
+} ]
+},
+"next_id": "end!",
+"parent_id": "6",
+"type": "mutation"
+}
+}

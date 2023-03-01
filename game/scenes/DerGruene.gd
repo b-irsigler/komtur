@@ -132,10 +132,8 @@ func _on_Christine_deal_denied():
 func deal_finished():
 	$GrueneSpeechAudioPlayer.stop()
 	$GrueneLaughSFXPlayer.play()
-	motion_speed *= 3
 	emit_signal("conversation_started", false)
 	current_state = State.AFTER_CONVERSATION
-	direction *= -1
 
 func after_conversation():
 	current_state = State.IDLE
@@ -144,6 +142,7 @@ func after_conversation():
 	teleport_animation.play()
 	after_conversation_timer.start(2)
 
+#dead code, should be removed after current conversation is tested and debugged
 func after_conversation_backup():
 	walk()
 	var vec = christine.position - position

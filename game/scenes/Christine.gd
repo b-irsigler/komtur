@@ -75,16 +75,16 @@ func _physics_process(_delta):
 		if not $DigSFXPlayer.playing and chop_area.get_overlapping_bodies().size() > 0:
 			$DigSFXPlayer.play()
 		current_state = State.CHOP
-
-	if is_deal_offered:
-		if Input.is_action_just_pressed("yes"):
-			emit_signal("deal_accepted")
-			update_beech_counters(0, 12)
-			is_deal_offered = false
-		if Input.is_action_just_pressed("no"):
-			emit_signal("deal_denied")
-			is_deal_offered = false
 		
+#	if is_deal_offered:
+#		if Input.is_action_just_pressed("yes"):
+#			emit_signal("deal_accepted")
+#			update_beech_counters(0, 12)
+#			is_deal_offered = false
+#		if Input.is_action_just_pressed("no"):
+#			emit_signal("deal_denied")
+#			is_deal_offered = false
+
 	match current_state:
 		State.IDLE:
 			idle()

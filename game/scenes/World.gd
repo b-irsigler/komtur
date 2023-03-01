@@ -21,11 +21,15 @@ onready var tilemap = $TileMap_Ground
 
 func _ready():
 	gui.connect("new_game", self, "_on_Gui_new_game")
+	gui.connect("deal_accepted_from_dialog", christine, "update_beech_counters")
 	christine.connect("beech_inventory_exceeded", gui, "_on_Christine_beech_inventory_exceeded")
 	christine.connect("beech_chopped", gui, "_on_Christine_beech_chopped")
 	christine.connect("deal_accepted", der_gruene, "_on_Christine_deal_accepted")
 	christine.connect("deal_accepted", spinne, "_on_Christine_deal_accepted")
+	christine.connect("deal_accepted_from_dialog", der_gruene, "_on_Christine_deal_accepted")
+	christine.connect("deal_accepted_from_dialog", spinne, "_on_Christine_deal_accepted")
 	christine.connect("deal_denied", der_gruene, "_on_Christine_deal_denied")
+	christine.connect("deal_denied_from_dialog", der_gruene, "_on_Christine_deal_denied")
 	christine.connect("deal_accepted", gui, "_on_Christine_deal_accepted")
 	der_gruene.connect("conversation_started", gui, "_on_DerGruene_conversation_started")
 	der_gruene.connect("conversation_started", christine, "_on_DerGruene_conversation_started")

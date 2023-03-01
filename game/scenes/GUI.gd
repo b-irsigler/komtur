@@ -51,6 +51,13 @@ func update_castle_indicator():
 		castle_indicator.visible = true
 	castle_indicator.rect_position = clamped_displacement + half_size
 
+func deal_accepted_from_dialog():
+	print("deal akzeptiert aus dialog")
+	emit_signal("deal_accepted_from_dialog", 0, 12)
+
+func deal_denied_from_dialog():
+	print("deal nope, eww! aus dialog")
+	emit_signal("deal_denied_from_dialog")
 
 func _on_Menu_new_game():
 	print("_on_Menu_new_game GUI")
@@ -72,7 +79,9 @@ func _on_Christine_beech_inventory_exceeded():
 func _on_DerGruene_conversation_started(active):
 	popup.visible = active
 	if active:
-		popup.show_popup("Versprecht ihr ein ungetauftes Kind fuer ein Dutzend Buchen? (y/n)", 12.0)
+		var dialogue_resource = preload("res://resources/dialog/Gruene_Offer.tres")
+		var dialogue_line = yield(DialogueManager.get_next_dialogue_line("Gruene_Offer", dialogue_resource), "_on_Christine_deal_accepted")
+		#popup.show_popup("Versprecht ihr ein ungetauftes Kind fuer ein Dutzend Buchen? (y/n)", 12.0)
 
 
 func _on_Christine_deal_accepted():
