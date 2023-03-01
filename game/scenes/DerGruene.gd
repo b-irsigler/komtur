@@ -27,6 +27,7 @@ onready var raycast = $RayCast2D
 onready var teleport_animation = $GrueneTeleportAnimation
 onready var fx_tween = $FxTween
 onready var sprite = $Sprite
+onready var speech = $GrueneSpeechAudioPlayer
 
 func _ready():
 	state_change_timer.connect("timeout", self, "_on_StateChangeTimer_timeout")
@@ -88,7 +89,8 @@ func teleport():
 
 func conversation():
 	emit_signal("conversation_started", true)
-	$GrueneSpeechAudioPlayer.play()
+	if not speech.playing:
+		speech.play()
 	state_change_timer.stop()
 	direction = (christine.position - position).normalized()
 	animation_tree.set("parameters/Idle/blend_position", direction)
@@ -103,6 +105,8 @@ func to_start_position():
 		is_close_to_castle = castle.is_close_to_castle(start_position)
 		
 	position = tilemap.map_to_world(start_position)
+	#TESTING
+	position = tilemap.map_to_world(christine.start_position+Vector2(0,4))
 
 
 func _on_StateChangeTimer_timeout():
@@ -130,7 +134,7 @@ func _on_Christine_deal_denied():
 
 
 func deal_finished():
-	$GrueneSpeechAudioPlayer.stop()
+	speech.stop()
 	$GrueneLaughSFXPlayer.play()
 	emit_signal("conversation_started", false)
 	fx_tween.interpolate_property(sprite, "scale", self.get_scale(), Vector2(0, 0), 0.5, Tween.TRANS_LINEAR,Tween.EASE_IN, 0.5)
@@ -146,5 +150,6 @@ func _on_Gui_new_game():
 
 func _on_ConversationArea_body_exited(body):
 	if body.name == "Christine":
+		current_state = State.IDLE
 		state_change_timer.start()
 		emit_signal("conversation_started", false)
