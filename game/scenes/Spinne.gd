@@ -11,7 +11,7 @@ var motion = Vector2.ZERO
 var direction = Vector2(rng_direction(), rng_direction()).normalized()
 var return_counter = 0
 var player = null
-var teleport_probability = .05
+var teleport_probability = .1
 var damage = 1
 
 onready var world = get_parent()
@@ -141,7 +141,10 @@ func teleport():
 				clamp(vec.y, -half_size.y, half_size.y)
 			)
 		if clamped_vec != vec:
-			position = christine.position + 2 * christine.motion
+			position = christine.position + music.get("max_distance") * christine.direction
+			direction = -christine.direction
+			current_state = State.WALK
+			
 
 
 func _on_attack_timer_timeout():
@@ -158,6 +161,6 @@ func _on_Christine_deal_accepted():
 		scale = Vector2(.3,.3)
 	scale += Vector2(.3,.3)
 	damage += 1
-	teleport_probability *= 2
+	teleport_probability += .1
 	start_random_state_change_timer()
 

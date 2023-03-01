@@ -904,3 +904,5 @@ position = Vector2( 0, -24 )
 frames = SubResource( 156 )
 
 [node name="FxTween" type="Tween" parent="."]
+
+[connection signal="body_exited" from="ConversationArea" to="." method="_on_ConversationArea_body_exited"]
