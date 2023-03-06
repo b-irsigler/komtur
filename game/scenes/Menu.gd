@@ -8,12 +8,6 @@ onready var menu_resume = $CenterContainer/VBoxContainer/ButtonResume
 func _ready():
 	visible = false
 
-#Negates current is_paused state if Esc is pressed
-func _unhandled_input(event):
-	if event.is_action_pressed("ui_cancel"):
-		self.is_paused = !is_paused
-		menu_resume.visible = true
-		menu_reason.text = "Spiel Pausiert"
 
 #setting the is_paused variable will execute this function:
 #toggles menu visibility and game pause mode
@@ -41,6 +35,5 @@ func _on_ButtonExit_pressed():
 
 
 func _on_ButtonNew_pressed():
-	print("_on_ButtonNew_pressed() Menu")
 	emit_signal("new_game")
 	self.is_paused = false
