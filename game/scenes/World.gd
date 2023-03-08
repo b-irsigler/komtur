@@ -12,8 +12,8 @@ onready var komtur = $Komtur
 onready var spinne = $Spinne
 onready var castle = $Castle
 onready var der_gruene = $DerGruene
-onready var debug = $DebugCanvas
 onready var gui = $GUI
+onready var debug = $GUI/DebugOverlay
 onready var chapel = $Chapel
 onready var world_gen = $WorldGen
 onready var tilemap = $TileMap_Ground
@@ -43,4 +43,3 @@ func start_new_game():
 
 func _on_Gui_new_game():
 	start_new_game()
-

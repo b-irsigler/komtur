@@ -8,6 +8,7 @@
 pause_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 1 )
 script = ExtResource( 2 )
 
 [node name="Background" type="ColorRect" parent="."]
@@ -36,7 +37,7 @@ Als der Komtur sie zum Schlosse einlädt, vermessen sie sich sogar zu hoffen, da
 Doch der Komtur ist unbarmherzig und stellt die Bauern nach der kaum schaffbaren nun vor eine unlösbare Aufgabe: In Zeit eines Monats sollen sie hundert ausgewachsene Buchen aus der Erde reißen und sie am Schlosse des von Stoffeln zu einem Schattengang pflanzen - denn der Ritter will im Sommer auf dem kahlen Berg sich nicht duch die Sonne verbrennen lassen."
 scroll_active = false
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="ButtonContainer" type="CenterContainer" parent="."]
 anchor_left = 0.5
 anchor_top = 0.8
 anchor_right = 0.5
@@ -47,12 +48,23 @@ grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 400, 0 )
 
-[node name="Button" type="Button" parent="CenterContainer"]
-margin_left = 100.0
+[node name="HBoxContainer" type="HBoxContainer" parent="ButtonContainer"]
+margin_left = 3.0
 margin_top = 60.0
-margin_right = 299.0
+margin_right = 397.0
 margin_bottom = 100.0
+custom_constants/separation = 50
+
+[node name="ButtonStart" type="Button" parent="ButtonContainer/HBoxContainer"]
+margin_right = 199.0
+margin_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource( 1 )
 text = "Spiel Starten"
+
+[node name="ButtonTutorial" type="Button" parent="ButtonContainer/HBoxContainer"]
+margin_left = 249.0
+margin_right = 394.0
+margin_bottom = 40.0
+text = "Anleitung"

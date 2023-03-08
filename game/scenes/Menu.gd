@@ -4,6 +4,8 @@ signal new_game
 var is_paused = false setget set_is_paused
 onready var menu_reason = $CenterContainer/VBoxContainer/MenuReason
 onready var menu_resume = $CenterContainer/VBoxContainer/ButtonResume
+onready var menu_tutorial = $CenterContainer/VBoxContainer/ButtonTutorial
+onready var menu_debug = $CenterContainer/VBoxContainer/CheckBoxDebug
 
 func _ready():
 	visible = false
