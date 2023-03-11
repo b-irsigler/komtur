@@ -91,7 +91,7 @@ func _physics_process(_delta):
 			else:
 				walk(motion)
 		State.RETURN:
-			var start_position = world.tilemap.map_to_world(world.start_position_komtur)
+			start_position = world.tilemap.map_to_world(world.start_position_komtur)
 			motion = start_position - position
 			walk(motion)
 			# area which is considered as home

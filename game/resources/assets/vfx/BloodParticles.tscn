@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://resources/assets/vfx/BloodParticles.gd" type="Script" id=1]
+[ext_resource path="res://resources/assets/vfx/ParticleFree.gd" type="Script" id=1]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0.53211, 1 )

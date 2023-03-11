@@ -21,6 +21,7 @@ onready var tutorial_button_back = $TutorialScreen/ButtonBack
 onready var ingame_gui = $IngameGUI
 onready var camera = $"../Christine/Camera2D"
 onready var castle_indicator = $IngameGUI/CastleIndicator
+onready var blur = $"../CanvasBlur"
 
 
 func _ready():
@@ -40,6 +41,7 @@ func _ready():
 	ingame_gui.visible = false
 	$DebugOverlay.visible = false
 	menu.visible = false
+	blur._start_blur()
 	intro_screen._start()
 
 
@@ -61,10 +63,12 @@ func _unhandled_input(event):
 			menu.menu_resume.visible = true
 			menu.menu_reason.text = "Spiel Pausiert"
 			game_timer.paused = true
+			blur._start_blur()
 			_set_gui_state(State.MENU)
 		elif current_gui_state == State.MENU:
 			menu.set_is_paused(false)
 			game_timer.paused = false
+			blur._start_deblur()
 			_set_gui_state(State.INGAME)
 		elif current_gui_state == State.INTRO:
 			intro_screen.interrupt_text()
@@ -99,6 +103,7 @@ func _on_Menu_new_game():
 func _on_Menu_resume():
 	menu.set_is_paused(false)
 	game_timer.paused = false
+	blur._start_deblur()
 	_set_gui_state(State.INGAME)
 
 
@@ -109,6 +114,7 @@ func _on_DebugToggle(is_checked: bool):
 func _on_intro_button_pressed():
 	ingame_gui.visible = true
 	$DebugOverlay.visible = true
+	blur._start_deblur()
 	game_timer.start(total_time_seconds)
 	_set_gui_state(State.INGAME)
 

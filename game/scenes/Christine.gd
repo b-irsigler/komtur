@@ -5,7 +5,7 @@ signal beech_chopped(inventory, count)
 signal beech_inventory_exceeded
 signal deal_accepted
 signal deal_denied
-signal christine_died(player_position, final_size)
+signal christine_died(player_position, final_size, duration, thickness)
 
 enum State {IDLE, WALK, RUN, JUMP, CHOP}
 
@@ -182,7 +182,8 @@ func _on_Spinne_has_attacked(damage, direction):
 		$DeathSFXPlayer.play()
 		position = chapel.position + world.tilemap.map_to_world(Vector2(0,1.5))
 		update_beech_counters(-beech_inventory, 0)
-		emit_signal("christine_died", Vector2(0,0), 0.5)
+		emit_signal("christine_died", Vector2(0.5,0.5), 0.5, 0.5, 0.1, 0.05)
+		#_start_shockwave_shader(position: Vector2, final_size: float = 0.3, duration: float = 0.4, thickness: float = 0.05, force: float = 0.1) -> void:
 		life = 10
 	else:
 		life -= damage

@@ -50,7 +50,7 @@ func _physics_process(_delta):
 	if raycast.is_colliding():
 		if raycast.get_collider() != christine:
 			current_state = State.NEW_DIRECTION
-			
+	
 	if conversation_area.overlaps_body(christine) and current_state != State.AFTER_CONVERSATION:
 		current_state = State.CONVERSATION
 	
@@ -144,10 +144,6 @@ func deal_finished():
 	#disappear_with_animation()
 	disappear_with_particle()
 	after_conversation_timer.start(2)
-	var relative_position = Vector2(position.x - christine.position.x, christine.position.y - position.y + 20)
-	var screen_position = position / $"../Christine/Camera2D".get_viewport_rect().size + Vector2(0.5, 0.5)
-	print(position, relative_position, screen_position,$"../Christine/Camera2D".get_viewport_rect().size)
-	emit_signal("teleport_after_deal", relative_position, 0.2, 0.2, 0.05)
 	current_state = State.AFTER_CONVERSATION
 
 func disappear_with_particle():
@@ -156,6 +152,12 @@ func disappear_with_particle():
 	_particle.rotation = global_rotation
 	_particle.emitting = true
 	get_tree().current_scene.add_child(_particle)
+	var half_screen = $"../Christine/Camera2D".get_viewport_rect().size / 2
+	var position_to_screen = position - christine.position + half_screen + Vector2(0,+25)
+	var relative_position = position_to_screen / $"../Christine/Camera2D".get_viewport_rect().size
+	var relative_canvas_position = Vector2(relative_position.x, 1.0 - relative_position.y)
+	print(position, half_screen, position_to_screen, relative_canvas_position)
+	emit_signal("teleport_after_deal", relative_canvas_position, 0.15, 0.3, 0.025)
 	fx_tween.interpolate_property(sprite, "scale", self.get_scale(), Vector2(0, 0), 0.1, Tween.TRANS_LINEAR,Tween.EASE_IN)
 	fx_tween.start()
 	

@@ -9,34 +9,31 @@
 [ext_resource path="res://scenes/Spinne.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/Castle.tscn" type="PackedScene" id=8]
 [ext_resource path="res://scenes/GUI.tscn" type="PackedScene" id=9]
-[ext_resource path="res://scenes/DebugOverlay.tscn" type="PackedScene" id=10]
+[ext_resource path="res://resources/assets/vfx/CanvasBlur.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scenes/Chapel.tscn" type="PackedScene" id=11]
 [ext_resource path="res://resources/assets/music/DSS_MainTheme_pt1.mp3" type="AudioStream" id=12]
 [ext_resource path="res://scenes/WorldGen.gd" type="Script" id=13]
 [ext_resource path="res://scenes/Castle.gd" type="Script" id=14]
-[ext_resource path="res://resources/assets/vfx/ShaderShockwave.tscn" type="PackedScene" id=15]
+[ext_resource path="res://resources/assets/vfx/GlobalShaders.tscn" type="PackedScene" id=15]
 
 [sub_resource type="Environment" id=1]
 background_mode = 4
+glow_enabled = true
 glow_levels/1 = true
 glow_levels/2 = true
 glow_levels/4 = true
 glow_levels/6 = true
 glow_levels/7 = true
-glow_intensity = 1.0
-glow_strength = 1.4
+glow_intensity = 1.2
+glow_strength = 1.3
 glow_blend_mode = 1
+glow_hdr_threshold = 0.9
 glow_bicubic_upscale = true
 glow_high_quality = true
 
 [node name="World" type="YSort"]
 position = Vector2( 3, -4 )
 script = ExtResource( 1 )
-
-[node name="GUI" parent="." instance=ExtResource( 9 )]
-
-[node name="DebugCanvas" parent="." instance=ExtResource( 10 )]
-visible = false
 
 [node name="TileMap_Ground" type="TileMap" parent="."]
 mode = 1
@@ -80,6 +77,10 @@ autoplay = true
 bus = "bg music"
 
 [node name="GlobalShader" parent="." instance=ExtResource( 15 )]
+
+[node name="CanvasBlur" parent="." instance=ExtResource( 10 )]
+
+[node name="GUI" parent="." instance=ExtResource( 9 )]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 1 )

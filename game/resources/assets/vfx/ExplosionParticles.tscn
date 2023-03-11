@@ -1,15 +1,20 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://resources/assets/vfx/ParticleFree.gd" type="Script" id=1]
+
+[sub_resource type="Curve" id=3]
+min_value = -360.0
+max_value = 360.0
+_data = [ Vector2( 0, 360 ), 0.0, 0.0, 0, 0, Vector2( 1, -360 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Curve" id=1]
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -0.0441171, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -4.1, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=2]
-interpolation_mode = 2
-offsets = PoolRealArray( 0.513761, 1 )
-colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+offsets = PoolRealArray( 0, 0.321101, 0.697248, 1 )
+colors = PoolColorArray( 1.75, 1.75, 1.75, 1, 1.75, 0.84, 0, 1, 1.5, 0, 0, 1, 1, 1, 1, 0 )
 
 [node name="ExplosionParticles" type="CPUParticles2D"]
-modulate = Color( 1.75, 0.1, 0, 1 )
 emitting = false
 amount = 100
 lifetime = 0.6
@@ -20,9 +25,13 @@ emission_shape = 1
 emission_sphere_radius = 10.0
 spread = 180.0
 gravity = Vector2( 0, 0 )
-initial_velocity = 200.0
-initial_velocity_random = 0.5
-scale_amount = 7.0
+initial_velocity = 100.0
+initial_velocity_random = 0.25
+angular_velocity = 20.0
+angular_velocity_random = 0.2
+angular_velocity_curve = SubResource( 3 )
+scale_amount = 5.0
 scale_amount_random = 0.5
 scale_amount_curve = SubResource( 1 )
 color_ramp = SubResource( 2 )
+script = ExtResource( 1 )
