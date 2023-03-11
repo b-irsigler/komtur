@@ -300,11 +300,12 @@ position = Vector2( 0, -47 )
 frames = SubResource( 46 )
 
 [node name="ProgressChop" type="TextureProgress" parent="."]
-margin_left = -13.0
-margin_top = -25.0
-margin_right = 237.0
-margin_bottom = 225.0
-rect_scale = Vector2( 0.1, 0.1 )
+margin_left = -30.0
+margin_top = -12.0
+margin_right = 120.0
+margin_bottom = 138.0
+rect_scale = Vector2( 0.4, 0.2 )
+value = 100.0
 texture_under = ExtResource( 5 )
 texture_progress = ExtResource( 5 )
 fill_mode = 4
