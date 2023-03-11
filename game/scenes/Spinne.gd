@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 
-signal has_attacked(damage)
+signal has_attacked(damage, direction)
 
 enum State {IDLE, WALK, NEW_DIRECTION, CHASE, ATTACK, COOLDOWN, SLEEP}
 
@@ -150,7 +150,7 @@ func teleport():
 func _on_attack_timer_timeout():
 	animation_tree.set("parameters/Idle/BlendSpace2D/blend_position", motion.normalized())
 	animation_state.travel("Idle")
-	emit_signal("has_attacked", damage)
+	emit_signal("has_attacked", damage, direction)
 	cooldown_timer.start(5)
 	current_state = State.COOLDOWN
 

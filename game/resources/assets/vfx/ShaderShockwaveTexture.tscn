@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://resources/assets/vfx/ShaderShockwave.tres" type="Material" id=1]
+[ext_resource path="res://textures/seasons_tiles.png" type="Texture" id=2]
+
+[node name="texture" type="TextureRect"]
+material = ExtResource( 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 2 )

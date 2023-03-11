@@ -1,8 +1,9 @@
-[gd_scene load_steps=70 format=2]
+[gd_scene load_steps=71 format=2]
 
 [ext_resource path="res://scenes/Christine.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/characters/christine.png" type="Texture" id=2]
 [ext_resource path="res://resources/assets/sfx/christine_digging.mp3" type="AudioStream" id=3]
+[ext_resource path="res://resources/assets/vfx/BloodParticles.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -630,6 +631,7 @@ data = PoolByteArray( 255, 251, 144, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
 [node name="Christine" type="KinematicBody2D"]
 script = ExtResource( 1 )
+damage_particle = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 1, -28 )

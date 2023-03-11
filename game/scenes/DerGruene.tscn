@@ -1,8 +1,9 @@
-[gd_scene load_steps=121 format=2]
+[gd_scene load_steps=122 format=2]
 
 [ext_resource path="res://resources/assets/characters/derGruene.png" type="Texture" id=1]
 [ext_resource path="res://scenes/DerGruene.gd" type="Script" id=2]
 [ext_resource path="res://resources/assets/effects/explosion_spritesheet.png" type="Texture" id=3]
+[ext_resource path="res://resources/assets/vfx/ExplosionParticles.tscn" type="PackedScene" id=4]
 
 [sub_resource type="AnimationNodeAnimation" id=88]
 animation = "IdleLeft"
@@ -826,6 +827,7 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
 }
+teleport_particle = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -28 )

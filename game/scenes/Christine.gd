@@ -5,10 +5,13 @@ signal beech_chopped(inventory, count)
 signal beech_inventory_exceeded
 signal deal_accepted
 signal deal_denied
+signal christine_died(player_position, final_size)
 
 enum State {IDLE, WALK, RUN, JUMP, CHOP}
 
 const RUN_MULT = 10
+
+export var damage_particle : PackedScene
 
 var running = false
 var jump_height = 40
@@ -174,14 +177,22 @@ func _on_DerGruene_conversation_started(active):
 	is_deal_offered = active
 
 
-func _on_Spinne_has_attacked(damage):
+func _on_Spinne_has_attacked(damage, direction):
 	if life <= 0:
 		$DeathSFXPlayer.play()
 		position = chapel.position + world.tilemap.map_to_world(Vector2(0,1.5))
 		update_beech_counters(-beech_inventory, 0)
+		emit_signal("christine_died", Vector2(0,0), 0.5)
 		life = 10
 	else:
 		life -= damage
+		if life >= 1:
+			var _particle = damage_particle.instance()
+			_particle.position = global_position + Vector2(0,-25)
+			_particle.rotation = global_rotation
+			_particle.direction = direction
+			_particle.emitting = true
+			get_tree().current_scene.add_child(_particle)
 
 
 func _on_ChopArea_body_exited(body):

@@ -17,6 +17,7 @@ onready var gui = $GUI
 onready var chapel = $Chapel
 onready var world_gen = $WorldGen
 onready var tilemap = $TileMap_Ground
+onready var global_shader = $GlobalShader
 
 
 func _ready():
@@ -27,8 +28,10 @@ func _ready():
 	christine.connect("deal_accepted", spinne, "_on_Christine_deal_accepted")
 	christine.connect("deal_denied", der_gruene, "_on_Christine_deal_denied")
 	christine.connect("deal_accepted", gui, "_on_Christine_deal_accepted")
+	christine.connect("christine_died", global_shader, "_start_shockwave_shader")
 	der_gruene.connect("conversation_started", gui, "_on_DerGruene_conversation_started")
 	der_gruene.connect("conversation_started", christine, "_on_DerGruene_conversation_started")
+	der_gruene.connect("teleport_after_deal", global_shader, "_start_shockwave_shader")
 	spinne.connect("has_attacked", christine, "_on_Spinne_has_attacked")
 	debug.add_stat("Christine", christine, "_get_debug", true)
 	debug.add_stat("Komtur", komtur, "_get_debug", true)
