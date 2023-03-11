@@ -11,10 +11,7 @@ config_version=4
 [application]
 
 config/name="Die Schwarze Spinne"
-config/description="This demo shows a traditional isometric view with depth sorting.
-
-A character can move around the level and will also slide around objects,
-as well as be occluded when standing in front or behind them."
+config/description="Isometrisches RPG basierend auf Jeremias Gotthelf's \"Die schwarze Spinne\". "
 run/main_scene="res://scenes/World.tscn"
 
 [display]
