@@ -77,6 +77,10 @@ func _physics_process(_delta):
 		current_state = State.CHOP
 	if Input.is_action_just_released("chop"):
 		$DigSFXPlayer.stop()
+		if chop_area.get_overlapping_bodies().size() > 0:
+			for body in chop_area.get_overlapping_bodies():
+				if body.is_being_chopped:
+					body.is_being_chopped = false
 
 	if is_deal_offered:
 		if Input.is_action_just_pressed("yes"):
