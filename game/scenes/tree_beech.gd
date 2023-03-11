@@ -14,10 +14,12 @@ onready var beech_sprite = $Oaktree
 onready var hole_sprite = $Hole
 onready var effect = $Spritetween
 onready var collision = $CollisionShape2D
+onready var progress = $ProgressChop
 
 
 func _ready():
 	effect.interpolate_property(beech_sprite, 'scale', beech_sprite.get_scale(), Vector2(0.1, 0.1), 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT)
+	progress.visible = false
 
 
 func _physics_process(delta):
@@ -36,7 +38,9 @@ func _physics_process(delta):
 
 func chop():
 	is_being_chopped = true
+	progress.visible = true
 	chopping_progress -= 1
+	progress.value = chopping_progress
 	if chopping_progress <= 0:
 		is_chopped = true
 		chop_fx.visible = true
@@ -44,6 +48,7 @@ func chop():
 		effect.start()
 		hole_sprite.visible = true
 		collision.disabled = true
+		progress.visible = false
 	return is_chopped
 
 
