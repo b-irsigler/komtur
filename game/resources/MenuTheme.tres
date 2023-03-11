@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=4 format=2]
+[gd_resource type="Theme" load_steps=8 format=2]
 
 [ext_resource path="res://resources/fonts/new_dynamicfont.tres" type="DynamicFont" id=1]
 
@@ -32,6 +32,15 @@ corner_radius_bottom_left = 2
 shadow_color = Color( 1, 0.910579, 0.463477, 1 )
 shadow_size = 4
 
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.6, 0.6, 0.6, 0.1 )
+
+[sub_resource type="StyleBoxEmpty" id=6]
+
+[sub_resource type="StyleBoxEmpty" id=7]
+
+[sub_resource type="StyleBoxEmpty" id=8]
+
 [resource]
 default_font = ExtResource( 1 )
 /colors/font_color = Color( 1, 0.84, 0, 1 )
@@ -47,5 +56,10 @@ Button/styles/focus = SubResource( 4 )
 Button/styles/hover = SubResource( 4 )
 Button/styles/normal = SubResource( 3 )
 Button/styles/pressed = SubResource( 4 )
+CheckBox/styles/focus = SubResource( 5 )
+CheckBox/styles/hover = SubResource( 6 )
+CheckBox/styles/normal = SubResource( 7 )
+CheckBox/styles/pressed = SubResource( 8 )
 Label/colors/font_color = Color( 1, 0.84, 0, 1 )
 RichTextLabel/colors/default_color = Color( 1, 0.84, 0, 1 )
+RichTextLabel/constants/line_separation = 10
