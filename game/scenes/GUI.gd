@@ -20,7 +20,7 @@ onready var tutorial_screen = $TutorialScreen
 onready var tutorial_button_back = $TutorialScreen/ButtonBack
 onready var ingame_gui = $IngameGUI
 onready var camera = $"../Christine/Camera2D"
-onready var castle_indicator = $IngameGUI/CastleIndicator
+onready var direction_indicator = $IngameGUI/DirectionIndicator
 
 
 func _ready():
@@ -45,7 +45,8 @@ func _ready():
 
 func _physics_process(_delta):
 	if current_gui_state != State.INGAME:
-		pass
+		if current_gui_state == State.INTRO and Input.is_action_pressed("chop"):
+			intro_screen.interrupt_text()
 	else:
 		label_time.text = "noch %s Tage" % timer_to_days(game_timer.time_left)
 		if timer_to_days(game_timer.time_left) == 0:
@@ -53,7 +54,7 @@ func _physics_process(_delta):
 		update_castle_indicator()
 
 
-#Negates current is_paused state if Esc is pressed
+#Handles UI inputs
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_cancel"):
 		if current_gui_state == State.INGAME:
@@ -68,6 +69,9 @@ func _unhandled_input(event):
 			_set_gui_state(State.INGAME)
 		elif current_gui_state == State.INTRO:
 			intro_screen.interrupt_text()
+	if event.is_action_pressed("ui_accept"):
+		if current_gui_state == State.INTRO:
+			intro_screen.interrupt_text()
 
 
 func timer_to_days(time: float = 0):
@@ -75,20 +79,7 @@ func timer_to_days(time: float = 0):
 
 
 func update_castle_indicator():
-	var center = camera.get_camera_screen_center()
-	var target = castle.position
-	var displacement = target - center
-	var margin = castle_indicator.rect_size * 0.5
-	var half_size = get_viewport().size * 0.5
-	var clamped_displacement = Vector2(
-		clamp(displacement.x, -half_size.x, half_size.x - margin.x),
-		clamp(displacement.y, -half_size.y, half_size.y - margin.y)
-		)
-	if clamped_displacement == displacement:
-		castle_indicator.visible = false
-	else:
-		castle_indicator.visible = true
-	castle_indicator.rect_position = clamped_displacement + half_size
+	direction_indicator.update_indicator(castle.position)
 
 
 func _on_Menu_new_game():

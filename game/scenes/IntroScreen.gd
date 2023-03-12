@@ -6,6 +6,8 @@ onready var text_intro = $TextIntro
 onready var button_start = $ButtonContainer/HBoxContainer/ButtonStart
 onready var button_tutorial = $ButtonContainer/HBoxContainer/ButtonTutorial
 onready var tween = $TweenText
+onready var hint = $HintSkip
+var finished = false
 
 
 func _ready():
@@ -22,13 +24,20 @@ func _start():
 	button_tutorial.visible = false
 	tween.interpolate_property(text_intro, 'percent_visible', 0, 1.0, 15.0, Tween.TRANS_LINEAR, Tween.EASE_OUT, 0.5)
 	tween.start()
+	finished = false
+	hint.visible = true
 
 
-func interrupt_text():
+func interrupt_text() -> void:
+	if finished:
+		return
 	tween.stop_all()
 	text_intro.percent_visible = 1
+	hint.visible = false
 	button_start.visible = true
+	button_start.grab_focus()
 	button_tutorial.visible = true
+	finished = true
 
 
 func _on_tween_completed():

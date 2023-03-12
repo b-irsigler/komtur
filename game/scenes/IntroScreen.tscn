@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://resources/MenuTheme.tres" type="Theme" id=1]
 [ext_resource path="res://scenes/IntroScreen.gd" type="Script" id=2]
+[ext_resource path="res://resources/fonts/GameFont_Smaller.tres" type="DynamicFont" id=3]
 
 [node name="IntroScreen" type="Control"]
 pause_mode = 2
@@ -61,3 +62,16 @@ margin_left = 249.0
 margin_right = 394.0
 margin_bottom = 40.0
 text = "Anleitung"
+
+[node name="HintSkip" type="Label" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.95
+grow_horizontal = 2
+grow_vertical = 2
+custom_colors/font_color = Color( 1, 0.839216, 0, 0.784314 )
+custom_fonts/font = ExtResource( 3 )
+text = "ESC, Enter oder Maustaste drücken um fortzufahren"
+align = 1
+valign = 2
