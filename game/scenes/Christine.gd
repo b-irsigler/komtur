@@ -42,8 +42,8 @@ onready var castle = $"../Castle"
 
 
 func _get_debug():
-	return "Pos: %s, St: %s, is_on_berhegen: %s" % [position.round(), 
-		State.keys()[current_state], castle.is_on_berhegen(position,1000)]
+	return "Pos: %s, St: %s, is_on_berhegen: %s, Life: %s" % [position.round(), 
+		State.keys()[current_state], castle.is_on_berhegen(position,1000), life]
 
 
 func _ready():
@@ -188,6 +188,7 @@ func _on_Spinne_has_attacked(damage):
 		life = 10
 	else:
 		life -= damage
+	Global.lifebar.update_health(life)
 
 
 func _on_ChopArea_body_exited(body):

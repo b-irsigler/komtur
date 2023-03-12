@@ -21,6 +21,7 @@ onready var tutorial_button_back = $TutorialScreen/ButtonBack
 onready var ingame_gui = $IngameGUI
 onready var camera = $"../Christine/Camera2D"
 onready var direction_indicator = $IngameGUI/DirectionIndicator
+onready var lifebar = $IngameGUI/LifeBar
 
 
 func _ready():
@@ -80,6 +81,7 @@ func timer_to_days(time: float = 0):
 
 func update_castle_indicator():
 	direction_indicator.update_indicator(castle.position)
+
 
 
 func _on_Menu_new_game():
