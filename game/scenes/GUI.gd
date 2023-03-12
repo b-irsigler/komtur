@@ -41,8 +41,8 @@ func _ready():
 	ingame_gui.visible = false
 	$DebugOverlay.visible = false
 	menu.visible = false
-	blur._start_blur()
 	intro_screen._start()
+	blur._start_blur()
 
 
 func _physics_process(_delta):
@@ -123,6 +123,7 @@ func _on_button_tutorial_pressed():
 	tutorial_screen.visible = true
 	$DebugOverlay.visible = false
 	ingame_gui.visible = false
+	blur._start_blur()
 	_set_gui_state(State.TUTORIAL)
 	match last_gui_state:
 		State.MENU:

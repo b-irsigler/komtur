@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scenes/World.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/floor/komtur_floortiles.tres" type="TileSet" id=2]
@@ -14,7 +14,8 @@
 [ext_resource path="res://resources/assets/music/DSS_MainTheme_pt1.mp3" type="AudioStream" id=12]
 [ext_resource path="res://scenes/WorldGen.gd" type="Script" id=13]
 [ext_resource path="res://scenes/Castle.gd" type="Script" id=14]
-[ext_resource path="res://resources/assets/vfx/GlobalShaders.tscn" type="PackedScene" id=15]
+[ext_resource path="res://resources/assets/vfx/CanvasShockwave.tscn" type="PackedScene" id=15]
+[ext_resource path="res://scenes/ButtonTest.gd" type="Script" id=16]
 
 [sub_resource type="Environment" id=1]
 background_mode = 4
@@ -76,11 +77,25 @@ volume_db = -12.0
 autoplay = true
 bus = "bg music"
 
-[node name="GlobalShader" parent="." instance=ExtResource( 15 )]
+[node name="CanvasShockwave" parent="." instance=ExtResource( 15 )]
 
 [node name="CanvasBlur" parent="." instance=ExtResource( 10 )]
 
-[node name="GUI" parent="." instance=ExtResource( 9 )]
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 1 )
+
+[node name="GUI" parent="." instance=ExtResource( 9 )]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+pause_mode = 2
+visible = false
+
+[node name="ButtonTest" type="Button" parent="CanvasLayer"]
+margin_left = 43.0
+margin_top = 543.0
+margin_right = 126.0
+margin_bottom = 563.0
+text = "button test"
+script = ExtResource( 16 )
+
+[connection signal="pressed" from="CanvasLayer/ButtonTest" to="CanvasLayer/ButtonTest" method="_on_ButtonTest_pressed"]

@@ -146,18 +146,20 @@ func deal_finished():
 	after_conversation_timer.start(2)
 	current_state = State.AFTER_CONVERSATION
 
+
+#Vector2(0,-25) is vfx offset in px
 func disappear_with_particle():
+	var dist = position - christine.position + Vector2(-15,-25)
+	var vp_size = $"../Christine/Camera2D".get_viewport_rect().size
+	var uv_position = Vector2(0.5 + (dist.x / vp_size.x) , 0.5 - (dist.y / vp_size.y))
+	emit_signal("teleport_after_deal", uv_position, 0.2, 0.2, 0.01)
 	var _particle = teleport_particle.instance()
 	_particle.position = global_position + Vector2(0,-25)
 	_particle.rotation = global_rotation
 	_particle.emitting = true
 	get_tree().current_scene.add_child(_particle)
-	var half_screen = $"../Christine/Camera2D".get_viewport_rect().size / 2
-	var position_to_screen = position - christine.position + half_screen + Vector2(0,+25)
-	var relative_position = position_to_screen / $"../Christine/Camera2D".get_viewport_rect().size
-	var relative_canvas_position = Vector2(relative_position.x, 1.0 - relative_position.y)
-	print(position, half_screen, position_to_screen, relative_canvas_position)
-	emit_signal("teleport_after_deal", relative_canvas_position, 0.15, 0.3, 0.025)
+
+	print(vp_size, position - christine.position, uv_position)
 	fx_tween.interpolate_property(sprite, "scale", self.get_scale(), Vector2(0, 0), 0.1, Tween.TRANS_LINEAR,Tween.EASE_IN)
 	fx_tween.start()
 	

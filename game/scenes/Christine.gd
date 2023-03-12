@@ -177,12 +177,12 @@ func _on_DerGruene_conversation_started(active):
 	is_deal_offered = active
 
 
-func _on_Spinne_has_attacked(damage, direction):
+func _on_Spinne_has_attacked(damage, attack_direction):
 	if life <= 0:
 		$DeathSFXPlayer.play()
 		position = chapel.position + world.tilemap.map_to_world(Vector2(0,1.5))
 		update_beech_counters(-beech_inventory, 0)
-		emit_signal("christine_died", Vector2(0.5,0.5), 0.5, 0.5, 0.1, 0.05)
+		emit_signal("christine_died", Vector2(0.5,0.5), 0.5, 0.75, 0.2, 0.02)
 		#_start_shockwave_shader(position: Vector2, final_size: float = 0.3, duration: float = 0.4, thickness: float = 0.05, force: float = 0.1) -> void:
 		life = 10
 	else:
@@ -191,7 +191,7 @@ func _on_Spinne_has_attacked(damage, direction):
 			var _particle = damage_particle.instance()
 			_particle.position = global_position + Vector2(0,-25)
 			_particle.rotation = global_rotation
-			_particle.direction = direction
+			_particle.direction = attack_direction
 			_particle.emitting = true
 			get_tree().current_scene.add_child(_particle)
 

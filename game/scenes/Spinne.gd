@@ -61,6 +61,7 @@ func _physics_process(_delta):
 	if attack_area.overlaps_body(christine):
 		if current_state != State.ATTACK:
 			state_change_timer.stop()
+			emit_signal("has_attacked", damage, direction)
 			attack_timer.start(.6)
 			current_state = State.ATTACK
 	
@@ -150,7 +151,7 @@ func teleport():
 func _on_attack_timer_timeout():
 	animation_tree.set("parameters/Idle/BlendSpace2D/blend_position", motion.normalized())
 	animation_state.travel("Idle")
-	emit_signal("has_attacked", damage, direction)
+#	emit_signal("has_attacked", damage, direction)
 	cooldown_timer.start(5)
 	current_state = State.COOLDOWN
 
