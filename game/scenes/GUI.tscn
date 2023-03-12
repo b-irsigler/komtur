@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://scenes/Menu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/GUI.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://resources/symbols/marker.png" type="Texture" id=9]
 [ext_resource path="res://scenes/LifeBar.gd" type="Script" id=10]
 [ext_resource path="res://resources/symbols/progress_fill.png" type="Texture" id=11]
+[ext_resource path="res://resources/symbols/progress_bar.png" type="Texture" id=12]
 
 [sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 11 )
@@ -19,6 +20,16 @@ margin_left = 6.0
 margin_right = 6.0
 margin_top = 5.0
 margin_bottom = 5.0
+modulate_color = Color( 1, 0.84, 0, 1 )
+
+[sub_resource type="StyleBoxTexture" id=2]
+texture = ExtResource( 12 )
+region_rect = Rect2( 0, 0, 16, 16 )
+margin_left = 4.0
+margin_right = 4.0
+margin_top = 3.0
+margin_bottom = 3.0
+modulate_color = Color( 0.5, 0.5, 0.5, 0.780392 )
 
 [node name="GUI" type="CanvasLayer"]
 pause_mode = 2
@@ -95,6 +106,7 @@ mouse_filter = 2
 theme = ExtResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 0 )
 custom_styles/fg = SubResource( 1 )
+custom_styles/bg = SubResource( 2 )
 max_value = 10.0
 value = 3.8
 percent_visible = false
