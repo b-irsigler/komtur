@@ -1,84 +1,10 @@
-[gd_scene load_steps=56 format=2]
+[gd_scene load_steps=53 format=2]
 
 [ext_resource path="res://resources/assets/trees/oaktree.png" type="Texture" id=1]
 [ext_resource path="res://resources/assets/effects/leafspell_spritesheet.png" type="Texture" id=2]
 [ext_resource path="res://scenes/tree_beech.gd" type="Script" id=3]
 [ext_resource path="res://resources/assets/floor/hole.png" type="Texture" id=4]
-
-[sub_resource type="Shader" id=48]
-code = "shader_type canvas_item;
-
-uniform float outline_width = 2.0;
-uniform vec4 outline_color: hint_color;
-
-void fragment() {
-	vec4 col = texture(TEXTURE, UV);
-	vec2 ps = TEXTURE_PIXEL_SIZE;
-	float a;
-	float maxa = col.a;
-	float mina = col.a;
-
-	a = texture(TEXTURE, UV + vec2(0.0, -outline_width) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	a = texture(TEXTURE, UV + vec2(0.0, outline_width) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	a = texture(TEXTURE, UV + vec2(-outline_width, 0.0) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	a = texture(TEXTURE, UV + vec2(outline_width, 0.0) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	COLOR = mix(col, outline_color, maxa - mina);
-}"
-
-[sub_resource type="ShaderMaterial" id=49]
-shader = SubResource( 48 )
-shader_param/outline_width = 2.0
-shader_param/outline_color = Color( 1, 1, 1, 1 )
-
-[sub_resource type="Shader" id=50]
-code = "shader_type canvas_item;
-
-uniform float outline_width = 2.0;
-uniform vec4 outline_color: hint_color;
-
-void fragment() {
-	vec4 col = texture(TEXTURE, UV);
-	vec2 ps = TEXTURE_PIXEL_SIZE;
-	float a;
-	float maxa = col.a;
-	float mina = col.a;
-
-	a = texture(TEXTURE, UV + vec2(0.0, -outline_width) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	a = texture(TEXTURE, UV + vec2(0.0, outline_width) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	a = texture(TEXTURE, UV + vec2(-outline_width, 0.0) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	a = texture(TEXTURE, UV + vec2(outline_width, 0.0) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	COLOR = mix(col, outline_color, maxa - mina);
-}"
-
-[sub_resource type="ShaderMaterial" id=51]
-resource_local_to_scene = true
-shader = SubResource( 50 )
-shader_param/outline_width = 1.0
-shader_param/outline_color = Color( 1, 1, 1, 1 )
+[ext_resource path="res://resources/assets/vfx/ShaderOutline.tres" type="Material" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 20.0998
@@ -272,13 +198,12 @@ animations = [ {
 } ]
 
 [node name="Node2D" type="StaticBody2D"]
-material = SubResource( 49 )
 collision_layer = 3
 collision_mask = 3
 script = ExtResource( 3 )
 
 [node name="Oaktree" type="Sprite" parent="."]
-material = SubResource( 51 )
+material = ExtResource( 5 )
 position = Vector2( 5, -60 )
 texture = ExtResource( 1 )
 

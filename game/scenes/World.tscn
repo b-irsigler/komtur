@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://scenes/World.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/floor/komtur_floortiles.tres" type="TileSet" id=2]
@@ -16,19 +16,28 @@
 [ext_resource path="res://scenes/Castle.gd" type="Script" id=14]
 [ext_resource path="res://resources/assets/vfx/CanvasShockwave.tscn" type="PackedScene" id=15]
 [ext_resource path="res://scenes/ButtonTest.gd" type="Script" id=16]
+[ext_resource path="res://resources/assets/vfx/ShaderOutline.shader" type="Shader" id=17]
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 17 )
+shader_param/active = null
+shader_param/outline_thickness = 1.5
+shader_param/outline_color = Color( 1, 0.839216, 0, 1 )
 
 [sub_resource type="Environment" id=1]
 background_mode = 4
+ambient_light_color = Color( 1, 0.972549, 0.870588, 1 )
+tonemap_mode = 2
+tonemap_exposure = 0.85
 glow_enabled = true
 glow_levels/1 = true
 glow_levels/2 = true
 glow_levels/4 = true
 glow_levels/6 = true
 glow_levels/7 = true
-glow_intensity = 1.2
-glow_strength = 1.3
+glow_strength = 1.2
 glow_blend_mode = 1
-glow_hdr_threshold = 0.9
+glow_hdr_threshold = 1.2
 glow_bicubic_upscale = true
 glow_high_quality = true
 
@@ -43,7 +52,7 @@ cell_size = Vector2( 128, 64 )
 format = 1
 
 [node name="Beech" parent="." instance=ExtResource( 3 )]
-position = Vector2( 109, -148 )
+position = Vector2( 540, -197 )
 
 [node name="Christine" parent="." instance=ExtResource( 4 )]
 position = Vector2( -384, 6400 )
@@ -67,6 +76,8 @@ script = ExtResource( 14 )
 position = Vector2( -199, -88 )
 
 [node name="Chapel" parent="." instance=ExtResource( 11 )]
+material = SubResource( 2 )
+position = Vector2( 850, -255 )
 
 [node name="WorldGen" type="YSort" parent="."]
 script = ExtResource( 13 )

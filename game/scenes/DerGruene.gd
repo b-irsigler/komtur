@@ -149,7 +149,7 @@ func deal_finished():
 
 #Vector2(0,-25) is vfx offset in px
 func disappear_with_particle():
-	var dist = position - christine.position + Vector2(-15,-25)
+	var dist = global_position - christine.position + Vector2(0,-25)
 	var vp_size = $"../Christine/Camera2D".get_viewport_rect().size
 	var uv_position = Vector2(0.5 + (dist.x / vp_size.x) , 0.5 - (dist.y / vp_size.y))
 	emit_signal("teleport_after_deal", uv_position, 0.2, 0.2, 0.01)

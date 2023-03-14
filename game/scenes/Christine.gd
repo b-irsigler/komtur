@@ -182,8 +182,10 @@ func _on_Spinne_has_attacked(damage, attack_direction):
 		$DeathSFXPlayer.play()
 		position = chapel.position + world.tilemap.map_to_world(Vector2(0,1.5))
 		update_beech_counters(-beech_inventory, 0)
-		emit_signal("christine_died", Vector2(0.5,0.5), 0.5, 0.75, 0.2, 0.02)
+		# _start_deblur(duration: float = 0.3, initial_amount: float = -1.0)
+		emit_signal("christine_died", 0.8, 4.0)
 		#_start_shockwave_shader(position: Vector2, final_size: float = 0.3, duration: float = 0.4, thickness: float = 0.05, force: float = 0.1) -> void:
+		#emit_signal("christine_died", Vector2(0.5,0.5), 0.5, 0.75, 0.2, 0.02)
 		life = 10
 	else:
 		life -= damage

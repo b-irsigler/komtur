@@ -1,36 +1,45 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://resources/assets/vfx/ParticleFree.gd" type="Script" id=1]
+[ext_resource path="res://resources/assets/vfx/TextureSmallGlowSpike.png" type="Texture" id=2]
 
-[sub_resource type="Curve" id=3]
-min_value = -360.0
-max_value = 360.0
-_data = [ Vector2( 0, 360 ), 0.0, 0.0, 0, 0, Vector2( 1, -360 ), 0.0, 0.0, 0, 0 ]
+[sub_resource type="CanvasItemMaterial" id=5]
+blend_mode = 1
+
+[sub_resource type="Curve" id=4]
+max_value = 100.0
+_data = [ Vector2( 0, 1 ), 0.0, 6.58666, 0, 0, Vector2( 0.248252, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 85.4546 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Curve" id=1]
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -4.1, 0.0, 0, 0 ]
+_data = [ Vector2( 0.00349651, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -0.889474, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=2]
-offsets = PoolRealArray( 0, 0.321101, 0.697248, 1 )
-colors = PoolColorArray( 1.75, 1.75, 1.75, 1, 1.75, 0.84, 0, 1, 1.5, 0, 0, 1, 1, 1, 1, 0 )
+offsets = PoolRealArray( 0, 0.102662, 0.288973, 0.752852, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 0.84, 0, 1, 1, 0.84, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0 )
 
 [node name="ExplosionParticles" type="CPUParticles2D"]
+modulate = Color( 0.439216, 0.439216, 0.439216, 1 )
+material = SubResource( 5 )
 emitting = false
-amount = 100
-lifetime = 0.6
+amount = 50
+lifetime = 1.5
 one_shot = true
-speed_scale = 1.2
-explosiveness = 1.0
+explosiveness = 0.85
+lifetime_randomness = 0.2
+texture = ExtResource( 2 )
 emission_shape = 1
 emission_sphere_radius = 10.0
+flag_align_y = true
 spread = 180.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 100.0
 initial_velocity_random = 0.25
-angular_velocity = 20.0
-angular_velocity_random = 0.2
-angular_velocity_curve = SubResource( 3 )
-scale_amount = 5.0
+radial_accel = 21.19
+radial_accel_random = 0.2
+damping = 30.0
+damping_random = 0.25
+damping_curve = SubResource( 4 )
+scale_amount = 0.5
 scale_amount_random = 0.5
 scale_amount_curve = SubResource( 1 )
 color_ramp = SubResource( 2 )

@@ -18,6 +18,7 @@ onready var chapel = $Chapel
 onready var world_gen = $WorldGen
 onready var tilemap = $TileMap_Ground
 onready var shockwave = $CanvasShockwave
+onready var blur = $CanvasBlur
 
 
 func _ready():
@@ -28,7 +29,8 @@ func _ready():
 	christine.connect("deal_accepted", spinne, "_on_Christine_deal_accepted")
 	christine.connect("deal_denied", der_gruene, "_on_Christine_deal_denied")
 	christine.connect("deal_accepted", gui, "_on_Christine_deal_accepted")
-	christine.connect("christine_died", shockwave, "_start_shockwave_shader")
+	#christine.connect("christine_died", shockwave, "_start_shockwave_shader")
+	christine.connect("christine_died", blur, "_start_deblur")
 	der_gruene.connect("conversation_started", gui, "_on_DerGruene_conversation_started")
 	der_gruene.connect("conversation_started", christine, "_on_DerGruene_conversation_started")
 	der_gruene.connect("teleport_after_deal", shockwave, "_start_shockwave_shader")

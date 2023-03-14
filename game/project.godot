@@ -141,7 +141,11 @@ no={
 
 [physics]
 
+2d/physics_engine="GodotPhysics"
 2d/thread_model=2
+2d/bvh_collision_margin=0.5
+2d/default_gravity=0
+2d/default_gravity_vector=Vector2( 0, 0 )
 
 [rasterizer]
 
@@ -153,5 +157,5 @@ threads/thread_model=2
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
 quality/filters/use_nearest_mipmap_filter=true
-gles3/shaders/shader_compilation_mode=2
+gles3/shaders/shader_compilation_mode=1
 environment/default_clear_color=Color( 0.0784314, 0.105882, 0.145098, 1 )

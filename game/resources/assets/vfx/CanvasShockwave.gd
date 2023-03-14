@@ -5,8 +5,7 @@ onready var tween = $Tween
 
 func _ready():
 	shader_shockwave.material.set("shader_param/force", 0.0)
-	#tween.set_trans(Tween.TRANS_QUAD)
-	#tween.set_parallel(true)
+
 
 func _start_shockwave_shader(position: Vector2, final_size: float = 0.3, duration: float = 0.4, thickness: float = 0.05, force: float = 0.05) -> void:
 	shader_shockwave.material.set("shader_param/center", position)
