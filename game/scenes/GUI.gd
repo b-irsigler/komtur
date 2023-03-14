@@ -80,9 +80,19 @@ func _on_DerGruene_conversation_started(active):
 	popup.visible = active
 	if active:
 		var dialogue_resource = preload("res://resources/dialog/Gruene_Offer.tres")
-		var dialogue_line = yield(DialogueManager.get_next_dialogue_line("Gruene_Offer", dialogue_resource), "_on_Christine_deal_accepted")
+		show_dialogue_balloon("Gruene_Offer", dialogue_resource)
+		#var dialogue_line = yield(DialogueManager.get_next_dialogue_line("Gruene_Offer", dialogue_resource), "_on_Christine_deal_accepted")
 		#popup.show_popup("Versprecht ihr ein ungetauftes Kind fuer ein Dutzend Buchen? (y/n)", 12.0)
 
 
 func _on_Christine_deal_accepted():
 	popup.visible = false
+
+
+func show_dialogue_balloon(title: String, local_resource: DialogueResource = null, extra_game_states: Array = []) -> void:
+	var dialogue_line = yield(DialogueManager.get_next_dialogue_line(title, local_resource, extra_game_states), "completed")
+	if dialogue_line != null:
+		var balloon = preload("res://addons/dialogue_manager/komtur_dialog/komtur_balloon.tscn").instance()
+		balloon.dialogue_line = dialogue_line
+		get_tree().current_scene.add_child(balloon)
+		show_dialogue_balloon(yield(balloon, "actioned"), local_resource, extra_game_states)
