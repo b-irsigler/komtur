@@ -49,6 +49,8 @@ func _get_debug():
 func _ready():
 	jump_timer.connect("timeout",self,"_on_jump_timer_timeout")
 	position = tilemap.map_to_world(start_position)
+	Global.christine = self
+	Global.camera = $Camera2D
 
 
 func _physics_process(_delta):

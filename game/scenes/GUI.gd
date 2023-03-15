@@ -25,6 +25,9 @@ onready var lifebar = $IngameGUI/LifeBar
 
 
 func _ready():
+	Global.gui = self
+	Global.lifebar = lifebar
+	
 	menu.connect("new_game",self,"_on_Menu_new_game")
 	menu.menu_debug.connect("toggled", self, "_on_DebugToggle")
 	menu.menu_tutorial.connect("pressed", self, "_on_button_tutorial_pressed")

@@ -16,8 +16,11 @@ func update_health(new_value):
 	styleBox.modulate_color = Color(1, g, 0)
 	oldval = value
 	tween.interpolate_property(self, "value", oldval, new_value, 0.2)
-	tween.start()
+	
 	if new_value == 10:
-		visible = false
+		tween.interpolate_property(self, "modulate:a", 1.0, 0.0, 0.2)
 	else: 
-		visible = true
+		tween.interpolate_property(self, "modulate:a", 0.0, 1.0, 0.2)
+	
+	tween.start()
+

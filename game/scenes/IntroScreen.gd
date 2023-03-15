@@ -41,7 +41,9 @@ func interrupt_text() -> void:
 
 
 func _on_tween_completed():
+	hint.visible = false
 	button_start.visible = true
+	button_start.grab_focus()
 	button_tutorial.visible = true
 
 

@@ -10,6 +10,7 @@ onready var sprite = $Castle2
 
 
 func _ready():
+	Global.castle = self
 	position = tilemap.map_to_world(start_position)
 
 

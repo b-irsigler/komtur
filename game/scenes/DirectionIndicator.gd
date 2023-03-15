@@ -4,7 +4,6 @@ enum IND_COL {YELLOW, GREEN, BLUE}
 export var ind_col = IND_COL.YELLOW
 
 onready var viewport = get_viewport()
-onready var camera = Global.camera
 onready var margin = Vector2(20,20)
 onready var half_size = viewport.size * 0.5 - Vector2(10,10)
 
@@ -12,7 +11,7 @@ func change_color(color_value):
 	pass
 
 func update_indicator(target_position: Vector2) -> void:
-	var center = camera.get_camera_screen_center()
+	var center = Global.camera.get_camera_screen_center()
 	var displacement = target_position - center
 	#var margin = actual_size
 	var clamped_displacement = Vector2(
