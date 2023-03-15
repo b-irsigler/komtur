@@ -15,7 +15,7 @@ func update_health(new_value):
 	g = range_lerp(new_value, 2, 10, 0, .84)
 	styleBox.modulate_color = Color(1, g, 0)
 	oldval = value
-	tween.interpolate_property(self, "value", oldval, new_value, 0.1)
+	tween.interpolate_property(self, "value", oldval, new_value, 0.2)
 	tween.start()
 	if new_value == 10:
 		visible = false
