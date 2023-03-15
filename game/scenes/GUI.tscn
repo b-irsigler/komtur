@@ -92,13 +92,10 @@ texture = ExtResource( 9 )
 script = ExtResource( 8 )
 
 [node name="LifeBar" type="ProgressBar" parent="IngameGUI"]
-anchor_left = 0.05
-anchor_top = 0.175
-anchor_right = 0.05
-anchor_bottom = 0.175
-margin_top = -30.0
-margin_right = 150.0
-margin_bottom = -15.0
+margin_left = 54.0
+margin_top = 545.0
+margin_right = 204.0
+margin_bottom = 560.0
 grow_horizontal = 2
 grow_vertical = 2
 rect_pivot_offset = Vector2( 75, 15 )
