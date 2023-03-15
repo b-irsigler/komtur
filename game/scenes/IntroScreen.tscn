@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://resources/MenuTheme.tres" type="Theme" id=1]
 [ext_resource path="res://scenes/IntroScreen.gd" type="Script" id=2]
+[ext_resource path="res://resources/fonts/GameFont_Smaller.tres" type="DynamicFont" id=3]
 
 [node name="IntroScreen" type="Control"]
 pause_mode = 2
@@ -13,7 +14,7 @@ script = ExtResource( 2 )
 [node name="Background" type="ColorRect" parent="."]
 margin_right = 1024.0
 margin_bottom = 600.0
-color = Color( 0.1, 0.1, 0.1, 0.78 )
+color = Color( 0.101961, 0.101961, 0.101961, 0.780392 )
 
 [node name="TweenText" type="Tween" parent="."]
 
@@ -23,11 +24,11 @@ margin_top = 50.0
 margin_right = 984.0
 margin_bottom = 500.0
 theme = ExtResource( 1 )
-text = "Der harte Winter ist endlich vorbei und das Schloss des Komturs von den Bauern des Dorfes gebaut. Diese sind guter Dinge, dass sie nach der entberhrungsreichen Fronarbeit sich wieder den lebensnotwendigen Tätigkeiten, der Heuet, der Säet und der Landwirtschaft widmen können.
+text = "Der harte Winter ist endlich vorbei und das Schloss des Komturs von den Bauern des Dorfes gebaut. Diese sind guter Dinge, dass sie nach der entbehrungsreichen Fronarbeit sich wieder den lebensnotwendigen Tätigkeiten, der Heuet, der Säet und der Landwirtschaft widmen können.
 
 Als der Komtur sie zum Schlosse einlädt, vermessen sie sich sogar zu hoffen, dass der Hans von Stoffeln ihnen für ihre Arbeit danken wird.
 
-Doch der Komtur ist unbarmherzig und stellt die Bauern nach der kaum schaffbaren nun vor eine unlösbare Aufgabe: In Zeit eines Monats sollen sie hundert ausgewachsene Buchen aus der Erde reißen und sie am Schlosse des von Stoffeln zu einem Schattengang pflanzen - denn der Ritter will im Sommer auf dem kahlen Berg sich nicht duch die Sonne verbrennen lassen."
+Doch der Komtur ist unbarmherzig und stellt die Bauern nach der kaum schaffbaren nun vor eine unlösbare Aufgabe: In Zeit eines Monats sollen sie hundert ausgewachsene Buchen aus der Erde reißen und sie am Schlosse des von Stoffeln zu einem Schattengang pflanzen - denn der Ritter will im Sommer auf dem kahlen Berg sich nicht durch die Sonne verbrennen lassen."
 autowrap = true
 
 [node name="ButtonContainer" type="CenterContainer" parent="."]
@@ -61,3 +62,16 @@ margin_left = 249.0
 margin_right = 394.0
 margin_bottom = 40.0
 text = "Anleitung"
+
+[node name="HintSkip" type="Label" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.95
+grow_horizontal = 2
+grow_vertical = 2
+custom_colors/font_color = Color( 1, 0.839216, 0, 0.784314 )
+custom_fonts/font = ExtResource( 3 )
+text = "ESC, Enter oder Maustaste drücken um fortzufahren"
+align = 1
+valign = 2

@@ -42,13 +42,15 @@ onready var castle = $"../Castle"
 
 
 func _get_debug():
-	return "Pos: %s, St: %s, is_on_berhegen: %s" % [position.round(), 
-		State.keys()[current_state], castle.is_on_berhegen(position,1000)]
+	return "Pos: %s, St: %s, is_on_berhegen: %s, Life: %s" % [position.round(), 
+		State.keys()[current_state], castle.is_on_berhegen(position,1000), life]
 
 
 func _ready():
 	jump_timer.connect("timeout",self,"_on_jump_timer_timeout")
 	position = tilemap.map_to_world(start_position)
+	Global.christine = self
+	Global.camera = $Camera2D
 
 
 func _physics_process(_delta):
@@ -181,13 +183,15 @@ func _on_DerGruene_conversation_started(active):
 
 
 func _on_Spinne_has_attacked(damage):
-	if life <= 0:
+	if life > 0:
+		life -= damage
+	if life <=0:
 		$DeathSFXPlayer.play()
 		position = chapel.position + world.tilemap.map_to_world(Vector2(0,1.5))
 		update_beech_counters(-beech_inventory, 0)
 		life = 10
-	else:
-		life -= damage
+		
+	Global.lifebar.update_health(life)
 
 
 func _on_ChopArea_body_exited(body):

@@ -62,6 +62,7 @@ func _physics_process(_delta):
 		if current_state != State.ATTACK:
 			state_change_timer.stop()
 			attack_timer.start(.6)
+			emit_signal("has_attacked", damage)
 			current_state = State.ATTACK
 	
 	match current_state:
@@ -150,7 +151,7 @@ func teleport():
 func _on_attack_timer_timeout():
 	animation_tree.set("parameters/Idle/BlendSpace2D/blend_position", motion.normalized())
 	animation_state.travel("Idle")
-	emit_signal("has_attacked", damage)
+	#emit_signal("has_attacked", damage)
 	cooldown_timer.start(5)
 	current_state = State.COOLDOWN
 

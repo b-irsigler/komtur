@@ -14,9 +14,14 @@ config/name="Die Schwarze Spinne"
 config/description="Isometrisches RPG basierend auf Jeremias Gotthelf's \"Die schwarze Spinne\". "
 run/main_scene="res://scenes/World.tscn"
 
+[autoload]
+
+Global="*res://Global.gd"
+
 [display]
 
 window/dpi/allow_hidpi=true
+mouse_cursor/custom_image="res://resources/symbols/arrow.png"
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 
