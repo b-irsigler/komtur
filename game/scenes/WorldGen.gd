@@ -67,10 +67,9 @@ func set_tile(width, height):
 			var temp = temperature[pos]
 			var moist = moisture[pos]
 			
-			
-			
 			if is_border(pos, 10):
 				biome[pos] = "map_border"
+				#biome[pos] = "grass"
 				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"map_border")])
 				continue
 			
@@ -78,8 +77,6 @@ func set_tile(width, height):
 				biome[pos] = "grass"
 				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"grass")])
 				continue
-			
-			
 			
 			if chapel.is_close_to_chapel(pos):
 				biome[pos] = "green_grass"
@@ -119,6 +116,9 @@ func set_tile(width, height):
 
 func set_objects():
 	objects = {}
+	var count_beech = 0
+	var count_pine = 0
+	var count_firs = 0
 	for pos in biome:
 		var current_biome = biome[pos]
 		var random_object = random_tile(object_data, current_biome)
@@ -126,6 +126,11 @@ func set_objects():
 		if random_object != null:
 			if castle.is_within_castle(pos):
 				tile_to_scene(random_object, pos)
+		match random_object:
+			"tree_beech": count_beech += 1
+			"tree_pine": count_pine += 1
+			"tree_firs": count_firs += 1
+	print("Buchen: ", count_beech, ", Pinienkerne: ", count_pine, ", Fichten: ", count_firs)
 
 
 func is_border(position, border_width):

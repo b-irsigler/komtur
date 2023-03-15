@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://scenes/World.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/floor/komtur_floortiles.tres" type="TileSet" id=2]
@@ -20,7 +20,6 @@
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 17 )
-shader_param/active = null
 shader_param/outline_thickness = 1.5
 shader_param/outline_color = Color( 1, 0.839216, 0, 1 )
 
@@ -40,6 +39,14 @@ glow_blend_mode = 1
 glow_hdr_threshold = 1.2
 glow_bicubic_upscale = true
 glow_high_quality = true
+
+[sub_resource type="CanvasItemMaterial" id=3]
+blend_mode = 1
+
+[sub_resource type="Gradient" id=4]
+interpolation_mode = 2
+offsets = PoolRealArray( 0, 0.30038, 0.703422, 1 )
+colors = PoolColorArray( 0.15, 0.15, 0.15, 0, 2, 2, 2, 1, 2, 2, 2, 1, 1.04, 1.04, 1.04, 0 )
 
 [node name="World" type="YSort"]
 position = Vector2( 3, -4 )
@@ -94,6 +101,27 @@ bus = "bg music"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 1 )
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+modulate = Color( 1, 0.84, 0, 1 )
+material = SubResource( 3 )
+position = Vector2( 512, 300 )
+amount = 100
+lifetime = 2.0
+lifetime_randomness = 0.5
+emission_shape = 2
+emission_rect_extents = Vector2( 512, 300 )
+spread = 180.0
+gravity = Vector2( -2, 60 )
+initial_velocity = 10.0
+initial_velocity_random = 0.5
+angle = 190.7
+angle_random = 0.36
+scale_amount = 0.9
+scale_amount_random = 0.13
+color_ramp = SubResource( 4 )
+hue_variation = 0.11
+hue_variation_random = 0.19
 
 [node name="GUI" parent="." instance=ExtResource( 9 )]
 

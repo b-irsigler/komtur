@@ -24,17 +24,16 @@ func _ready():
 
 func _physics_process(delta):
 	if is_selected:
-		print("selecting!")
 		time += delta
 		if is_being_chopped:
 			outline_frequency = 10
 		else:
 			outline_frequency = 5
-		outline_color = Color(1, 1, 1, .5 + .5 * pow(sin(outline_frequency * time), 2))
+		outline_color = Color(1, .84, 0, .5 + .5 * pow(sin(outline_frequency * time), 2))
 		#beech_sprite.material.set_shader_param("active", true)
 	else:
 		time = 0
-		#outline_color = Color(1, .84, 0, 0)
+		outline_color = Color(1, .84, 0, 0)
 		#beech_sprite.material.set_shader_param("active", false)
 	beech_sprite.material.set_shader_param("outline_color", outline_color)
 
