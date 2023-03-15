@@ -42,8 +42,8 @@ onready var castle = $"../Castle"
 
 
 func _get_debug():
-	return "Pos: %s, St: %s, is_on_berhegen: %s" % [position.round(), 
-		State.keys()[current_state], castle.is_on_berhegen(position,1000)]
+	return "Pos: %s, St: %s, animation_speec: %s" % [position.round(), 
+		State.keys()[current_state], current_animation_speed]
 
 
 func _ready():

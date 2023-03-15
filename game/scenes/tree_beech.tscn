@@ -48,6 +48,8 @@ code = "shader_type canvas_item;
 
 uniform float outline_width = 2.0;
 uniform vec4 outline_color: hint_color;
+uniform vec2 deform = vec2(2.0, 2.0);
+uniform vec4 modulate : hint_color;
 
 void fragment() {
 	vec4 col = texture(TEXTURE, UV);
@@ -72,7 +74,17 @@ void fragment() {
 	maxa = max(a, maxa);
 	mina = min(a, mina);
 
-	COLOR = mix(col, outline_color, maxa - mina);
+	col = mix(col, outline_color, maxa - mina);
+	
+	vec2 uv = UV;
+	float sizex = float(textureSize(TEXTURE,int(ps.x)).x); //comment for GLES2
+	float sizey = float(textureSize(TEXTURE,int(ps.y)).y); //comment for GLES2
+	float decalx=((uv.y-ps.x*sizex)*deform.x);
+	float decaly=((uv.y-ps.y*sizey)*deform.y);
+	uv.x += decalx;
+	uv.y += decaly;
+	vec4 shadow = vec4(modulate.rgb, texture(TEXTURE, uv).a * modulate.a);
+	COLOR = mix(shadow, col, col.a);
 }"
 
 [sub_resource type="ShaderMaterial" id=51]
@@ -80,6 +92,8 @@ resource_local_to_scene = true
 shader = SubResource( 50 )
 shader_param/outline_width = 1.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
+shader_param/deform = Vector2( 1, 1 )
+shader_param/modulate = Color( 0, 0, 0, 0.458824 )
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 20.0998
@@ -280,8 +294,10 @@ script = ExtResource( 3 )
 
 [node name="Oaktree" type="Sprite" parent="."]
 material = SubResource( 51 )
-position = Vector2( 5, -60 )
+position = Vector2( -34, -85 )
 texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( -150, -150, 400, 400 )
 
 [node name="Spritetween" type="Tween" parent="."]
 playback_process_mode = 0
