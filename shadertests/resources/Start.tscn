@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://bg_test.JPG" type="Texture" id=1]
 [ext_resource path="res://treehouse.png" type="Texture" id=2]
 [ext_resource path="res://resources/shadermat_outline.tres" type="Material" id=3]
+[ext_resource path="res://pinetree.png" type="Texture" id=4]
+[ext_resource path="res://resources/shadermat_shadow.tres" type="Material" id=5]
+[ext_resource path="res://firtree.png" type="Texture" id=6]
 
 [node name="Node2D" type="Node2D"]
 
@@ -10,11 +13,35 @@
 offset = Vector2( 512, 300 )
 
 [node name="BackgroundImage" type="TextureRect" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_left = -8.0
+margin_top = -36.0
+margin_right = 1016.0
+margin_bottom = 732.0
 texture = ExtResource( 1 )
 
 [node name="SpriteForeground" type="Sprite" parent="."]
 material = ExtResource( 3 )
 position = Vector2( 472, 109 )
 texture = ExtResource( 2 )
+
+[node name="beechhouse" type="Sprite" parent="."]
+material = ExtResource( 5 )
+position = Vector2( 718, 271 )
+scale = Vector2( 0.670905, 0.6875 )
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 220, 155 )
+
+[node name="pine" type="Sprite" parent="."]
+material = ExtResource( 5 )
+position = Vector2( 840, 248 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 105, 150 )
+
+[node name="firs" type="Sprite" parent="."]
+material = ExtResource( 5 )
+position = Vector2( 718, 145 )
+texture = ExtResource( 6 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 150, 110 )
