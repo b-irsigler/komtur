@@ -17,6 +17,7 @@ onready var debug = $GUI/DebugOverlay
 onready var chapel = $Chapel
 onready var world_gen = $WorldGen
 onready var tilemap = $TileMap_Ground
+onready var indicator = $GUI/IngameGUI/DirectionIndicator
 
 
 func _ready():
@@ -35,6 +36,7 @@ func _ready():
 	debug.add_stat("Spinne", spinne, "_get_debug", true)
 	debug.add_stat("DerGruene", der_gruene, "_get_debug", true)
 	debug.add_stat("Chapel", chapel, "_get_debug", true)
+	debug.add_stat("Indicator", indicator, "_get_debug", true)
 
 
 func start_new_game():
