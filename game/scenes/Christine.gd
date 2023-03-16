@@ -186,6 +186,8 @@ func _on_Spinne_has_attacked(damage):
 	if life > 0:
 		life -= damage
 	if life <=0:
+		Global.blur._fade_and_deblur()
+		yield(get_tree().create_timer(0.3), "timeout")
 		$DeathSFXPlayer.play()
 		position = chapel.position + world.tilemap.map_to_world(Vector2(0,1.5))
 		update_beech_counters(-beech_inventory, 0)

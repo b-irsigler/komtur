@@ -634,7 +634,6 @@ vframes = 8
 frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 rotation = 1.5708
 scale = Vector2( 1.8, 1.8 )
 shape = SubResource( 88 )
@@ -683,13 +682,11 @@ bus = "npc music"
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
 [node name="ChaseArea" type="Area2D" parent="."]
-visible = false
 
 [node name="ChaseShape" type="CollisionShape2D" parent="ChaseArea"]
 shape = SubResource( 89 )
 
 [node name="AttackArea" type="Area2D" parent="."]
-visible = false
 
 [node name="AttackShape" type="CollisionShape2D" parent="AttackArea"]
 shape = SubResource( 90 )

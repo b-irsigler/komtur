@@ -45,6 +45,7 @@ func _ready():
 	$DebugOverlay.visible = false
 	menu.visible = false
 	intro_screen._start()
+	Global.blur._start_blur(0.1)
 
 
 func _physics_process(_delta):
@@ -62,6 +63,7 @@ func _physics_process(_delta):
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_cancel"):
 		if current_gui_state == State.INGAME:
+			Global.blur._start_blur()
 			menu.set_is_paused(true)
 			menu.menu_resume.visible = true
 			menu.menu_reason.text = "Spiel Pausiert"
@@ -71,6 +73,7 @@ func _unhandled_input(event):
 			menu.set_is_paused(false)
 			game_timer.paused = false
 			_set_gui_state(State.INGAME)
+			Global.blur._start_deblur()
 		elif current_gui_state == State.INTRO:
 			intro_screen.interrupt_text()
 	if event.is_action_pressed("ui_accept"):
@@ -84,7 +87,6 @@ func timer_to_days(time: float = 0):
 
 func update_castle_indicator():
 	direction_indicator.update_indicator(castle.position)
-
 
 
 func _on_Menu_new_game():
@@ -103,6 +105,7 @@ func _on_DebugToggle(is_checked: bool):
 
 
 func _on_intro_button_pressed():
+	Global.blur._start_deblur()
 	ingame_gui.visible = true
 	$DebugOverlay.visible = true
 	game_timer.start(total_time_seconds)

@@ -6,6 +6,7 @@ var christine: Node
 var castle: Node
 var gui: Node
 var lifebar: Node
+var blur : CanvasBlur
 
 #global dicts
 var COLOR = {
