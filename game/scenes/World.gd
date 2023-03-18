@@ -17,6 +17,10 @@ onready var debug = $GUI/DebugOverlay
 onready var chapel = $Chapel
 onready var world_gen = $WorldGen
 onready var tilemap = $TileMap_Ground
+onready var menu = $GUI/Menu
+onready var database = $Database
+onready var game_timer = $GUI/IngameGUI/GameTimer
+onready var highscore = $GUI/Menu/CenterContainer/VBoxContainer/Highscore
 
 
 func _ready():
@@ -29,6 +33,7 @@ func _ready():
 	christine.connect("deal_accepted", gui, "_on_Christine_deal_accepted")
 	der_gruene.connect("conversation_started", gui, "_on_DerGruene_conversation_started")
 	der_gruene.connect("conversation_started", christine, "_on_DerGruene_conversation_started")
+	menu.connect("name_entered", self, "_on_name_entered")
 	spinne.connect("has_attacked", christine, "_on_Spinne_has_attacked")
 	debug.add_stat("Christine", christine, "_get_debug", true)
 	debug.add_stat("Komtur", komtur, "_get_debug", true)
@@ -43,3 +48,13 @@ func start_new_game():
 
 func _on_Gui_new_game():
 	start_new_game()
+	
+	
+func _on_name_entered(name):
+	database.add_score(name, game_timer.time_left)
+	var results = yield(database.get_score_list(), "completed")
+	print(results)
+	var result_string = "name : time_left\n"
+	for result in results:
+		result_string += result.doc_fields["name"] + " : " + str(int(result.doc_fields["time_left"])) +"\n"
+	highscore.text = result_string

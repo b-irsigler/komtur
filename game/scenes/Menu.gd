@@ -1,11 +1,17 @@
 extends Control
 
 signal new_game
+signal name_entered(name)
+
 var is_paused = false setget set_is_paused
+
 onready var menu_reason = $CenterContainer/VBoxContainer/MenuReason
 onready var menu_resume = $CenterContainer/VBoxContainer/ButtonResume
 onready var menu_tutorial = $CenterContainer/VBoxContainer/ButtonTutorial
 onready var menu_debug = $CenterContainer/VBoxContainer/CheckBoxDebug
+onready var text_input = $CenterContainer/VBoxContainer/LineEdit
+onready var highscore = $CenterContainer/VBoxContainer/Highscore
+
 
 func _ready():
 	visible = false
@@ -24,6 +30,11 @@ func game_finished(is_won):
 	menu_resume.visible = false
 	if is_won:
 		menu_reason.text = "Gewonnen!"
+		text_input.visible = true
+		var name = yield(text_input,"text_entered")
+		emit_signal("name_entered", name)
+		text_input.visible = false
+		highscore.visible = true
 	else:
 		menu_reason.text = "Verloren!"
 

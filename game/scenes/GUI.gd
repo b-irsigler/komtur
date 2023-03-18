@@ -140,7 +140,8 @@ func _on_tutorial_back_pressed():
 
 func _on_Christine_beech_chopped(inventory, count):
 	label_beech.text = "Buchen im Schloss: %s | getragen: %s" % [count, inventory]
-	if count >= 100:
+	#if count >= 100:
+	if true:
 		menu.game_finished(true)
 		current_gui_state = State.OVER
 
