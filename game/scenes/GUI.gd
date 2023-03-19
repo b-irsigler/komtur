@@ -45,6 +45,8 @@ func _ready():
 	$DebugOverlay.visible = false
 	menu.visible = false
 	intro_screen._start()
+	
+	menu._game_timer = game_timer.get_path()
 
 
 func _physics_process(_delta):
@@ -140,8 +142,7 @@ func _on_tutorial_back_pressed():
 
 func _on_Christine_beech_chopped(inventory, count):
 	label_beech.text = "Buchen im Schloss: %s | getragen: %s" % [count, inventory]
-	#if count >= 100:
-	if true:
+	if count >= 100:
 		menu.game_finished(true)
 		current_gui_state = State.OVER
 

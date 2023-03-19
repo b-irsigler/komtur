@@ -25,9 +25,9 @@ func _on_auth_request(return_code, auth_or_error):
 		auth.login_anonymous()
 		
 
-func add_score(name, time_left):
-	var add_task : FirestoreTask = collection.add("", {'name': name, 'time_left': time_left})
-	print(name, time_left)
+func add_score(name, time_left, first_100_beeches):
+	var score = time_left * first_100_beeches
+	var add_task : FirestoreTask = collection.add("", {'name': name, 'score' : score, 'time_left': time_left, "first_100_beeches": first_100_beeches})
 	
 
 func get_score_list():
@@ -38,10 +38,10 @@ func get_score_list():
 	query.from("highscore")	
 
 	# ORDER BY points, from the user with the best score to the latest
-	query.order_by("time_left", FirestoreQuery.DIRECTION.DESCENDING)
+	query.order_by("score", FirestoreQuery.DIRECTION.DESCENDING)
 
 	# LIMIT to the first 10 users
-	query.limit(10)
+	query.limit(5)
 
 	# Issue the query
 	var query_task : FirestoreTask = Firebase.Firestore.query(query)

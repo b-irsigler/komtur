@@ -36,9 +36,13 @@ var object_data = {
 	"stone": {"tree_firs": 0.01}, 
 	"map_border" : {"tree_firs": 1}
 }
+var beech_list = []
+var first_100_beeches = 0
+
 
 func _ready():
 	generate_new_game()
+
 
 func generate_map(per, oct):
 	open_simplex_noise.seed = randi()
@@ -117,6 +121,20 @@ func set_tile(width, height):
 	set_objects()
 
 
+func substract_castle(beech_list):
+	var temp_list = []
+	for beech in beech_list:
+		temp_list += [beech.distance_to(castle.start_position)]
+	
+	temp_list.sort()
+	
+	var sum = 0
+	
+	for elem in temp_list.slice(0, 101):
+		sum += elem
+	
+	return sum
+
 func set_objects():
 	objects = {}
 	for pos in biome:
@@ -126,6 +144,8 @@ func set_objects():
 		if random_object != null:
 			if castle.is_within_castle(pos):
 				tile_to_scene(random_object, pos)
+	
+	first_100_beeches = substract_castle(beech_list)
 
 
 func is_border(position, border_width):
@@ -154,5 +174,8 @@ func random_tile(data, thisbiome):
 func tile_to_scene(random_object, pos):
 	var instance = object_tiles[str(random_object)].instance()
 	instance.position = tilemap.map_to_world(pos) + Vector2(4, 4)
+	#beech list
+	if random_object == "tree_beech":
+		beech_list += [instance.position]
 	add_child(instance)
 	return instance

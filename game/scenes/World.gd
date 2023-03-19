@@ -4,9 +4,6 @@ extends Node2D
 export var map_width = 200
 export var map_height = 200
 
-#var start_position_castle = Vector2(map_width / 2 - 2, map_height / 2 - 6)
-#var start_position_chapel = start_position_castle + 50 * Vector2(rand_range(-1,1), rand_range(-1,1)).normalized()
-
 onready var christine = $Christine
 onready var komtur = $Komtur
 onready var spinne = $Spinne
@@ -41,6 +38,7 @@ func _ready():
 	debug.add_stat("DerGruene", der_gruene, "_get_debug", true)
 	debug.add_stat("Chapel", chapel, "_get_debug", true)
 
+	menu._world_gen = world_gen.get_path()
 
 func start_new_game():
 	get_tree().reload_current_scene()
@@ -51,10 +49,12 @@ func _on_Gui_new_game():
 	
 	
 func _on_name_entered(name):
-	database.add_score(name, game_timer.time_left)
+	database.add_score(name, game_timer.time_left, world_gen.first_100_beeches)
 	var results = yield(database.get_score_list(), "completed")
-	print(results)
-	var result_string = "name : time_left\n"
+	var result_string = "Highscore:\n"
+	var count = 0
 	for result in results:
-		result_string += result.doc_fields["name"] + " : " + str(int(result.doc_fields["time_left"])) +"\n"
+		count += 1
+		result_string += "%s. %s mit %s Punkten\n" % \
+		[count, result.doc_fields["name"], int(result.doc_fields["score"])]
 	highscore.text = result_string
