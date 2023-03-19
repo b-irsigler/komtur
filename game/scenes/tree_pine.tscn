@@ -63,14 +63,15 @@ void fragment() {
 	uv.y += decaly;
 	vec4 shadow = vec4(modulate.rgb, texture(TEXTURE, uv).a * modulate.a);
 	vec4 col = texture(TEXTURE, UV);
-	COLOR = mix(shadow, col, col.a);
+	//COLOR = mix(shadow, col, col.a);
+	COLOR = shadow;
 }"
 
 [sub_resource type="ShaderMaterial" id=5]
 shader = SubResource( 4 )
-shader_param/deform = Vector2( 1, 1 )
+shader_param/deform = Vector2( 2, 2 )
 shader_param/offset = Vector2( 0, 0 )
-shader_param/modulate = Color( 0, 0, 0, 0.466667 )
+shader_param/modulate = null
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 12.0416
@@ -78,8 +79,15 @@ radius = 12.0416
 [node name="Node2D" type="StaticBody2D"]
 material = SubResource( 3 )
 
-[node name="Pinetree" type="Sprite" parent="."]
+[node name="Shadow" type="Sprite" parent="."]
 material = SubResource( 5 )
+position = Vector2( 114, -73 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 200, 200 )
+
+[node name="Pinetree" type="Sprite" parent="."]
 position = Vector2( 1, -64 )
 texture = ExtResource( 1 )
 region_enabled = true

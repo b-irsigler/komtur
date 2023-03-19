@@ -28,21 +28,29 @@ void fragment() {
 	uv.y += decaly;
 	vec4 shadow = vec4(modulate.rgb, texture(TEXTURE, uv).a * modulate.a);
 	vec4 col = texture(TEXTURE, UV);
-	COLOR = mix(shadow, col, col.a);
+	//COLOR = mix(shadow, col, col.a);
+	COLOR = shadow;
 }"
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = SubResource( 1 )
-shader_param/deform = Vector2( 1, 1 )
+shader_param/deform = Vector2( 2, 2 )
 shader_param/offset = Vector2( 0, 0 )
-shader_param/modulate = Color( 0, 0, 0, 0.486275 )
+shader_param/modulate = null
 
 [node name="Castle" type="StaticBody2D"]
 position = Vector2( 43, -50 )
 
-[node name="Castle2" type="Sprite" parent="."]
+[node name="Shadow" type="Sprite" parent="."]
 material = SubResource( 2 )
-position = Vector2( 182, 125 )
+position = Vector2( 205, -18 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 52.3979, 140.831, 703.235, 481.716 )
+
+[node name="Castle2" type="Sprite" parent="."]
+position = Vector2( -35, -150 )
 scale = Vector2( 1.45735, 1.45735 )
 texture = ExtResource( 1 )
 region_rect = Rect2( -200, -200, 800, 800 )

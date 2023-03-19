@@ -42,7 +42,7 @@ shader_param/deform = Vector2( 2, 2 )
 shader_param/offset = Vector2( 0, 0 )
 shader_param/modulate = null
 
-[sub_resource type="Shader" id=1]
+[sub_resource type="Shader" id=5]
 code = "/**
 * Shadow 2D.
 * License: CC0
@@ -68,12 +68,13 @@ void fragment() {
 	uv.y += decaly;
 	vec4 shadow = vec4(modulate.rgb, texture(TEXTURE, uv).a * modulate.a);
 	vec4 col = texture(TEXTURE, UV);
-	COLOR = mix(shadow, col, col.a);
+	//COLOR = mix(shadow, col, col.a);
+	COLOR = shadow;
 }"
 
-[sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 1 )
-shader_param/deform = Vector2( 1, 0.5 )
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 5 )
+shader_param/deform = Vector2( 2, 2 )
 shader_param/offset = Vector2( 0, 0 )
 shader_param/modulate = null
 
@@ -83,14 +84,19 @@ position = Vector2( 1170, -553 )
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
-position = Vector2( -9.92896, 59.5 )
 rotation = 0.785398
 polygon = PoolVector2Array( 1.01038, -8.78857, -112.834, 25.8597, -77.4785, -88.6916, 36.3657, -120.511 )
 
-[node name="Sprite" type="Sprite" parent="."]
-material = SubResource( 2 )
-position = Vector2( -20, -109 )
-scale = Vector2( 1.99219, 1.99219 )
+[node name="Shadow" type="Sprite" parent="."]
+material = SubResource( 6 )
+position = Vector2( 50, -131 )
+scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 region_enabled = true
+region_rect = Rect2( 0, 0, 200, 200 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 7, -140 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 2 )
 region_rect = Rect2( -100, -100, 314, 323 )
