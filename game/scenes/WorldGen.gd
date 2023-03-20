@@ -14,7 +14,7 @@ var open_simplex_noise = OpenSimplexNoise.new()
 var objects = {}
 var tiles = {"grass_1": 0, "grass_2": 1, "green_grass" : 2, "stone_1" : 3, 
 	"stone_2" : 4, "stone_3" : 5, "forest_ground_1" : 6, "forest_ground_2" : 7, 
-	"forest_ground_3" : 8, "barren" : 9}
+	"forest_ground_3" : 8, "barren" : 9, "border" : 10}
 var object_tiles = {
 	"tree_beech": preload("res://scenes/tree_beech.tscn"), 
 	"tree_pine": preload("res://scenes/tree_pine.tscn"), 
@@ -26,7 +26,7 @@ var biome_data = {
 	"forest": {"forest_ground_1": 0.4, "forest_ground_2": 0.3, "forest_ground_3": 0.3},
 	"light_forest": {"forest_ground_1": 0.4, "forest_ground_2": 0.3, "forest_ground_3": 0.3},
 	"stone": {"grass_1": 0.3, "grass_2": 0.25, "stone_1": 0.15, "stone_2": 0.15, "stone_3": 0.15},
-	"map_border" : {"grass_1": 1}
+	"map_border" : {"border": 1}
 }
 var object_data = {
 	"grass": {"tree_beech": 0.005, "tree_pine": 0.005},
@@ -34,7 +34,7 @@ var object_data = {
 	"forest": {"tree_beech": 0.13, "tree_pine": 0.19, "tree_firs": 0.19},
 	"light_forest": {"tree_beech": 0.05, "tree_pine": 0.1, "tree_firs": 0.1},
 	"stone": {"tree_firs": 0.01}, 
-	"map_border" : {"tree_firs": 1}
+	"map_border" : {}
 }
 
 func _ready():
@@ -67,8 +67,6 @@ func set_tile(width, height):
 			var temp = temperature[pos]
 			var moist = moisture[pos]
 			
-			
-			
 			if is_border(pos, 10):
 				biome[pos] = "map_border"
 				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"map_border")])
@@ -78,8 +76,6 @@ func set_tile(width, height):
 				biome[pos] = "grass"
 				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"grass")])
 				continue
-			
-			
 			
 			if chapel.is_close_to_chapel(pos):
 				biome[pos] = "green_grass"
@@ -129,10 +125,10 @@ func set_objects():
 
 
 func is_border(position, border_width):
-	var temp = position.x < border_width
-	temp = temp or position.x > world.map_width - border_width
-	temp = temp or position.y < border_width
-	temp = temp or position.y > world.map_height - border_width
+	var temp = position.x == border_width
+	temp = temp or position.x == world.map_width - border_width
+	temp = temp or position.y == border_width
+	temp = temp or position.y == world.map_height - border_width
 	return temp
 
 

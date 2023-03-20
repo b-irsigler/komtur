@@ -1,0 +1,21 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=2]
+
+[ext_resource path="res://resources/assets/vfx/ShaderFog.shader" type="Shader" id=1]
+
+[sub_resource type="OpenSimplexNoise" id=3]
+seed = 3
+octaves = 6
+period = 86.7
+persistence = 0.7
+
+[sub_resource type="NoiseTexture" id=4]
+flags = 15
+width = 2048
+height = 2048
+seamless = true
+noise = SubResource( 3 )
+
+[resource]
+shader = ExtResource( 1 )
+shader_param/skyCol = Color( 0.407843, 0.407843, 0.407843, 1 )
+shader_param/noise_texture = SubResource( 4 )

@@ -1,109 +1,37 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
-[sub_resource type="Shader" id=1]
-code = "shader_type canvas_item;
-
-//SETTINGS//
-const float timeScale = 20.0;
-const float cloudScale = 0.5;
-const float skyCover = 3.0; //overwritten by mouse x drag
-const float softness = 0.2;
-const float brightness = 1.4;
-const int noiseOctaves = 8;
-const float curlStrain = 3.0;
-
-uniform sampler2D noise_texture;
-uniform vec4 skyCol: hint_color = vec4(0.6,0.8,1.0,1.0);
-//SETTINGS//
-
-float saturate(float num)
-{
-    return clamp(num,0.0,1.0);
-}
-
-float noise(vec2 uv)
-{
-    return texture(noise_texture, uv).r;
-}
-
-vec2 rotate(vec2 uv)
-{
-    uv = uv + noise(uv*0.2)*0.005;
-    float rot = curlStrain;
-    float sinRot=sin(rot);
-    float cosRot=cos(rot);
-    mat2 rotMat = mat2(vec2(cosRot,-sinRot),vec2(sinRot,cosRot));
-    return uv * rotMat;
-}
-
-float fbm (vec2 uv)
-{
-    float rot = 1.57;
-    float sinRot=sin(rot);
-    float cosRot=cos(rot);
-    float f = 0.0;
-    float total = 0.0;
-    float mul = 0.5;
-    mat2 rotMat = mat2(vec2(cosRot,-sinRot),vec2(sinRot,cosRot));
-    
-    for(int i = 0;i < noiseOctaves;i++)
-    {
-        f += noise(uv+TIME*0.00015*timeScale*(1.0-mul))*mul;
-        total += mul;
-        uv *= 3.0;
-        uv=rotate(uv);
-        mul *= 0.5;
-    }
-    return f/total;
-}
-
-void fragment()
-{
-    vec2 uv = FRAGCOORD.xy/(50000.0*cloudScale);
-    
- 
-    float cover = 0.55; // mouseXAffect*1.1+0.1;
-    //if( iMouse.z<=0.0001 ) cover = 0.5;
-    
-    float bright = brightness*(1.8-cover);
-    
-    float color1 = fbm(uv-0.5+TIME*0.00004*timeScale);
-    float color2 = fbm(uv-10.5+TIME*0.00002*timeScale);
-    
-    float clouds1 = smoothstep(1.0-cover,min((1.0-cover)+softness*2.0,1.0),color1);
-    float clouds2 = smoothstep(1.0-cover,min((1.0-cover)+softness,1.0),color2);
-    
-    float cloudsFormComb = saturate(clouds1+clouds2);
-    
-    float cloudCol = saturate(saturate(1.0-pow(color1,1.0)*0.2)*bright);
-    vec4 clouds1Color = vec4(cloudCol,cloudCol,cloudCol,1.0);
-    vec4 clouds2Color = mix(clouds1Color,skyCol,0.25);
-    vec4 cloudColComb = mix(clouds1Color,clouds2Color,saturate(clouds2-clouds1));
-    
-	COLOR = mix(skyCol,cloudColComb,cloudsFormComb);
-	COLOR.a = UV.y;
-}"
-
-[sub_resource type="OpenSimplexNoise" id=3]
-seed = 3
-octaves = 6
-period = 86.7
-persistence = 0.7
-
-[sub_resource type="NoiseTexture" id=4]
-width = 2048
-height = 2048
-seamless = true
-noise = SubResource( 3 )
-
-[sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 1 )
-shader_param/skyCol = Color( 0.141176, 0.141176, 0.141176, 1 )
-shader_param/noise_texture = SubResource( 4 )
+[ext_resource path="res://resources/assets/floor/komtur_floortiles.tres" type="TileSet" id=1]
+[ext_resource path="res://resources/assets/vfx/MaterialFogShader.tres" type="Material" id=2]
 
 [node name="CanvasFog" type="CanvasLayer"]
 
+[node name="TileMap" type="TileMap" parent="."]
+mode = 1
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 128, 64 )
+format = 1
+tile_data = PoolIntArray( -327683, 0, 0, -327682, 0, 0, -327681, 0, 0, -393216, 0, 0, -393215, 0, 0, -393214, 0, 0, -393213, 0, 0, -393212, 0, 0, -393211, 0, 0, -393210, 0, 0, -393209, 0, 0, -393208, 0, 0, -393207, 0, 0, -393206, 0, 0, -393205, 0, 0, -262147, 0, 0, -262146, 0, 0, -262145, 0, 0, -327680, 0, 0, -327679, 0, 0, -327678, 0, 0, -327677, 0, 0, -327676, 0, 0, -327675, 0, 0, -327674, 0, 0, -327673, 0, 0, -327672, 0, 0, -327671, 0, 0, -327670, 0, 0, -327669, 0, 0, -327668, 0, 0, -196611, 0, 0, -196610, 0, 0, -196609, 0, 0, -262144, 0, 0, -262143, 0, 0, -262142, 0, 0, -262141, 0, 0, -262140, 0, 0, -262139, 0, 0, -262138, 0, 0, -262137, 0, 0, -262136, 0, 0, -262135, 0, 0, -262134, 0, 0, -262133, 0, 0, -262132, 0, 0, -262131, 0, 0, -131074, 0, 0, -131073, 0, 0, -196608, 0, 0, -196607, 0, 0, -196606, 0, 0, -196605, 0, 0, -196604, 0, 0, -196603, 0, 0, -196602, 0, 0, -196601, 0, 0, -196600, 0, 0, -196599, 0, 0, -196598, 0, 0, -196597, 0, 0, -196596, 0, 0, -196595, 0, 0, -65538, 0, 0, -65537, 0, 0, -131072, 0, 0, -131071, 0, 0, -131070, 0, 0, -131069, 0, 0, -131068, 0, 0, -131067, 0, 0, -131066, 0, 0, -131065, 0, 0, -131064, 0, 0, -131063, 0, 0, -131062, 0, 0, -131061, 0, 0, -131060, 0, 0, -131059, 0, 0, -131058, 0, 0, -1, 0, 0, -65536, 0, 0, -65535, 0, 0, -65534, 0, 0, -65533, 0, 0, -65532, 0, 0, -65531, 0, 0, -65530, 0, 0, -65529, 0, 0, -65528, 0, 0, -65527, 0, 0, -65526, 0, 0, -65525, 0, 0, -65524, 0, 0, -65523, 0, 0, -65522, 0, 0, 65535, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 14, 0, 0, 15, 0, 0, 65536, 0, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65541, 0, 0, 65542, 0, 0, 65543, 0, 0, 65544, 0, 0, 65545, 0, 0, 65546, 0, 0, 65547, 0, 0, 65548, 0, 0, 65549, 0, 0, 65550, 0, 0, 65551, 0, 0, 131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131083, 0, 0, 131084, 0, 0, 131085, 0, 0, 131086, 0, 0, 131087, 0, 0, 131088, 0, 0, 131090, 10, 0, 131091, 10, 0, 196609, 0, 0, 196610, 0, 0, 196611, 0, 0, 196612, 0, 0, 196613, 0, 0, 196614, 0, 0, 196615, 0, 0, 196616, 0, 0, 196617, 0, 0, 196618, 0, 0, 196619, 0, 0, 196620, 0, 0, 196621, 0, 0, 196622, 0, 0, 196623, 0, 0, 196624, 0, 0, 196627, 10, 0, 196628, 10, 0, 196629, 10, 0, 196630, 10, 0, 196631, 10, 0, 262145, 10, 0, 262146, 10, 0, 262147, 0, 0, 262148, 0, 0, 262149, 0, 0, 262150, 0, 0, 262151, 0, 0, 262152, 0, 0, 262153, 0, 0, 262154, 0, 0, 262155, 0, 0, 262156, 0, 0, 262157, 0, 0, 262158, 0, 0, 262159, 0, 0, 262160, 0, 0, 262161, 10, 0, 262162, 10, 0, 262165, 10, 0, 262166, 10, 0, 262167, 10, 0, 262168, 10, 0, 327692, 0, 0, 327693, 0, 0, 327694, 0, 0, 327695, 0, 0, 327696, 0, 0, 393231, 0, 0 )
+
 [node name="ScreenFog" type="ColorRect" parent="."]
-material = SubResource( 2 )
-margin_right = 1024.0
-margin_bottom = 596.0
+material = ExtResource( 2 )
+margin_left = -5373.0
+margin_top = -3038.0
+margin_right = 16646.0
+margin_bottom = -2442.0
+rect_rotation = 26.6
+color = Color( 1, 1, 1, 0 )
+
+[node name="ScreenFog2" type="ColorRect" parent="."]
+material = ExtResource( 2 )
+margin_left = 1448.0
+margin_top = -440.0
+margin_right = 2248.0
+margin_bottom = 156.0
+rect_rotation = -26.7
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+material = ExtResource( 2 )
+position = Vector2( 0, 704 )
+scale = Vector2( 0.96875, 1 )
+color = Color( 0.337255, 0.337255, 0.337255, 1 )
+polygon = PoolVector2Array( 0, -192, 132.129, -256, 264.258, -192, 132.129, -128 )
