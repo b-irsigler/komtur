@@ -35,7 +35,7 @@ func game_finished(is_won):
 		var game_timer = get_node(_game_timer)
 		var world_gen = get_node(_world_gen)
 		var score = int(game_timer.time_left * world_gen.first_100_beeches)
-		menu_reason.text = "Gewonnen mit %s Punkten." % score
+		menu_reason.text = "Gewonnen mit %s Punkten." % Utils.number_to_separated(score)
 		text_input.align = LineEdit.ALIGN_CENTER
 		text_input.set_placeholder("Name")
 		text_input.visible = true

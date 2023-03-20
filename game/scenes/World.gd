@@ -56,5 +56,5 @@ func _on_name_entered(name):
 	for result in results:
 		count += 1
 		result_string += "%s. %s mit %s Punkten\n" % \
-		[count, result.doc_fields["name"], int(result.doc_fields["score"])]
+		[count, result.doc_fields["name"], Utils.number_to_separated(int(result.doc_fields["score"]))]
 	highscore.text = result_string
