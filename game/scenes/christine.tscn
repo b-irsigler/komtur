@@ -1,8 +1,9 @@
-[gd_scene load_steps=70 format=2]
+[gd_scene load_steps=71 format=2]
 
 [ext_resource path="res://scenes/Christine.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/characters/christine.png" type="Texture" id=2]
 [ext_resource path="res://resources/assets/sfx/christine_digging.mp3" type="AudioStream" id=3]
+[ext_resource path="res://resources/assets/vfx/BloodParticles.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -696,23 +697,6 @@ collision_mask = 2
 position = Vector2( 0, -1 )
 shape = SubResource( 94 )
 
-[node name="BeechCounterLabel" type="RichTextLabel" parent="."]
-margin_left = -491.0
-margin_top = -281.0
-margin_right = 3.0
-margin_bottom = -195.0
-rect_clip_content = false
-
-[node name="DaysLeftLabel" type="RichTextLabel" parent="."]
-margin_left = 306.0
-margin_top = -279.0
-margin_right = 503.0
-margin_bottom = -239.0
-
-[node name="DayTimer" type="Timer" parent="."]
-wait_time = 600.0
-autostart = true
-
 [node name="InteractionAreaCastle" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 4
@@ -738,6 +722,12 @@ bus = "christine sfx"
 stream = SubResource( 158 )
 volume_db = -6.0
 bus = "christine sfx"
+
+[node name="BloodParticles" parent="." instance=ExtResource( 4 )]
+position = Vector2( 0, -25 )
+lifetime = 0.3
+initial_velocity = 70.0
+scale_amount = 3.5
 
 [connection signal="body_exited" from="ChopArea" to="." method="_on_ChopArea_body_exited"]
 [connection signal="body_entered" from="InteractionAreaCastle" to="." method="_on_IntAreaCastle_body_entered"]

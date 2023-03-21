@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 
-signal has_attacked(damage)
+signal has_attacked(damage, direction)
 
 enum State {IDLE, WALK, NEW_DIRECTION, CHASE, ATTACK, COOLDOWN, SLEEP}
 
@@ -14,7 +14,7 @@ var player = null
 var teleport_probability = .1
 var damage = 1
 
-onready var world = get_parent()
+onready var world = get_parent().get_parent()
 onready var start_position = Vector2(rand_range(0, world.map_width), rand_range(0, world.map_height))
 onready var animation_tree = $AnimationTree
 onready var state_change_timer = $StateChangeTimer
@@ -62,7 +62,7 @@ func _physics_process(_delta):
 		if current_state != State.ATTACK:
 			state_change_timer.stop()
 			attack_timer.start(.6)
-			emit_signal("has_attacked", damage)
+			emit_signal("has_attacked", damage, direction)
 			current_state = State.ATTACK
 	
 	match current_state:
@@ -104,18 +104,6 @@ func start_random_state_change_timer():
 
 func is_sleeping():
 	return current_state == State.SLEEP
-
-
-func _on_VisibilityNotifier2D_screen_entered():
-	return
-	#music.volume_db = 0
-	#AudioServer.set_bus_volume_db(AudioServer.get_bus_index("bg music"), -24)
-
-
-func _on_VisibilityNotifier2D_screen_exited():
-	return
-	#music.volume_db = -5
-	#AudioServer.set_bus_volume_db(AudioServer.get_bus_index("bg music"), -8)
 
 
 func _on_TimerCooldown_timeout():

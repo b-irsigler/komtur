@@ -13,7 +13,7 @@ var motion = Vector2.ZERO
 var direction = Vector2(rng_direction(), rng_direction()).normalized()
 var start_position
 
-onready var world = get_parent()
+onready var world = get_parent().get_parent()
 onready var tilemap = $"../TileMap_Ground"
 onready var castle = $"../Castle"
 onready var animation_tree = $AnimationTree

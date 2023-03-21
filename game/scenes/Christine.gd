@@ -25,7 +25,7 @@ var is_deal_offered = false
 var current_state = State.IDLE
 var life = 10
 
-onready var world = get_parent()
+onready var world = get_parent().get_parent()
 onready var start_position = Vector2(world.map_width/2 - 3, world.map_height/2 + 3)
 onready var tilemap = $"../TileMap_Ground"
 onready var sprite = $Sprite
@@ -182,9 +182,11 @@ func _on_DerGruene_conversation_started(active):
 	is_deal_offered = active
 
 
-func _on_Spinne_has_attacked(damage):
+func _on_Spinne_has_attacked(damage, direction):
 	if life > 0:
 		life -= damage
+		$BloodParticles.direction = direction
+		$BloodParticles.emitting = true
 	if life <=0:
 		Global.blur._fade_and_deblur()
 		yield(get_tree().create_timer(0.3), "timeout")

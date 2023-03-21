@@ -3,14 +3,14 @@ shader_type canvas_item;
 //SETTINGS//
 const float timeScale = 25.0;
 const float cloudScale = 0.5;
-const float skyCover = 10.0; //overwritten by mouse x drag
+const float skyCover = 30.0; //overwritten by mouse x drag
 const float softness = 0.2;
 const float brightness = 0.7;
 const int noiseOctaves = 8;
-const float curlStrain = 3.0;
+const float curlStrain = 4.0;
 
 uniform sampler2D noise_texture;
-uniform vec4 skyCol: hint_color = vec4(0.6,0.8,1.0,1.0);
+uniform vec4 skyCol: hint_color = vec4(0.6,0.6,0.6,1.0);
 //SETTINGS//
 
 float saturate(float num)
@@ -78,5 +78,5 @@ void fragment()
     vec4 cloudColComb = mix(clouds1Color,clouds2Color,saturate(clouds2-clouds1));
     
 	COLOR = cloudColComb;// mix(skyCol,cloudColComb,cloudsFormComb);
-	COLOR.a = cloudsFormComb*UV.y+UV.y/2.0;
+	COLOR.a = pow(cloudsFormComb*UV.y+UV.y/2.0, 0.5);
 }

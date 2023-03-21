@@ -5,7 +5,7 @@ const CHAPEL_RADIUS = 5
 
 var start_position
 
-onready var world = get_parent()
+onready var world = get_parent().get_parent()
 onready var tilemap = $"../TileMap_Ground"
 onready var castle = $"../Castle"
 

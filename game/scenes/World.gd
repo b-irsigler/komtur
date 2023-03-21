@@ -7,16 +7,16 @@ export var map_height = 200
 #var start_position_castle = Vector2(map_width / 2 - 2, map_height / 2 - 6)
 #var start_position_chapel = start_position_castle + 50 * Vector2(rand_range(-1,1), rand_range(-1,1)).normalized()
 
-onready var christine = $Christine
-onready var komtur = $Komtur
-onready var spinne = $Spinne
-onready var castle = $Castle
-onready var der_gruene = $DerGruene
+onready var christine = $WorldGen/Christine
+onready var komtur = $WorldGen/Komtur
+onready var spinne = $WorldGen/Spinne
+onready var castle = $WorldGen/Castle
+onready var der_gruene = $WorldGen/DerGruene
 onready var gui = $GUI
 onready var debug = $GUI/DebugOverlay
-onready var chapel = $Chapel
+onready var chapel = $WorldGen/Chapel
 onready var world_gen = $WorldGen
-onready var tilemap = $TileMap_Ground
+onready var tilemap = $WorldGen/TileMap_Ground
 
 
 func _ready():

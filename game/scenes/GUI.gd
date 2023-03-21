@@ -12,14 +12,14 @@ var last_gui_state
 onready var game_timer = $IngameGUI/GameTimer
 onready var label_beech = $IngameGUI/LabelBeech
 onready var label_time = $IngameGUI/LabelTime
-onready var castle =$"../Castle"
+onready var castle =$"../WorldGen/Castle"
 onready var popup = $IngameGUI/Popup
 onready var menu = $Menu
 onready var intro_screen = $IntroScreen
 onready var tutorial_screen = $TutorialScreen
 onready var tutorial_button_back = $TutorialScreen/ButtonBack
 onready var ingame_gui = $IngameGUI
-onready var camera = $"../Christine/Camera2D"
+onready var camera = $"../WorldGen/Christine/Camera2D"
 onready var direction_indicator = $IngameGUI/DirectionIndicator
 onready var lifebar = $IngameGUI/LifeBar
 

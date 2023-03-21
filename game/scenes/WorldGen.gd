@@ -2,9 +2,10 @@ extends Node
 
 
 onready var world = get_parent()
-onready var tilemap = $"../TileMap_Ground"
-onready var castle = $"../Castle"
-onready var chapel = $"../Chapel"
+onready var tilemap = $TileMap_Ground
+onready var castle = $Castle
+onready var chapel = $Chapel
+onready var fogscreen = preload("res://resources/assets/vfx/ScreenFog.tscn")
 
 var temperature = {}
 var moisture = {}
@@ -67,7 +68,7 @@ func set_tile(width, height):
 			var temp = temperature[pos]
 			var moist = moisture[pos]
 			
-			if is_border(pos, 10):
+			if is_border(pos, 8):
 				biome[pos] = "map_border"
 				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"map_border")])
 				continue
@@ -122,6 +123,12 @@ func set_objects():
 		if random_object != null:
 			if castle.is_within_castle(pos):
 				tile_to_scene(random_object, pos)
+	
+	var fog_sw = fogscreen.instance()
+	fog_sw.rect_position = tilemap.map_to_world(Vector2(-world.map_width/2.0+10,world.map_height-10))
+	fog_sw.rect_size.x = 14310
+	fog_sw.rect_rotation = 26.6
+	world.call_deferred("add_child", fog_sw)
 
 
 func is_border(position, border_width):

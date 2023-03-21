@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://resources/assets/vfx/MaterialFogShader.tres" type="Material" id=1]
+
+[node name="ScreenFog" type="ColorRect"]
+material = ExtResource( 1 )
+margin_right = 200.0
+margin_bottom = 2000.0
+rect_pivot_offset = Vector2( 0, 600 )
