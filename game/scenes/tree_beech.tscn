@@ -47,42 +47,55 @@ shader_param/outline_color = Color( 1, 1, 1, 1 )
 code = "shader_type canvas_item;
 
 uniform float outline_width = 2.0;
+uniform float frequency = 0.0;
 uniform vec4 outline_color: hint_color;
 
 void fragment() {
-	vec4 col = texture(TEXTURE, UV);
-	vec2 ps = TEXTURE_PIXEL_SIZE;
-	float a;
-	float maxa = col.a;
-	float mina = col.a;
+	if (outline_color.a == 0.0) {
+		COLOR = texture(TEXTURE, UV);
+	}
+	else {
+	
+		vec4 outcol = outline_color;
+		vec4 col = texture(TEXTURE, UV);
+		vec2 ps = TEXTURE_PIXEL_SIZE;
+		float a;
+		float maxa = col.a;
+		float mina = col.a;
 
-	a = texture(TEXTURE, UV + vec2(0.0, -outline_width) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
+		a = texture(TEXTURE, UV + vec2(0.0, -outline_width) * ps).a;
+		maxa = max(a, maxa);
+		mina = min(a, mina);
 
-	a = texture(TEXTURE, UV + vec2(0.0, outline_width) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
+		a = texture(TEXTURE, UV + vec2(0.0, outline_width) * ps).a;
+		maxa = max(a, maxa);
+		mina = min(a, mina);
 
-	a = texture(TEXTURE, UV + vec2(-outline_width, 0.0) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
+		a = texture(TEXTURE, UV + vec2(-outline_width, 0.0) * ps).a;
+		maxa = max(a, maxa);
+		mina = min(a, mina);
 
-	a = texture(TEXTURE, UV + vec2(outline_width, 0.0) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	COLOR = mix(col, outline_color, maxa - mina);
+		a = texture(TEXTURE, UV + vec2(outline_width, 0.0) * ps).a;
+		maxa = max(a, maxa);
+		mina = min(a, mina);
+		
+		if (frequency > 0.0) {
+			outcol.a = 0.5 + 0.5 * pow(sin(frequency * TIME), 2.0);
+		}
+		
+		COLOR = mix(col, outcol, maxa - mina);
+	}
 }"
 
 [sub_resource type="ShaderMaterial" id=51]
 resource_local_to_scene = true
 shader = SubResource( 50 )
 shader_param/outline_width = 1.0
+shader_param/frequency = 0.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 20.0998
+[sub_resource type="RectangleShape2D" id=52]
+extents = Vector2( 19, 8.5 )
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 2 )
@@ -266,7 +279,7 @@ region = Rect2( 4400, 0, 100, 100 )
 
 [sub_resource type="SpriteFrames" id=46]
 animations = [ {
-"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ), SubResource( 47 ) ],
+"frames": [ null, SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ), SubResource( 47 ) ],
 "loop": false,
 "name": "default",
 "speed": 30.0
@@ -277,6 +290,21 @@ material = SubResource( 49 )
 collision_layer = 3
 collision_mask = 3
 script = ExtResource( 3 )
+
+[node name="ProgressChop" type="TextureProgress" parent="."]
+margin_left = -30.0
+margin_top = -12.0
+margin_right = 120.0
+margin_bottom = 138.0
+rect_scale = Vector2( 0.4, 0.2 )
+value = 100.0
+texture_under = ExtResource( 5 )
+texture_progress = ExtResource( 5 )
+fill_mode = 4
+tint_under = Color( 0.1, 0.1, 0.1, 0.78 )
+tint_over = Color( 0.101961, 0.101961, 0.101961, 0 )
+tint_progress = Color( 1, 0.84, 0, 0.78 )
+radial_initial_angle = 180.0
 
 [node name="Oaktree" type="Sprite" parent="."]
 material = SubResource( 51 )
@@ -293,25 +321,12 @@ scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+position = Vector2( -1, 2 )
+scale = Vector2( 1, 1 )
+shape = SubResource( 52 )
 
 [node name="AnimationLeafspell" type="AnimatedSprite" parent="."]
-position = Vector2( 0, -47 )
+position = Vector2( 1, -48 )
 frames = SubResource( 46 )
-
-[node name="ProgressChop" type="TextureProgress" parent="."]
-margin_left = -30.0
-margin_top = -12.0
-margin_right = 120.0
-margin_bottom = 138.0
-rect_scale = Vector2( 0.4, 0.2 )
-value = 100.0
-texture_under = ExtResource( 5 )
-texture_progress = ExtResource( 5 )
-fill_mode = 4
-tint_under = Color( 0.1, 0.1, 0.1, 0.78 )
-tint_over = Color( 0.101961, 0.101961, 0.101961, 0 )
-tint_progress = Color( 1, 0.84, 0, 0.78 )
-radial_initial_angle = 180.0
 
 [connection signal="tween_completed" from="Spritetween" to="." method="_on_Spritetween_tween_completed"]

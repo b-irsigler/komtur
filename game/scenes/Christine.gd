@@ -104,6 +104,7 @@ func _physics_process(_delta):
 
 	for body in chop_area.get_overlapping_bodies():
 		body.is_selected = true
+		body.set_outline(true)
 	
 
 func idle():
@@ -196,4 +197,6 @@ func _on_Spinne_has_attacked(damage, direction):
 
 
 func _on_ChopArea_body_exited(body):
+	print("triggering the chop")
 	body.is_selected = false
+	body.set_outline(false)
