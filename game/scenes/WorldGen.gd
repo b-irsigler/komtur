@@ -116,6 +116,9 @@ func set_tile(width, height):
 
 func set_objects():
 	objects = {}
+	var count_beech = 0
+	var count_pine = 0
+	var count_firs = 0
 	for pos in biome:
 		var current_biome = biome[pos]
 		var random_object = random_tile(object_data, current_biome)
@@ -123,6 +126,11 @@ func set_objects():
 		if random_object != null:
 			if castle.is_within_castle(pos):
 				tile_to_scene(random_object, pos)
+		match random_object:
+			"tree_beech": count_beech += 1
+			"tree_pine": count_pine += 1
+			"tree_firs": count_firs += 1
+	print("Buchen: ", count_beech, ", Pinienkerne: ", count_pine, ", Fichten: ", count_firs)
 	
 	var fog_sw = fogscreen.instance()
 	fog_sw.rect_position = tilemap.map_to_world(Vector2(-world.map_width/2.0+10,world.map_height-10))

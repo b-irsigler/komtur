@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scenes/Menu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/GUI.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://scenes/LifeBar.gd" type="Script" id=10]
 [ext_resource path="res://resources/symbols/progress_fill.png" type="Texture" id=11]
 [ext_resource path="res://resources/symbols/progress_bar.png" type="Texture" id=12]
+[ext_resource path="res://resources/fonts/GameFont_Smaller.tres" type="DynamicFont" id=13]
 
 [sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 11 )
@@ -68,20 +69,19 @@ wait_time = 30.0
 one_shot = true
 
 [node name="Popup" type="Container" parent="IngameGUI"]
-anchor_left = 0.5
-anchor_top = 0.9
-anchor_right = 0.5
-anchor_bottom = 0.9
+margin_left = 56.0
+margin_top = 490.0
+margin_right = 56.0
+margin_bottom = 490.0
 script = ExtResource( 4 )
 
 [node name="PopupLabel" type="Label" parent="IngameGUI/Popup"]
-margin_right = 40.0
-margin_bottom = 14.0
-grow_horizontal = 2
-rect_scale = Vector2( 0.8, 0.8 )
+margin_right = 910.0
+margin_bottom = 72.0
 theme = ExtResource( 3 )
-text = "Sample Text"
-align = 1
+custom_fonts/font = ExtResource( 13 )
+text = "A lot of sample text that I just made up because I can and nobody will stop me, the fools! If only they knew what kind of shenanigans I would do with such power!"
+autowrap = true
 
 [node name="PopupTween" type="Tween" parent="IngameGUI/Popup"]
 
