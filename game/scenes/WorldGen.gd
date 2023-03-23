@@ -6,6 +6,7 @@ onready var tilemap = $TileMap_Ground
 onready var castle = $Castle
 onready var chapel = $Chapel
 onready var fogscreen = preload("res://resources/assets/vfx/ScreenFog.tscn")
+var time_start = 0
 
 var temperature = {}
 var moisture = {}
@@ -42,6 +43,7 @@ var first_100_beeches = 0
 
 
 func _ready():
+	time_start = Time.get_ticks_msec()
 	generate_new_game()
 
 
@@ -117,6 +119,7 @@ func set_tile(width, height):
 			
 	set_objects()
 	set_fog()
+	print("Map generated in: ", float(Time.get_ticks_msec() - time_start)/1000)
 
 
 func substract_castle(beech_list):

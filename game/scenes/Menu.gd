@@ -49,6 +49,7 @@ func game_finished(is_won):
 
 func _on_ButtonResume_pressed():
 	self.is_paused = false
+	Global.blur._start_deblur()
 
 
 func _on_ButtonExit_pressed():

@@ -23,8 +23,8 @@ func _ready():
 	progress.visible = false
 
 
-func set_outline(is_selected: bool):
-	if is_selected:
+func set_outline(tree_selected: bool):
+	if tree_selected:
 		beech_sprite.get_material().set_shader_param("frequency", 5.0)
 		outline_color.a = 1
 	else:

@@ -46,7 +46,8 @@ func _ready():
 	menu._world_gen = world_gen.get_path()
 
 func start_new_game():
-	get_tree().reload_current_scene()
+	if get_tree().reload_current_scene() != OK:
+		print("Error while starting new game, tree could not be instantiated")
 
 
 func _on_Gui_new_game():

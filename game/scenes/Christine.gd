@@ -177,10 +177,10 @@ func _on_DerGruene_conversation_started(active):
 	is_deal_offered = active
 
 
-func _on_Spinne_has_attacked(damage, direction):
+func _on_Spinne_has_attacked(damage, attack_direction):
 	if life > 0:
 		life -= damage
-		$BloodParticles.direction = direction
+		$BloodParticles.direction = attack_direction
 		$BloodParticles.emitting = true
 	if life <=0:
 		Global.blur._fade_and_deblur()
