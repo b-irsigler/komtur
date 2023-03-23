@@ -46,6 +46,7 @@ func _ready():
 	menu.visible = false
 	intro_screen._start()
 	Global.blur._start_blur(0.1)
+	menu._game_timer = game_timer.get_path()
 
 
 func _physics_process(_delta):
