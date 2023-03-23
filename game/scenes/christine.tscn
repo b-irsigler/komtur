@@ -492,7 +492,7 @@ nodes/BlendSpace2D/position = Vector2( 40, 80 )
 nodes/TimeScale/node = SubResource( 130 )
 nodes/TimeScale/position = Vector2( 400, 100 )
 nodes/output/position = Vector2( 740, 120 )
-node_connections = [ "TimeScale", 0, "BlendSpace2D", "output", 0, "TimeScale" ]
+node_connections = [ "output", 0, "TimeScale", "TimeScale", 0, "BlendSpace2D" ]
 
 [sub_resource type="AnimationNodeAnimation" id=140]
 animation = "IdleLeft"
@@ -544,7 +544,7 @@ nodes/BlendSpace2D/position = Vector2( 200, 60 )
 nodes/TimeScale/node = SubResource( 115 )
 nodes/TimeScale/position = Vector2( 480, 80 )
 nodes/output/position = Vector2( 700, 120 )
-node_connections = [ "TimeScale", 0, "BlendSpace2D", "output", 0, "TimeScale" ]
+node_connections = [ "output", 0, "TimeScale", "TimeScale", 0, "BlendSpace2D" ]
 
 [sub_resource type="AnimationNodeBlendSpace2D" id=26]
 
@@ -600,7 +600,7 @@ nodes/BlendSpace2D/position = Vector2( 80, -40 )
 nodes/TimeScale/node = SubResource( 101 )
 nodes/TimeScale/position = Vector2( 380, -40 )
 nodes/output/position = Vector2( 660, 0 )
-node_connections = [ "TimeScale", 0, "BlendSpace2D", "output", 0, "TimeScale" ]
+node_connections = [ "output", 0, "TimeScale", "TimeScale", 0, "BlendSpace2D" ]
 
 [sub_resource type="AnimationNodeStateMachine" id=21]
 states/Chop/node = SubResource( 131 )

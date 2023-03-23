@@ -45,6 +45,8 @@ func _ready():
 	$DebugOverlay.visible = false
 	menu.visible = false
 	intro_screen._start()
+	
+	menu._game_timer = game_timer.get_path()
 
 
 func _physics_process(_delta):

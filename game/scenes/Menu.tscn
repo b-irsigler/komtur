@@ -41,6 +41,18 @@ theme = ExtResource( 1 )
 text = "Menütitel"
 align = 1
 
+[node name="LineEdit" type="LineEdit" parent="CenterContainer/VBoxContainer"]
+visible = false
+margin_top = 44.0
+margin_right = 224.0
+margin_bottom = 84.0
+
+[node name="Highscore" type="Label" parent="CenterContainer/VBoxContainer"]
+visible = false
+margin_top = 44.0
+margin_right = 224.0
+margin_bottom = 74.0
+
 [node name="Spacer" type="Control" parent="CenterContainer/VBoxContainer"]
 margin_top = 44.0
 margin_right = 224.0

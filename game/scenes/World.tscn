@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://scenes/World.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/floor/komtur_floortiles.tres" type="TileSet" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://scenes/Spinne.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/Castle.tscn" type="PackedScene" id=8]
 [ext_resource path="res://scenes/GUI.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/Database.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scenes/Chapel.tscn" type="PackedScene" id=11]
 [ext_resource path="res://resources/assets/music/DSS_MainTheme_pt1.mp3" type="AudioStream" id=12]
 [ext_resource path="res://scenes/WorldGen.gd" type="Script" id=13]
@@ -60,3 +61,5 @@ autoplay = true
 bus = "bg music"
 
 [node name="GUI" parent="." instance=ExtResource( 9 )]
+
+[node name="Database" parent="." instance=ExtResource( 10 )]
