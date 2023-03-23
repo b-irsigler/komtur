@@ -18,6 +18,8 @@ onready var menu = $GUI/Menu
 onready var database = $Database
 onready var game_timer = $GUI/IngameGUI/GameTimer
 onready var highscore = $GUI/Menu/CenterContainer/VBoxContainer/Highscore
+onready var indicator = $GUI/IngameGUI/DirectionIndicator
+
 
 
 func _ready():
@@ -37,6 +39,7 @@ func _ready():
 	debug.add_stat("Spinne", spinne, "_get_debug", true)
 	debug.add_stat("DerGruene", der_gruene, "_get_debug", true)
 	debug.add_stat("Chapel", chapel, "_get_debug", true)
+	debug.add_stat("Indicator", indicator, "_get_debug", true)
 
 	menu._world_gen = world_gen.get_path()
 
