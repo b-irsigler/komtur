@@ -68,7 +68,7 @@ func set_tile(width, height):
 			var temp = temperature[pos]
 			var moist = moisture[pos]
 			
-			if is_border(pos, 8):
+			if is_border(pos, 10):
 				biome[pos] = "map_border"
 				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"map_border")])
 				continue
@@ -112,6 +112,7 @@ func set_tile(width, height):
 				continue
 			
 	set_objects()
+	set_fog()
 
 
 func set_objects():
@@ -131,12 +132,29 @@ func set_objects():
 			"tree_pine": count_pine += 1
 			"tree_firs": count_firs += 1
 	print("Buchen: ", count_beech, ", Pinienkerne: ", count_pine, ", Fichten: ", count_firs)
-	
+
+
+func set_fog():
 	var fog_sw = fogscreen.instance()
-	fog_sw.rect_position = tilemap.map_to_world(Vector2(-world.map_width/2.0+10,world.map_height-10))
-	fog_sw.rect_size.x = 14310
+	fog_sw.rect_position = tilemap.map_to_world(Vector2(0,world.map_height))+Vector2(0,-1200)
+	fog_sw.rect_size.x = 15000
 	fog_sw.rect_rotation = 26.6
+	var fog_nw = fogscreen.instance()
+	fog_nw.rect_position = tilemap.map_to_world(Vector2(0,0))+Vector2(450,-1450)
+	fog_nw.rect_size.x = 15000
+	fog_nw.rect_rotation = 153.4
+	var fog_se = fogscreen.instance()
+	fog_se.rect_position = tilemap.map_to_world(Vector2(world.map_width,0))+Vector2(0,-1200)
+	fog_se.rect_size.x = 15000
+	fog_se.rect_rotation = -153.4
+	var fog_ne = fogscreen.instance()
+	fog_ne.rect_position = tilemap.map_to_world(Vector2(world.map_width,world.map_height))+Vector2(0,-1200)
+	fog_ne.rect_size.x = 15000
+	fog_ne.rect_rotation = -26.6
 	world.call_deferred("add_child", fog_sw)
+	world.call_deferred("add_child", fog_nw)
+	world.call_deferred("add_child", fog_se)
+	world.call_deferred("add_child", fog_ne)
 
 
 func is_border(position, border_width):

@@ -5,5 +5,5 @@
 [node name="ScreenFog" type="ColorRect"]
 material = ExtResource( 1 )
 margin_right = 200.0
-margin_bottom = 2000.0
-rect_pivot_offset = Vector2( 0, 600 )
+margin_bottom = 1200.0
+rect_pivot_offset = Vector2( 0, 1200 )

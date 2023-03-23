@@ -80,6 +80,7 @@ func _physics_process(_delta):
 			for body in chop_area.get_overlapping_bodies():
 				if body.is_being_chopped:
 					body.is_being_chopped = false
+					body.set_outline(true)
 
 	if is_deal_offered:
 		if Input.is_action_just_pressed("yes"):
@@ -102,10 +103,6 @@ func _physics_process(_delta):
 		State.CHOP:
 			chop()
 
-	for body in chop_area.get_overlapping_bodies():
-		body.is_selected = true
-		body.set_outline(true)
-	
 
 func idle():
 	animation_tree.set("parameters/Idle/BlendSpace2D/blend_position", direction)
@@ -196,7 +193,11 @@ func _on_Spinne_has_attacked(damage, direction):
 	Global.lifebar.update_health(life)
 
 
+func _on_ChopArea_body_entered(body):
+	body.is_selected = true
+	body.set_outline(true)
+
+
 func _on_ChopArea_body_exited(body):
-	print("triggering the chop")
 	body.is_selected = false
 	body.set_outline(false)

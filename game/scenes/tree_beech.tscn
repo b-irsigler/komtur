@@ -322,7 +322,6 @@ texture = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -1, 2 )
-scale = Vector2( 1, 1 )
 shape = SubResource( 52 )
 
 [node name="AnimationLeafspell" type="AnimatedSprite" parent="."]

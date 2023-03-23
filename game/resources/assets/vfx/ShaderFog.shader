@@ -58,8 +58,7 @@ void fragment()
 {
     vec2 uv = FRAGCOORD.xy/(50000.0*cloudScale);
     
- 
-    float cover = 0.55; // mouseXAffect*1.1+0.1;
+    float cover = 0.58; // mouseXAffect*1.1+0.1;
     //if( iMouse.z<=0.0001 ) cover = 0.5;
     
     float bright = brightness*(1.8-cover);
@@ -78,5 +77,6 @@ void fragment()
     vec4 cloudColComb = mix(clouds1Color,clouds2Color,saturate(clouds2-clouds1));
     
 	COLOR = cloudColComb;// mix(skyCol,cloudColComb,cloudsFormComb);
-	COLOR.a = pow(cloudsFormComb*UV.y+UV.y/2.0, 0.5);
+	if (UV.y > 0.5) COLOR.a = clamp(cloudsFormComb*2.0, 0.0, 1.0);
+	else COLOR.a = clamp(pow(cloudsFormComb*UV.y*4.0, 0.7), 0.0, 1.0);
 }
