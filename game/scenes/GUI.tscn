@@ -12,7 +12,7 @@
 [ext_resource path="res://scenes/LifeBar.gd" type="Script" id=10]
 [ext_resource path="res://resources/symbols/progress_fill.png" type="Texture" id=11]
 [ext_resource path="res://resources/symbols/progress_bar.png" type="Texture" id=12]
-[ext_resource path="res://resources/fonts/GameFont_Smaller.tres" type="DynamicFont" id=13]
+[ext_resource path="res://resources/fonts/GameFont_normal.tres" type="DynamicFont" id=13]
 
 [sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 11 )
@@ -70,9 +70,9 @@ one_shot = true
 
 [node name="Popup" type="Container" parent="IngameGUI"]
 margin_left = 56.0
-margin_top = 490.0
+margin_top = 480.0
 margin_right = 56.0
-margin_bottom = 490.0
+margin_bottom = 480.0
 script = ExtResource( 4 )
 
 [node name="PopupLabel" type="Label" parent="IngameGUI/Popup"]
@@ -80,7 +80,7 @@ margin_right = 910.0
 margin_bottom = 72.0
 theme = ExtResource( 3 )
 custom_fonts/font = ExtResource( 13 )
-text = "A lot of sample text that I just made up because I can and nobody will stop me, the fools! If only they knew what kind of shenanigans I would do with such power!"
+text = "A lot of sample text that I just made up because I can and nobody will stop me, the fools! "
 autowrap = true
 
 [node name="PopupTween" type="Tween" parent="IngameGUI/Popup"]
