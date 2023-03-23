@@ -23,6 +23,7 @@ _global_script_class_icons={
 config/name="Die Schwarze Spinne"
 config/description="Isometrisches RPG basierend auf Jeremias Gotthelf's \"Die schwarze Spinne\". "
 run/main_scene="res://scenes/World.tscn"
+boot_splash/image="res://resources/img/splash.png"
 
 [autoload]
 

@@ -303,7 +303,7 @@ texture_progress = ExtResource( 5 )
 fill_mode = 4
 tint_under = Color( 0.1, 0.1, 0.1, 0.78 )
 tint_over = Color( 0.101961, 0.101961, 0.101961, 0 )
-tint_progress = Color( 1, 0.84, 0, 0.78 )
+tint_progress = Color( 1, 0.839216, 0, 1 )
 radial_initial_angle = 180.0
 
 [node name="Oaktree" type="Sprite" parent="."]

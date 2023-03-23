@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1024"
+   height="600"
+   viewBox="0 0 270.93333 158.75"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="splash.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="516.37073"
+     inkscape:cy="344.94687"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-138.24998)">
+    <rect
+       style="opacity:1;vector-effect:none;fill:#1a1a1a;fill-opacity:1;stroke:#151515;stroke-width:0.66145831;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+       id="rect815"
+       width="270.93332"
+       height="158.75"
+       x="0.33072916"
+       y="137.91925" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.33611107px;line-height:1.25;font-family:Lohengrin;-inkscape-font-specification:Lohengrin;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffd600;fill-opacity:1;stroke:none;stroke-width:0.49114585"
+       x="122.08064"
+       y="204.82866"
+       id="text829"><tspan
+         sodipodi:role="line"
+         x="122.08064"
+         y="204.82866"
+         style="fill:#ffd600;fill-opacity:1;stroke-width:0.49114585"
+         id="tspan831">Die schwarze</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32.59638214px;line-height:1.25;font-family:Lohengrin;-inkscape-font-specification:Lohengrin;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffd600;fill-opacity:1;stroke:none;stroke-width:0.87311739"
+       x="145.67308"
+       y="230.77815"
+       id="text829-8"><tspan
+         sodipodi:role="line"
+         x="145.67308"
+         y="230.77815"
+         style="fill:#ffd600;fill-opacity:1;stroke-width:0.87311739"
+         id="tspan831-4">Spinne</tspan></text>
+  </g>
+</svg>
