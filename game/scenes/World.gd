@@ -55,7 +55,7 @@ func _on_Gui_new_game():
 	
 	
 func _on_name_entered(name):
-	database.add_score(name, game_timer.time_left, world_gen.first_100_beeches)
+	database.add_score(name)
 	var results = yield(database.get_score_list(), "completed")
 	var result_string = "Highscore:\n"
 	var count = 0

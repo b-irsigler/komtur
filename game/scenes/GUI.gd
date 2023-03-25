@@ -2,7 +2,7 @@ extends CanvasLayer
 
 
 signal new_game
-enum State {INGAME, INTRO, TUTORIAL, MENU, OVER}
+enum State {INGAME, INTRO, TUTORIAL, MENU, OVER, SETTINGS}
 
 var total_time_seconds = 600
 var total_time_seconds_per_30_days = total_time_seconds / 30
@@ -19,17 +19,17 @@ onready var intro_screen = $IntroScreen
 onready var tutorial_screen = $TutorialScreen
 onready var tutorial_button_back = $TutorialScreen/ButtonBack
 onready var ingame_gui = $IngameGUI
-onready var camera = $"../WorldGen/Christine/Camera2D"
+onready var debug = $DebugOverlay
 onready var direction_indicator = $IngameGUI/DirectionIndicator
-onready var lifebar = $IngameGUI/LifeBar
 
 
 func _ready():
 	Global.gui = self
-	Global.lifebar = lifebar
+	Global.lifebar = $IngameGUI/LifeBar
 	
 	menu.connect("new_game",self,"_on_Menu_new_game")
 	menu.menu_debug.connect("toggled", self, "_on_DebugToggle")
+	menu.menu_music.connect("toggled", self, "_on_MusicToggle")
 	menu.menu_tutorial.connect("pressed", self, "_on_button_tutorial_pressed")
 	menu.menu_resume.connect("pressed", self, "_on_Menu_resume")
 	intro_screen.connect("text_intro_button_pressed", self, "_on_intro_button_pressed")
@@ -42,7 +42,7 @@ func _ready():
 	
 	_set_gui_state(State.INTRO)
 	ingame_gui.visible = false
-	$DebugOverlay.visible = false
+	debug.visible = false
 	menu.visible = false
 	intro_screen._start()
 	Global.blur._start_blur(0.1)
@@ -102,20 +102,24 @@ func _on_Menu_resume():
 
 
 func _on_DebugToggle(is_checked: bool):
-	$DebugOverlay.visible = is_checked
+	debug.visible = is_checked
+
+
+func _on_MusicToggle(is_checked: bool):
+	AudioServer.set_bus_mute(AudioServer.get_bus_index("bg music"), !is_checked)
+	#AudioServer.set_bus_volume_db(AudioServer.get_bus_index("bg music"), -24)
 
 
 func _on_intro_button_pressed():
 	Global.blur._start_deblur()
 	ingame_gui.visible = true
-	$DebugOverlay.visible = true
 	game_timer.start(total_time_seconds)
 	_set_gui_state(State.INGAME)
 
 
 func _on_button_tutorial_pressed():
 	tutorial_screen.visible = true
-	$DebugOverlay.visible = false
+	debug.visible = false
 	ingame_gui.visible = false
 	_set_gui_state(State.TUTORIAL)
 	match last_gui_state:
@@ -145,6 +149,7 @@ func _on_tutorial_back_pressed():
 func _on_Christine_beech_chopped(inventory, count):
 	label_beech.text = "Buchen im Schloss: %s | getragen: %s" % [count, inventory]
 	if count >= 100:
+		Global.blur._start_blur()
 		menu.game_finished(true)
 		current_gui_state = State.OVER
 

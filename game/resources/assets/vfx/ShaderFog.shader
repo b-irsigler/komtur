@@ -56,7 +56,7 @@ float fbm (vec2 uv)
 
 void fragment()
 {
-    vec2 uv = FRAGCOORD.xy/(50000.0*cloudScale);
+    vec2 uv = UV.xy/(500.0*cloudScale);
     
     float cover = 0.58; // mouseXAffect*1.1+0.1;
     //if( iMouse.z<=0.0001 ) cover = 0.5;

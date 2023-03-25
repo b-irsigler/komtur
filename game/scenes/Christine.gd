@@ -36,6 +36,7 @@ onready var animation_tree = $AnimationTree
 onready var animation_state = animation_tree.get("parameters/playback")
 onready var chapel = $"../Chapel"
 onready var castle = $"../Castle"
+onready var speech_audio = $ChristineSpeechPlayer
 
 
 func _get_debug():
@@ -67,9 +68,9 @@ func _physics_process(_delta):
 	
 	if Input.is_action_just_pressed("run"):
 		running = not running
-	if Input.is_action_just_pressed("jump") and current_state != State.JUMP:
-		current_state = State.JUMP
-		jump_timer.start()
+#	if Input.is_action_just_pressed("jump") and current_state != State.JUMP:
+#		current_state = State.JUMP
+#		jump_timer.start()
 	if Input.is_action_pressed("chop"):
 		if not $DigSFXPlayer.playing and chop_area.get_overlapping_bodies().size() > 0:
 			$DigSFXPlayer.play()
@@ -84,12 +85,16 @@ func _physics_process(_delta):
 
 	if is_deal_offered:
 		if Input.is_action_just_pressed("yes"):
-			emit_signal("deal_accepted")
 			update_beech_counters(0, 12)
 			is_deal_offered = false
+			speech_audio.play_random_yesdeal()
+			yield(speech_audio, "finished")
+			emit_signal("deal_accepted")
 		if Input.is_action_just_pressed("no"):
-			emit_signal("deal_denied")
 			is_deal_offered = false
+			speech_audio.play_random_nodeal()
+			yield(speech_audio, "finished")
+			emit_signal("deal_denied")
 		
 	match current_state:
 		State.IDLE:
@@ -98,8 +103,8 @@ func _physics_process(_delta):
 			if running:
 				motion *= RUN_MULT
 			walk()
-		State.JUMP:
-			jump()
+#		State.JUMP:
+#			jump()
 		State.CHOP:
 			chop()
 
@@ -115,11 +120,13 @@ func walk():
 	move_and_slide(motion)
 
 
+#disabled to fix #156
 func jump():
-	animation_state.travel("Stop")
-	var temp = jump_timer.time_left / jump_duration
-	sprite.offset = Vector2(0,4 * jump_height * temp * ( temp - 1))
-	move_and_slide(motion)
+	pass
+#	animation_state.travel("Stop")
+#	var temp = jump_timer.time_left / jump_duration
+#	sprite.offset = Vector2(0,4 * jump_height * temp * ( temp - 1))
+#	move_and_slide(motion)
 
 
 func chop():
@@ -131,6 +138,7 @@ func chop():
 		if beech_inventory >= 5:
 			emit_signal("beech_inventory_exceeded")
 			$DigSFXPlayer.stop()
+			speech_audio.play_random_cantcarry()
 		elif not body.is_chopped:
 			if body.chop():
 				update_beech_counters(1, 0)

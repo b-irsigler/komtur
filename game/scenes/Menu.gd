@@ -11,6 +11,7 @@ var is_paused = false setget set_is_paused
 onready var menu_reason = $CenterContainer/VBoxContainer/MenuReason
 onready var menu_resume = $CenterContainer/VBoxContainer/ButtonResume
 onready var menu_tutorial = $CenterContainer/VBoxContainer/ButtonTutorial
+onready var menu_music = $CenterContainer/VBoxContainer/CheckBoxMusic
 onready var menu_debug = $CenterContainer/VBoxContainer/CheckBoxDebug
 onready var text_input = $CenterContainer/VBoxContainer/LineEdit
 onready var highscore = $CenterContainer/VBoxContainer/Highscore
@@ -32,10 +33,9 @@ func game_finished(is_won):
 	self.is_paused = true
 	menu_resume.visible = false
 	if is_won:
-		var game_timer = get_node(_game_timer)
-		var world_gen = get_node(_world_gen)
-		var score = int(game_timer.time_left * world_gen.first_100_beeches)
-		menu_reason.text = "Gewonnen mit %s Punkten." % Utils.number_to_separated(score)
+		Global.game_time_left = get_node(_game_timer).time_left
+		Global.game_score = int(Global.game_time_left * Global.first_100_beeches)
+		menu_reason.text = "Gewonnen mit %s Punkten." % Utils.number_to_separated(Global.game_score)
 		text_input.align = LineEdit.ALIGN_CENTER
 		text_input.set_placeholder("Name")
 		text_input.visible = true

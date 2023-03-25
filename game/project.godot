@@ -341,6 +341,13 @@ no={
  ]
 }
 
+[network]
+
+limits/debugger_stdout/max_chars_per_second=4096
+limits/debugger_stdout/max_messages_per_frame=20
+limits/debugger_stdout/max_errors_per_second=200
+limits/debugger_stdout/max_warnings_per_second=200
+
 [physics]
 
 2d/thread_model=2

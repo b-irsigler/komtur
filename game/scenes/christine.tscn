@@ -1,9 +1,10 @@
-[gd_scene load_steps=71 format=2]
+[gd_scene load_steps=72 format=2]
 
 [ext_resource path="res://scenes/Christine.gd" type="Script" id=1]
 [ext_resource path="res://resources/assets/characters/christine.png" type="Texture" id=2]
 [ext_resource path="res://resources/assets/sfx/christine_digging.mp3" type="AudioStream" id=3]
 [ext_resource path="res://resources/assets/vfx/BloodParticles.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/ChristineSpeechPlayer.gd" type="Script" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -493,7 +494,7 @@ nodes/BlendSpace2D/position = Vector2( 40, 80 )
 nodes/TimeScale/node = SubResource( 130 )
 nodes/TimeScale/position = Vector2( 400, 100 )
 nodes/output/position = Vector2( 740, 120 )
-node_connections = [ "TimeScale", 0, "BlendSpace2D", "output", 0, "TimeScale" ]
+node_connections = [ "output", 0, "TimeScale", "TimeScale", 0, "BlendSpace2D" ]
 
 [sub_resource type="AnimationNodeAnimation" id=140]
 animation = "IdleLeft"
@@ -545,7 +546,7 @@ nodes/BlendSpace2D/position = Vector2( 200, 60 )
 nodes/TimeScale/node = SubResource( 115 )
 nodes/TimeScale/position = Vector2( 480, 80 )
 nodes/output/position = Vector2( 700, 120 )
-node_connections = [ "TimeScale", 0, "BlendSpace2D", "output", 0, "TimeScale" ]
+node_connections = [ "output", 0, "TimeScale", "TimeScale", 0, "BlendSpace2D" ]
 
 [sub_resource type="AnimationNodeBlendSpace2D" id=26]
 
@@ -601,7 +602,7 @@ nodes/BlendSpace2D/position = Vector2( 80, -40 )
 nodes/TimeScale/node = SubResource( 101 )
 nodes/TimeScale/position = Vector2( 380, -40 )
 nodes/output/position = Vector2( 660, 0 )
-node_connections = [ "TimeScale", 0, "BlendSpace2D", "output", 0, "TimeScale" ]
+node_connections = [ "output", 0, "TimeScale", "TimeScale", 0, "BlendSpace2D" ]
 
 [sub_resource type="AnimationNodeStateMachine" id=21]
 states/Chop/node = SubResource( 131 )
@@ -722,6 +723,11 @@ bus = "christine sfx"
 stream = SubResource( 158 )
 volume_db = -6.0
 bus = "christine sfx"
+
+[node name="ChristineSpeechPlayer" type="AudioStreamPlayer2D" parent="."]
+volume_db = -7.0
+bus = "christine sfx"
+script = ExtResource( 5 )
 
 [node name="BloodParticles" parent="." instance=ExtResource( 4 )]
 position = Vector2( 0, -25 )

@@ -67,6 +67,10 @@ func generate_new_game():
 
 
 func set_tile(width, height):
+	var cells_grass = 0
+	var cells_lightforest = 0
+	var cells_forest = 0
+	
 	for x in width:
 		for y in height:
 			var pos = Vector2(x, y)
@@ -96,21 +100,27 @@ func set_tile(width, height):
 				if between(moist, 0, 0.95) and between(temp, 0, 0.4):
 					biome[pos] = "grass"
 					tilemap.set_cellv(pos, tiles[random_tile(biome_data,"grass")])
+					cells_grass += 1
 				elif between(moist, 0.2, 0.5) and temp > 0.4:
 					biome[pos] = "light_forest"
 					tilemap.set_cellv(pos, tiles[random_tile(biome_data,"light_forest")])
+					cells_lightforest += 1
 				elif between(moist, 0.5, 0.95) and temp > 0.4:
 					biome[pos] = "forest"
 					tilemap.set_cellv(pos, tiles[random_tile(biome_data,"forest")])
+					cells_forest += 1
 				else:
 					biome[pos] = "green_grass"
 					tilemap.set_cellv(pos, tiles[random_tile(biome_data,"green_grass")])
+					cells_grass += 1
 			elif between(alt, 0.6, 0.8):
 				biome[pos] = "light_forest"
 				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"light_forest")])
+				cells_lightforest += 1
 			else:
 				biome[pos] = "grass"
 				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"grass")])
+				cells_grass += 1
 			
 			if castle.is_on_berhegen(pos,10):
 				biome[pos] = "stone"
@@ -119,6 +129,7 @@ func set_tile(width, height):
 			
 	set_objects()
 	set_fog()
+	print("Grass cells: ", cells_grass, ", Light Forest cells: ", cells_lightforest, ", Forest cells: ", cells_forest)
 	print("Map generated in: ", float(Time.get_ticks_msec() - time_start)/1000)
 
 
@@ -153,9 +164,9 @@ func set_objects():
 			"tree_beech": count_beech += 1
 			"tree_pine": count_pine += 1
 			"tree_firs": count_firs += 1
-	print("Buchen: ", count_beech, ", Pinienkerne: ", count_pine, ", Fichten: ", count_firs)
+	print("Buchen: ", count_beech, ", Pinien: ", count_pine, ", Fichten: ", count_firs)
 	first_100_beeches = substract_castle(beech_list)
-
+	Global.first_100_beeches = first_100_beeches
 
 
 func set_fog():

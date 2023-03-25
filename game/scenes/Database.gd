@@ -25,9 +25,9 @@ func _on_auth_request(return_code, auth_or_error):
 		auth.login_anonymous()
 		
 
-func add_score(name, time_left, first_100_beeches):
-	var score = time_left * first_100_beeches
-	var add_task : FirestoreTask = collection.add("", {'name': name, 'score' : score, 'time_left': time_left, "first_100_beeches": first_100_beeches})
+func add_score(name):
+	var score = Global.game_score
+	var add_task : FirestoreTask = collection.add("", {'name': name, 'score' : score, 'time_left': Global.game_time_left, "first_100_beeches": Global.first_100_beeches})
 	
 
 func get_score_list():
