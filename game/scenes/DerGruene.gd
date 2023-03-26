@@ -21,7 +21,7 @@ onready var state_change_timer = $StateChangeTimer
 onready var after_conversation_timer = $AfterConversationTimer
 onready var conversation_area = $ConversationArea
 onready var animation_state = animation_tree.get("parameters/playback")
-onready var christine = $"../Christine"
+onready var christine = $"%Christine"
 onready var motion_speed = christine.default_motion_speed * .30
 onready var raycast = $RayCast2D
 onready var teleport_animation = $GrueneTeleportAnimation
@@ -45,7 +45,7 @@ func _physics_process(_delta):
 	motion = motion_speed * direction
 	
 	raycast.cast_to = 100 * motion.normalized()
-	if raycast.is_colliding():
+	if raycast.is_colliding() and current_state != State.AFTER_CONVERSATION:
 		if raycast.get_collider() != christine:
 			current_state = State.NEW_DIRECTION
 			
@@ -126,29 +126,33 @@ func _on_StateChangeTimer_timeout():
 
 
 func _on_AfterConversationTimer_timeout():
-	position = Vector2(-20000, 0)
-	teleport_animation.stop()
-	teleport_animation.set_frame(0)
-	sprite.scale = Vector2(1.0,1.0)
 	state_change_timer.start()
 
 
 func _on_Christine_deal_accepted():
-	deal_finished()
+	deal_conversation_finished()
 
 
 func _on_Christine_deal_denied():
-	deal_finished()
+	deal_conversation_finished()
 
 
-func deal_finished():
+func deal_conversation_finished():
 	speech.stop()
 	$GrueneLaughSFXPlayer.play()
 	emit_signal("conversation_started", false)
 	fx_tween.interpolate_property(sprite, "scale", self.get_scale(), Vector2(0, 0), 0.5, Tween.TRANS_LINEAR,Tween.EASE_IN, 0.5)
 	fx_tween.start()
 	teleport_animation.play()
-	after_conversation_timer.start(2)
+	yield(teleport_animation, "animation_finished")
+	position = Vector2(-20000, 0)
+	teleport_animation.stop()
+	teleport_animation.set_frame(0)
+	sprite.scale = Vector2(1.0,1.0)
+
+
+func start_deal_cooldown():
+	after_conversation_timer.start(60)
 	current_state = State.AFTER_CONVERSATION
 
 
@@ -158,13 +162,13 @@ func deal_finished():
 
 
 func _on_ConversationArea_body_entered(body):
-	if body == $"%Christine":
+	if body == $"%Christine" and after_conversation_timer.is_stopped():
 		current_state = State.CONVERSATION
 		start_conversation()
 
 
 func _on_ConversationArea_body_exited(body):
-	if body == $"%Christine":
+	if body == $"%Christine" and after_conversation_timer.is_stopped():
 		current_state = State.IDLE
 		state_change_timer.start()
 		emit_signal("conversation_started", false)
