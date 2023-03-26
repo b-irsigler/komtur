@@ -49,6 +49,7 @@ script = ExtResource( 14 )
 [node name="Chapel" parent="WorldGen" instance=ExtResource( 11 )]
 
 [node name="Christine" parent="WorldGen" instance=ExtResource( 4 )]
+unique_name_in_owner = true
 position = Vector2( -384, 6400 )
 __meta__ = {
 "_edit_group_": true

@@ -32,6 +32,8 @@ onready var speech = $GrueneSpeechAudioPlayer
 func _ready():
 	state_change_timer.connect("timeout", self, "_on_StateChangeTimer_timeout")
 	after_conversation_timer.connect("timeout", self, "_on_AfterConversationTimer_timeout")
+	conversation_area.connect("body_entered", self, "_on_ConversationArea_body_entered")
+	conversation_area.connect("body_exited", self, "_on_ConversationArea_body_exited")
 	to_start_position()
 
 
@@ -47,8 +49,9 @@ func _physics_process(_delta):
 		if raycast.get_collider() != christine:
 			current_state = State.NEW_DIRECTION
 			
-	if conversation_area.overlaps_body(christine) and current_state != State.AFTER_CONVERSATION:
-		current_state = State.CONVERSATION
+#	if conversation_area.overlaps_body(christine) and current_state != State.AFTER_CONVERSATION:
+#		current_state = State.CONVERSATION
+#		start_conversation()
 	
 	match current_state:
 		State.IDLE:
@@ -59,7 +62,7 @@ func _physics_process(_delta):
 			direction = Vector2(rng_direction(), rng_direction()).normalized()
 			current_state = State.WALK
 		State.CONVERSATION:
-			conversation()
+			in_conversation()
 		State.AFTER_CONVERSATION:
 			pass
 
@@ -87,14 +90,19 @@ func teleport():
 			position = christine.position + 2 * christine.motion
 
 
-func conversation():
+#Doing when TRANSITIONING to state conversation
+func start_conversation():
 	emit_signal("conversation_started", true)
 	if not speech.playing:
 		speech.play()
 	state_change_timer.stop()
+	animation_state.travel("Idle")
+
+
+#Doing WHILE in state comversation
+func in_conversation():
 	direction = (christine.position - position).normalized()
 	animation_tree.set("parameters/Idle/blend_position", direction)
-	animation_state.travel("Idle")
 
 
 func to_start_position():
@@ -106,7 +114,7 @@ func to_start_position():
 		
 	position = tilemap.map_to_world(start_position)
 	#TESTING
-	#position = tilemap.map_to_world(christine.start_position+Vector2(0,4))
+	position = tilemap.map_to_world(christine.start_position+Vector2(0,4))
 
 
 func _on_StateChangeTimer_timeout():
@@ -144,12 +152,19 @@ func deal_finished():
 	current_state = State.AFTER_CONVERSATION
 
 
-func _on_Gui_new_game():
-	to_start_position()
+#Shouldn't be needed, _ready is called on new game
+#func _on_Gui_new_game():
+#	to_start_position()
+
+
+func _on_ConversationArea_body_entered(body):
+	if body == $"%Christine":
+		current_state = State.CONVERSATION
+		start_conversation()
 
 
 func _on_ConversationArea_body_exited(body):
-	if body.name == "Christine":
+	if body == $"%Christine":
 		current_state = State.IDLE
 		state_change_timer.start()
 		emit_signal("conversation_started", false)
