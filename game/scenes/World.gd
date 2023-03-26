@@ -36,6 +36,7 @@ func _ready():
 	der_gruene.connect("conversation_started", christine, "_on_DerGruene_conversation_started")
 	menu.connect("name_entered", self, "_on_name_entered")
 	spinne.connect("has_attacked", christine, "_on_Spinne_has_attacked")
+	komtur.connect("komtur_has_attacked", christine, "_on_komtur_has_attacked")
 	debug.add_stat("Christine", christine, "_get_debug", true)
 	debug.add_stat("Komtur", komtur, "_get_debug", true)
 	debug.add_stat("Spinne", spinne, "_get_debug", true)

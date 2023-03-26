@@ -735,6 +735,10 @@ lifetime = 0.3
 initial_velocity = 70.0
 scale_amount = 3.5
 
+[node name="DebuffTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="body_entered" from="ChopArea" to="." method="_on_ChopArea_body_entered"]
 [connection signal="body_exited" from="ChopArea" to="." method="_on_ChopArea_body_exited"]
 [connection signal="body_entered" from="InteractionAreaCastle" to="." method="_on_IntAreaCastle_body_entered"]
+[connection signal="timeout" from="DebuffTimer" to="." method="_on_DebuffTimer_timeout"]
