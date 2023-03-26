@@ -25,20 +25,18 @@ var is_deal_offered = false
 var current_state = State.IDLE
 var life = 10
 
-onready var world = get_parent()
+onready var world = get_parent().get_parent()
 onready var start_position = Vector2(world.map_width/2 - 3, world.map_height/2 + 3)
 onready var tilemap = $"../TileMap_Ground"
 onready var sprite = $Sprite
 onready var jump_timer = $JumpTimer
-onready var day_timer = $DayTimer
 onready var chop_area = $ChopArea
-onready var beech_counter_label = $BeechCounterLabel
-onready var days_left_label = $DaysLeftLabel
 onready var animation_player = $AnimationPlayer
 onready var animation_tree = $AnimationTree
 onready var animation_state = animation_tree.get("parameters/playback")
 onready var chapel = $"../Chapel"
 onready var castle = $"../Castle"
+onready var speech_audio = $ChristineSpeechPlayer
 
 
 func _get_debug():
@@ -70,9 +68,9 @@ func _physics_process(_delta):
 	
 	if Input.is_action_just_pressed("run"):
 		running = not running
-	if Input.is_action_just_pressed("jump") and current_state != State.JUMP:
-		current_state = State.JUMP
-		jump_timer.start()
+#	if Input.is_action_just_pressed("jump") and current_state != State.JUMP:
+#		current_state = State.JUMP
+#		jump_timer.start()
 	if Input.is_action_pressed("chop"):
 		if not $DigSFXPlayer.playing and chop_area.get_overlapping_bodies().size() > 0:
 			$DigSFXPlayer.play()
@@ -83,15 +81,20 @@ func _physics_process(_delta):
 			for body in chop_area.get_overlapping_bodies():
 				if body.is_being_chopped:
 					body.is_being_chopped = false
+					body.set_outline(true)
 
 	if is_deal_offered:
 		if Input.is_action_just_pressed("yes"):
-			emit_signal("deal_accepted")
 			update_beech_counters(0, 12)
 			is_deal_offered = false
+			speech_audio.play_random_yesdeal()
+			yield(speech_audio, "finished")
+			emit_signal("deal_accepted")
 		if Input.is_action_just_pressed("no"):
-			emit_signal("deal_denied")
 			is_deal_offered = false
+			speech_audio.play_random_nodeal()
+			yield(speech_audio, "finished")
+			emit_signal("deal_denied")
 		
 	match current_state:
 		State.IDLE:
@@ -100,14 +103,11 @@ func _physics_process(_delta):
 			if running:
 				motion *= RUN_MULT
 			walk()
-		State.JUMP:
-			jump()
+#		State.JUMP:
+#			jump()
 		State.CHOP:
 			chop()
 
-	for body in chop_area.get_overlapping_bodies():
-		body.is_selected = true
-	
 
 func idle():
 	animation_tree.set("parameters/Idle/BlendSpace2D/blend_position", direction)
@@ -120,11 +120,13 @@ func walk():
 	move_and_slide(motion)
 
 
+#disabled to fix #156
 func jump():
-	animation_state.travel("Stop")
-	var temp = jump_timer.time_left / jump_duration
-	sprite.offset = Vector2(0,4 * jump_height * temp * ( temp - 1))
-	move_and_slide(motion)
+	pass
+#	animation_state.travel("Stop")
+#	var temp = jump_timer.time_left / jump_duration
+#	sprite.offset = Vector2(0,4 * jump_height * temp * ( temp - 1))
+#	move_and_slide(motion)
 
 
 func chop():
@@ -136,6 +138,7 @@ func chop():
 		if beech_inventory >= 5:
 			emit_signal("beech_inventory_exceeded")
 			$DigSFXPlayer.stop()
+			speech_audio.play_random_cantcarry()
 		elif not body.is_chopped:
 			if body.chop():
 				update_beech_counters(1, 0)
@@ -182,10 +185,14 @@ func _on_DerGruene_conversation_started(active):
 	is_deal_offered = active
 
 
-func _on_Spinne_has_attacked(damage):
+func _on_Spinne_has_attacked(damage, attack_direction):
 	if life > 0:
 		life -= damage
+		$BloodParticles.direction = attack_direction
+		$BloodParticles.emitting = true
 	if life <=0:
+		Global.blur._fade_and_deblur()
+		yield(get_tree().create_timer(0.3), "timeout")
 		$DeathSFXPlayer.play()
 		position = chapel.position + world.tilemap.map_to_world(Vector2(0,1.5))
 		update_beech_counters(-beech_inventory, 0)
@@ -194,5 +201,11 @@ func _on_Spinne_has_attacked(damage):
 	Global.lifebar.update_health(life)
 
 
+func _on_ChopArea_body_entered(body):
+	body.is_selected = true
+	body.set_outline(true)
+
+
 func _on_ChopArea_body_exited(body):
 	body.is_selected = false
+	body.set_outline(false)

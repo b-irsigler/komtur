@@ -4,22 +4,24 @@ extends Node2D
 export var map_width = 200
 export var map_height = 200
 
-onready var christine = $Christine
-onready var komtur = $Komtur
-onready var spinne = $Spinne
-onready var castle = $Castle
-onready var der_gruene = $DerGruene
+#var start_position_castle = Vector2(map_width / 2 - 2, map_height / 2 - 6)
+#var start_position_chapel = start_position_castle + 50 * Vector2(rand_range(-1,1), rand_range(-1,1)).normalized()
+
+onready var christine = $WorldGen/Christine
+onready var komtur = $WorldGen/Komtur
+onready var spinne = $WorldGen/Spinne
+onready var castle = $WorldGen/Castle
+onready var der_gruene = $WorldGen/DerGruene
 onready var gui = $GUI
 onready var debug = $GUI/DebugOverlay
-onready var chapel = $Chapel
+onready var chapel = $WorldGen/Chapel
 onready var world_gen = $WorldGen
-onready var tilemap = $TileMap_Ground
+onready var tilemap = $WorldGen/TileMap_Ground
 onready var menu = $GUI/Menu
 onready var database = $Database
 onready var game_timer = $GUI/IngameGUI/GameTimer
 onready var highscore = $GUI/Menu/CenterContainer/VBoxContainer/Highscore
 onready var indicator = $GUI/IngameGUI/DirectionIndicator
-
 
 
 func _ready():
@@ -44,7 +46,8 @@ func _ready():
 	menu._world_gen = world_gen.get_path()
 
 func start_new_game():
-	get_tree().reload_current_scene()
+	if get_tree().reload_current_scene() != OK:
+		print("Error while starting new game, tree could not be instantiated")
 
 
 func _on_Gui_new_game():
@@ -52,7 +55,7 @@ func _on_Gui_new_game():
 	
 	
 func _on_name_entered(name):
-	database.add_score(name, game_timer.time_left, world_gen.first_100_beeches)
+	database.add_score(name)
 	var results = yield(database.get_score_list(), "completed")
 	var result_string = "Highscore:\n"
 	var count = 0

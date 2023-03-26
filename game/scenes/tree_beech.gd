@@ -5,7 +5,7 @@ var is_chopped = false
 var chopping_progress = 100
 var is_selected = false
 var is_being_chopped = false
-var outline_color = Color(1, 1, 1, 0)
+var outline_color = Color(1, .84, 0, 0)
 var time = 0
 var outline_frequency = 5
 
@@ -19,25 +19,23 @@ onready var progress = $ProgressChop
 
 func _ready():
 	effect.interpolate_property(beech_sprite, 'scale', beech_sprite.get_scale(), Vector2(0.1, 0.1), 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT)
+	beech_sprite.get_material().set_shader_param("outline_color", outline_color)
 	progress.visible = false
 
 
-func _physics_process(delta):
-	if is_selected:
-		time += delta
-		if is_being_chopped:
-			outline_frequency = 20
-		else:
-			outline_frequency = 5
-		outline_color = Color(1, 1, 1, .5 + .5 * pow(sin(outline_frequency * time), 2))
+func set_outline(tree_selected: bool):
+	if tree_selected:
+		beech_sprite.get_material().set_shader_param("frequency", 5.0)
+		outline_color.a = 1
 	else:
-		time = 0
-		outline_color = Color(1, 1, 1, 0)
+		beech_sprite.get_material().set_shader_param("frequency", 0.0)
+		outline_color.a = 0
 	beech_sprite.get_material().set_shader_param("outline_color", outline_color)
 
 
 func chop():
 	is_being_chopped = true
+	beech_sprite.get_material().set_shader_param("frequency", 10.0)
 	progress.visible = true
 	chopping_progress -= 1
 	progress.value = chopping_progress
@@ -54,3 +52,4 @@ func chop():
 
 func _on_Spritetween_tween_completed(_object, _key):
 	beech_sprite.visible = false
+	beech_sprite.get_material().set_shader_param("frequency", 0.0)

@@ -3,7 +3,7 @@ extends StaticBody2D
 
 const CASTLE_RADIUS = 15
 
-onready var world = get_parent()
+onready var world = get_parent().get_parent()
 onready var start_position = Vector2(world.map_width / 2 - 2, world.map_height / 2 - 6)
 onready var tilemap = $"../TileMap_Ground"
 onready var sprite = $Castle2

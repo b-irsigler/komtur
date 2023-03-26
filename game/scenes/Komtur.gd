@@ -16,7 +16,7 @@ var return_counter = 0
 var player = null
 var intercept_aim = Vector2(0,0)
 
-onready var world = get_parent()
+onready var world = get_parent().get_parent()
 onready var start_position = Vector2(world.map_width/2, world.map_height/2 - 1)
 onready var tilemap = $"../TileMap_Ground"
 onready var state_change_timer = $StateChangeTimer

@@ -1,8 +1,7 @@
 extends Sprite
 
-enum IND_COL {YELLOW, GREEN, BLUE}
+var IND_COL = {"YELLOW" : Color(1,.84,0,1)}
 
-export var ind_col = IND_COL.YELLOW
 var corner = Vector2.ZERO
 var neg_corner = Vector2.ZERO
 var is_overlapping = false
@@ -23,7 +22,7 @@ func _ready():
 	print(Global.camera.get_camera_screen_center())
 
 func change_color(color_value):
-	pass
+	modulate = color_value
 
 
 func update_indicator(target_position: Vector2) -> void:
