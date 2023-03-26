@@ -153,3 +153,7 @@ func _on_Christine_deal_accepted():
 	teleport_probability += .1
 	start_random_state_change_timer()
 
+
+func _on_komtur_attacked_spinne():
+	start_random_state_change_timer()
+	position = world.tilemap.map_to_world(start_position)

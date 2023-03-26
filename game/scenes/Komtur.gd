@@ -1,7 +1,8 @@
 extends KinematicBody2D
 
 
-signal KomturAttack
+signal komtur_has_attacked
+signal komtur_attacked_spinne
 
 enum State {IDLE, WALK, NEW_DIRECTION, INTERCEPT, RETURN, CHASE, ATTACK, COOLDOWN}
 
@@ -101,6 +102,7 @@ func _physics_process(_delta):
 		State.CHASE:
 			#wrong state if play is null
 			if player == null:
+				print("Does this ever happen?")
 				timerRandomState()
 			#break off chase after certain distance from castle
 			elif (position - castle.position).length() > 1800:
@@ -110,7 +112,7 @@ func _physics_process(_delta):
 				motion = position.direction_to(player.position)
 				walk(motion)
 		State.ATTACK:
-			attack()
+			attack(player)
 		State.COOLDOWN:
 			pass
 
@@ -122,12 +124,11 @@ func walk(walk_motion):
 	move_and_slide(walk_motion)
 
 
-func attack():
+func attack(target):
 	_play_random_sound()
 	attack_timer.start(1)
 	animation_tree.set("parameters/Chop/BlendSpace2D/blend_position", motion.normalized())
 	animation_state.travel("Chop")
-	emit_signal("KomturAttack")
 	state_change_timer.stop()
 	current_state = State.COOLDOWN
 
@@ -146,7 +147,7 @@ func _on_TimerStateChange_timeout():
 
 
 func _on_KomturChaseArea_body_entered(body):
-	if player == null and body.name == "Christine":
+	if body.name == "Christine" or body.name == "Spinne":
 		player = body
 		current_state = State.CHASE
 		state_change_timer.stop()
@@ -160,9 +161,12 @@ func _on_KomturChaseArea_body_exited(body):
 
 
 func _on_KomturAttackArea_body_entered(body):
+	if body.name == "Spinne":
+		current_state = State.ATTACK
+		emit_signal("komtur_attacked_spinne")
 	if body.name == "Christine":
 		current_state = State.ATTACK
-		christine.default_motion_speed /= 2
+		emit_signal("komtur_has_attacked")
 
 
 func _play_random_sound():
@@ -189,5 +193,3 @@ func _on_attack_timer_timeout():
 	animation_state.travel("Idle")
 	cooldown_timer.wait_time = 5
 	cooldown_timer.start()
-	christine.default_motion_speed *= 2
-
