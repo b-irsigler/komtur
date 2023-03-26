@@ -25,6 +25,8 @@ var is_deal_offered = false
 var current_state = State.IDLE
 var life = 10
 var komtur_debuff_time = 3
+var debuffed_speed = default_motion_speed / 2
+var is_slowed = false
 
 onready var world = get_parent().get_parent()
 onready var start_position = Vector2(world.map_width/2 - 3, world.map_height/2 + 3)
@@ -179,8 +181,13 @@ func update_speed():
 	if Input.is_action_just_pressed("decrease_motion_speed"):
 		default_motion_speed -= 5
 		
-	current_animation_speed = default_animation_speed * (1 - .05 * beech_inventory)
-	current_motion_speed = default_motion_speed * (1 - .05 * beech_inventory)
+	if is_slowed:
+		current_animation_speed = .5 * default_animation_speed * (1 - .05 * beech_inventory)
+		current_motion_speed = .5 * default_motion_speed * (1 - .05 * beech_inventory)
+	else:
+		current_animation_speed = default_animation_speed * (1 - .05 * beech_inventory)
+		current_motion_speed = default_motion_speed * (1 - .05 * beech_inventory)
+	
 
 
 func _on_DerGruene_conversation_started(active):
@@ -215,10 +222,7 @@ func _on_ChopArea_body_exited(body):
 
 func _on_komtur_has_attacked():
 	debuff_timer.start(komtur_debuff_time)
-	default_motion_speed /= 2
-	default_animation_speed /= 2
-	
+	is_slowed = true
 
 func _on_DebuffTimer_timeout():
-	default_motion_speed *= 2
-	default_animation_speed *= 2
+	is_slowed = false
