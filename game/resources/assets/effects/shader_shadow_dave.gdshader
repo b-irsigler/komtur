@@ -1,0 +1,19 @@
+shader_type canvas_item;
+
+uniform vec4 color: hint_color = vec4(vec3(0.1), 0.5);
+uniform float compression = 2.0;
+uniform float shear = 1.0;
+
+void fragment() {
+	vec4 cur_color = texture(TEXTURE, UV);
+	vec2 uv_transform = UV;
+	float ratio = TEXTURE_PIXEL_SIZE.x / TEXTURE_PIXEL_SIZE.y;
+	
+	mat2 transform = mat2(vec2(1.0, 0.0), vec2(shear*ratio, compression));
+	vec2 translate = vec2((-shear) * ratio,-0.91);
+	
+	float shadow_alpha = texture(TEXTURE, transform*UV + translate).a;
+	
+	vec4 shadow_pixel = vec4(color.rgb, shadow_alpha * color.a);
+	COLOR = shadow_pixel;//= mix(cur_color, shadow_pixel, 1.0-cur_color.a);
+}

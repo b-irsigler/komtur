@@ -15,11 +15,20 @@ onready var hole_sprite = $Hole
 onready var effect = $Spritetween
 onready var collision = $CollisionShape2D
 onready var progress = $ProgressChop
+onready var shadow = $Shadow
 
 
 func _ready():
 	effect.interpolate_property(beech_sprite, 'scale', beech_sprite.get_scale(), Vector2(0.1, 0.1), 0.2, Tween.TRANS_QUAD, Tween.EASE_OUT)
 	progress.visible = false
+	var beech_sprite_size = beech_sprite.texture.get_size()
+	var shear = 0.5
+	shadow.get_material().set_shader_param("shear", shear)
+	var shadow_sprite_size = beech_sprite_size + Vector2(beech_sprite_size.y * shear, 0)
+	var beech_sprite_position = beech_sprite.position
+	var shadow_sprite_position = beech_sprite_position + Vector2(beech_sprite_size.y/2 * shear, 0)
+	shadow.set_position(shadow_sprite_position)
+	shadow.set_region_rect(Rect2(Vector2.ZERO, shadow_sprite_size))
 
 
 func _physics_process(delta):

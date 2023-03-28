@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://resources/assets/effects/shader_shadow_dave.gdshader" type="Shader" id=1]
+
+[resource]
+shader = ExtResource( 1 )
+shader_param/color = Color( 0, 0, 0, 0.7 )
+shader_param/compression = 2.0
+shader_param/shear = 1.0
