@@ -31,12 +31,13 @@ var is_slowed = false
 onready var world = get_parent().get_parent()
 onready var start_position = Vector2(world.map_width/2 - 3, world.map_height/2 + 3)
 onready var tilemap = $"../TileMap_Ground"
-onready var sprite = $Sprite
-onready var jump_timer = $JumpTimer
+#onready var sprite = $Sprite
+#onready var jump_timer = $JumpTimer
 onready var chop_area = $ChopArea
 onready var animation_player = $AnimationPlayer
 onready var animation_tree = $AnimationTree
 onready var animation_state = animation_tree.get("parameters/playback")
+onready var der_gruene = $"%DerGruene"
 onready var chapel = $"../Chapel"
 onready var castle = $"../Castle"
 onready var speech_audio = $ChristineSpeechPlayer
@@ -49,7 +50,7 @@ func _get_debug():
 
 
 func _ready():
-	jump_timer.connect("timeout",self,"_on_jump_timer_timeout")
+	#jump_timer.connect("timeout",self,"_on_jump_timer_timeout")
 	position = tilemap.map_to_world(start_position)
 	Global.christine = self
 	Global.camera = $Camera2D
@@ -89,12 +90,14 @@ func _physics_process(_delta):
 
 	if is_deal_offered:
 		if Input.is_action_just_pressed("yes"):
+			der_gruene.start_deal_cooldown()
 			update_beech_counters(0, 12)
 			is_deal_offered = false
 			speech_audio.play_random_yesdeal()
 			yield(speech_audio, "finished")
 			emit_signal("deal_accepted")
 		if Input.is_action_just_pressed("no"):
+			der_gruene.start_deal_cooldown()
 			is_deal_offered = false
 			speech_audio.play_random_nodeal()
 			yield(speech_audio, "finished")
@@ -156,10 +159,10 @@ func update_beech_counters(beech_inventory_increment, beech_count_increment):
 	emit_signal("beech_chopped", beech_inventory, beech_count)
 
 
-func _on_jump_timer_timeout():
-	jump_timer.wait_time = jump_duration
-	animation_state.travel("Run")
-	current_state = State.IDLE
+#func _on_jump_timer_timeout():
+#	jump_timer.wait_time = jump_duration
+#	animation_state.travel("Run")
+#	current_state = State.IDLE
 
 
 func _on_IntAreaCastle_body_entered(body):
@@ -218,11 +221,12 @@ func _on_ChopArea_body_entered(body):
 func _on_ChopArea_body_exited(body):
 	body.is_selected = false
 	body.set_outline(false)
-	
+
 
 func _on_komtur_has_attacked():
 	debuff_timer.start(komtur_debuff_time)
 	is_slowed = true
+
 
 func _on_DebuffTimer_timeout():
 	is_slowed = false

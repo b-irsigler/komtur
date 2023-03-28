@@ -15,7 +15,8 @@ var COLOR = {
 }
 
 #global variables
-onready var game_score = 0
-onready var no_of_deals = 0
+onready var game_score:int = 0
+onready var no_of_deals:int = 0
+onready var deal_offered: bool = false
 var game_time_left
 onready var first_100_beeches = 0

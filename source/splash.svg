@@ -15,7 +15,10 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="splash.svg">
+   sodipodi:docname="splash.svg"
+   inkscape:export-filename="D:\Git\komtur\game\resources\img\splash.png"
+   inkscape:export-xdpi="172.8"
+   inkscape:export-ydpi="172.8">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -26,7 +29,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="516.37073"
+     inkscape:cx="295.6524"
      inkscape:cy="344.94687"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
