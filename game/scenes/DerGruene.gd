@@ -138,7 +138,6 @@ func _on_Christine_deal_denied():
 
 
 func deal_conversation_finished():
-	speech.stop()
 	$GrueneLaughSFXPlayer.play()
 	emit_signal("conversation_started", false)
 	fx_tween.interpolate_property(sprite, "scale", self.get_scale(), Vector2(0, 0), 0.5, Tween.TRANS_LINEAR,Tween.EASE_IN, 0.5)
@@ -152,6 +151,7 @@ func deal_conversation_finished():
 
 
 func start_deal_cooldown():
+	speech.stop()
 	after_conversation_timer.start(60)
 	current_state = State.AFTER_CONVERSATION
 
