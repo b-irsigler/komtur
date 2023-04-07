@@ -46,19 +46,19 @@ export var emulating: bool = false
 # These values can be found in your Firebase Project
 # See the README on Github for how to access
 var _config: Dictionary = {
-	"apiKey": "AIzaSyAZN908qscSjki0Ij3D3tmU_XuwTCyLAks",
-	"authDomain": "komtur-95c6f.firebaseapp.com",
+	"apiKey": "",
+	"authDomain": "",
 	"databaseURL": "",
-	"projectId": "komtur-95c6f",
-	"storageBucket": "komtur-95c6f.appspot.com",
-	"messagingSenderId": "744288068093",
-	"appId": "1:744288068093:web:f22193d35b6a5e41ee7994",
-	"measurementId": "G-D46K7LKQB0",
+	"projectId": "",
+	"storageBucket": "",
+	"messagingSenderId": "",
+	"appId": "",
+	"measurementId": "",
 	"clientId": "",
 	"clientSecret": "",
 	"domainUriPrefix": "",
 	"functionsGeoZone": "",
-	"cacheLocation": "user://.firebase_cache",
+	"cacheLocation": "",
 	"emulators": {
 		"ports": {
 			"authentication": "",
