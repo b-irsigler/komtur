@@ -5,6 +5,7 @@ onready var world = get_parent()
 onready var tilemap = $TileMap_Ground
 onready var castle = $Castle
 onready var chapel = $Chapel
+onready var village = $Village
 onready var fogscreen = preload("res://resources/assets/vfx/ScreenFog.tscn")
 var time_start = 0
 
@@ -84,11 +85,16 @@ func set_tile(width, height):
 				continue
 			
 			if castle.is_close_to_castle(pos):
-				biome[pos] = "grass"
-				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"grass")])
+				biome[pos] = "green_grass"
+				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"green_grass")])
 				continue
 			
 			if chapel.is_close_to_chapel(pos):
+				biome[pos] = "green_grass"
+				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"green_grass")])
+				continue
+				
+			if village.is_close_to_village(pos):
 				biome[pos] = "green_grass"
 				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"green_grass")])
 				continue
