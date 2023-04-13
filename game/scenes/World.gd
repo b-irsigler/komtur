@@ -28,6 +28,8 @@ func _ready():
 	gui.connect("new_game", self, "_on_Gui_new_game")
 	christine.connect("beech_inventory_exceeded", gui, "_on_Christine_beech_inventory_exceeded")
 	christine.connect("beech_chopped", gui, "_on_Christine_beech_chopped")
+	christine.connect("beeches_submitted", gui, "_on_Christine_beeches_submitted")
+	christine.connect("spinne_has_killed", gui, "_on_Christine_spinne_has_killed")
 	christine.connect("deal_accepted", der_gruene, "_on_Christine_deal_accepted")
 	christine.connect("deal_accepted", spinne, "_on_Christine_deal_accepted")
 	christine.connect("deal_denied", der_gruene, "_on_Christine_deal_denied")

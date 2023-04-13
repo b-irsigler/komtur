@@ -20,3 +20,5 @@ onready var no_of_deals:int = 0
 onready var deal_offered: bool = false
 var game_time_left
 onready var first_100_beeches = 0
+onready var beech_count = 0
+onready var beech_inventory = 0
