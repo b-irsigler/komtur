@@ -183,8 +183,9 @@ func _on_Christine_spinne_has_killed():
 
 
 func check_if_won():
-	#if Global.beech_count >= 100:
-	if true:
+	if Global.beech_count >= 100:
+	# For quick win testing
+	#if true:
 		Global.blur._start_blur()
 		menu.game_finished(true)
 		current_gui_state = State.OVER
