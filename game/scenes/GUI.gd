@@ -8,6 +8,7 @@ var total_time_seconds = 600
 var total_time_seconds_per_30_days = total_time_seconds / 30
 var current_gui_state setget _set_gui_state
 var last_gui_state
+var beech_increment_counter = 0
 
 onready var game_timer = $IngameGUI/GameTimer
 onready var beech_counter_label = $IngameGUI/BeechCounterLabel
@@ -21,8 +22,9 @@ onready var tutorial_button_back = $TutorialScreen/ButtonBack
 onready var ingame_gui = $IngameGUI
 onready var debug = $DebugOverlay
 onready var direction_indicator = $IngameGUI/DirectionIndicator
-onready var beech_increment_label = $IngameGUI/BeechIncrementLabel
-onready var beech_increment_label_tween = $IngameGUI/BeechIncrementLabel/Tween
+onready var beech_increment_label1 = $IngameGUI/BeechIncrementLabel1
+onready var beech_increment_label2 = $IngameGUI/BeechIncrementLabel2
+onready var beech_increment_label3 = $IngameGUI/BeechIncrementLabel3
 onready var screen_center = get_viewport().size / 2
 
 
@@ -162,23 +164,52 @@ func _on_Christine_beeches_submitted(beech_inventory):
 	
 	
 func trigger_beech_increment_label(increment, to_inventory):
+	beech_increment_counter += 1
 	var shift_label_target_position = Vector2(0,0)
 	if to_inventory:
 		shift_label_target_position = Vector2(400,0)
-		
-	beech_increment_label.set_text("+%s" % increment)
-	beech_increment_label.set_visible(true)
-	beech_increment_label_tween.interpolate_property(beech_increment_label, "rect_position", screen_center, 
-		beech_counter_label.rect_position + shift_label_target_position, 1, Tween.TRANS_EXPO, Tween.EASE_IN)
-	beech_increment_label_tween.start()
 	
-	yield(beech_increment_label_tween, "tween_completed")
-	beech_increment_label.set_visible(false)
+	var tween_x_trans
+	var tween_y_trans
+	var beech_increment_label_instance
+	
+	match beech_increment_counter % 3:
+		0:
+			beech_increment_label_instance = beech_increment_label1
+			tween_x_trans = Tween.TRANS_EXPO
+			tween_y_trans = Tween.TRANS_EXPO
+		1:
+			beech_increment_label_instance = beech_increment_label2
+			tween_x_trans = Tween.TRANS_LINEAR
+			tween_y_trans = Tween.TRANS_EXPO
+		2:
+			beech_increment_label_instance = beech_increment_label3
+			tween_x_trans = Tween.TRANS_EXPO
+			tween_y_trans = Tween.TRANS_LINEAR
+			
+	beech_increment_label_instance.set_text("+%s" % increment)
+	beech_increment_label_instance.set_visible(true)
+	beech_increment_label_instance._set_position(screen_center)
+	
+	var tween_x = create_tween()
+	tween_x.set_ease(Tween.EASE_IN)
+	tween_x.tween_property(beech_increment_label_instance, "rect_position:x", 
+		(beech_counter_label.rect_position + shift_label_target_position).x, 1).set_trans(tween_x_trans)
+		
+	var tween_y = create_tween()
+	tween_y.set_ease(Tween.EASE_IN)
+	tween_y.tween_property(beech_increment_label_instance, "rect_position:y", 
+		(beech_counter_label.rect_position + shift_label_target_position).y, 1).set_trans(tween_y_trans)
+		
+
+
+	yield(tween_x, "finished")
+	yield(tween_y, "finished")
+	beech_increment_label_instance.set_visible(false)
 	update_counters()
 	
 	
 func _on_Christine_spinne_has_killed():
-	beech_increment_label.set_visible(false)
 	update_counters()
 
 

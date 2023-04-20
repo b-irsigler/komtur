@@ -111,7 +111,7 @@ script = ExtResource( 10 )
 
 [node name="LifeBarTween" type="Tween" parent="IngameGUI/LifeBar"]
 
-[node name="BeechIncrementLabel" type="Label" parent="IngameGUI"]
+[node name="BeechIncrementLabel1" type="Label" parent="IngameGUI"]
 visible = false
 margin_left = 71.0
 margin_top = 108.0
@@ -120,7 +120,23 @@ margin_bottom = 122.0
 theme = ExtResource( 3 )
 text = "+1"
 
-[node name="Tween" type="Tween" parent="IngameGUI/BeechIncrementLabel"]
+[node name="BeechIncrementLabel2" type="Label" parent="IngameGUI"]
+visible = false
+margin_left = 71.0
+margin_top = 108.0
+margin_right = 111.0
+margin_bottom = 122.0
+theme = ExtResource( 3 )
+text = "+1"
+
+[node name="BeechIncrementLabel3" type="Label" parent="IngameGUI"]
+visible = false
+margin_left = 71.0
+margin_top = 108.0
+margin_right = 111.0
+margin_bottom = 122.0
+theme = ExtResource( 3 )
+text = "+1"
 
 [node name="IntroScreen" parent="." instance=ExtResource( 5 )]
 visible = false
