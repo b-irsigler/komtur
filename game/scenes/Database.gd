@@ -30,7 +30,7 @@ func add_score(name):
 	var score = Global.game_score
 	var add_task : FirestoreTask = collection.add("", {'name': name, 'score' : score, 'time_left': Global.game_time_left, "first_100_beeches": Global.first_100_beeches})
 	
-	yield(add_task, "add_document")
+	return add_task
 	
 
 func get_score_list():

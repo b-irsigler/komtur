@@ -57,7 +57,7 @@ func _on_Gui_new_game():
 	
 	
 func _on_name_entered(name):
-	database.add_score(name)
+	yield(database.add_score(name), "add_document")
 	
 	var results = yield(database.get_score_list(), "completed")
 	var result_string = "Highscore:\n"
