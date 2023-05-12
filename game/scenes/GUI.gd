@@ -8,11 +8,12 @@ var total_time_seconds = 600
 var total_time_seconds_per_30_days = total_time_seconds / 30
 var current_gui_state setget _set_gui_state
 var last_gui_state
+var beech_increment_counter = 0
 
 onready var game_timer = $IngameGUI/GameTimer
-onready var label_beech = $IngameGUI/LabelBeech
-onready var label_time = $IngameGUI/LabelTime
-onready var castle =$"../WorldGen/Castle"
+onready var beech_counter_label = $IngameGUI/BeechCounterLabel
+onready var game_time_label = $IngameGUI/GameTimeLabel
+onready var castle = $"../WorldGen/Castle"
 onready var popup = $IngameGUI/Popup
 onready var menu = $Menu
 onready var intro_screen = $IntroScreen
@@ -21,6 +22,10 @@ onready var tutorial_button_back = $TutorialScreen/ButtonBack
 onready var ingame_gui = $IngameGUI
 onready var debug = $DebugOverlay
 onready var direction_indicator = $IngameGUI/DirectionIndicator
+onready var beech_increment_label1 = $IngameGUI/BeechIncrementLabel1
+onready var beech_increment_label2 = $IngameGUI/BeechIncrementLabel2
+onready var beech_increment_label3 = $IngameGUI/BeechIncrementLabel3
+onready var screen_center = get_viewport().size / 2
 
 
 func _ready():
@@ -36,9 +41,10 @@ func _ready():
 	intro_screen.button_tutorial.connect("pressed", self, "_on_button_tutorial_pressed") 
 	tutorial_button_back.connect("pressed", self, "_on_tutorial_back_pressed")
 	
+	
 	total_time_seconds_per_30_days = total_time_seconds / 30
-	label_time.text = "noch %s Tage" % timer_to_days(game_timer.time_left)
-	label_beech.text = "Buchen im Schloss: %s | getragen: %s" % [0, 0]
+	game_time_label.text = "noch %s Tage" % timer_to_days(game_timer.time_left)
+	beech_counter_label.text = "Buchen im Schloss: %s | getragen: %s" % [0, 0]
 	
 	_set_gui_state(State.INTRO)
 	ingame_gui.visible = false
@@ -54,7 +60,7 @@ func _physics_process(_delta):
 		if current_gui_state == State.INTRO and Input.is_action_pressed("chop"):
 			intro_screen.interrupt_text()
 	else:
-		label_time.text = "noch %s Tage" % timer_to_days(game_timer.time_left)
+		game_time_label.text = "noch %s Tage" % timer_to_days(game_timer.time_left)
 		if timer_to_days(game_timer.time_left) == 0:
 			menu.game_finished(false)
 		update_castle_indicator()
@@ -146,12 +152,78 @@ func _on_tutorial_back_pressed():
 			assert(false, "Illegal state transition from Tutorial Screen")
 
 
-func _on_Christine_beech_chopped(inventory, count):
-	label_beech.text = "Buchen im Schloss: %s | getragen: %s" % [count, inventory]
-	if count >= 100:
+func _on_Christine_beech_chopped():
+	check_if_won()
+	trigger_beech_increment_label(1, true)
+
+
+func _on_Christine_beeches_submitted(beech_inventory):
+	check_if_won()
+	trigger_beech_increment_label(Global.beech_inventory, false)
+	
+	
+	
+func trigger_beech_increment_label(increment, to_inventory):
+	beech_increment_counter += 1
+	var shift_label_target_position = Vector2(0,0)
+	if to_inventory:
+		shift_label_target_position = Vector2(400,0)
+	
+	var tween_x_trans
+	var tween_y_trans
+	var beech_increment_label_instance
+	
+	match beech_increment_counter % 3:
+		0:
+			beech_increment_label_instance = beech_increment_label1
+			tween_x_trans = Tween.TRANS_EXPO
+			tween_y_trans = Tween.TRANS_EXPO
+		1:
+			beech_increment_label_instance = beech_increment_label2
+			tween_x_trans = Tween.TRANS_LINEAR
+			tween_y_trans = Tween.TRANS_EXPO
+		2:
+			beech_increment_label_instance = beech_increment_label3
+			tween_x_trans = Tween.TRANS_EXPO
+			tween_y_trans = Tween.TRANS_LINEAR
+			
+	beech_increment_label_instance.set_text("+%s" % increment)
+	beech_increment_label_instance.set_visible(true)
+	beech_increment_label_instance._set_position(screen_center)
+	
+	var tween_x = create_tween()
+	tween_x.set_ease(Tween.EASE_IN)
+	tween_x.tween_property(beech_increment_label_instance, "rect_position:x", 
+		(beech_counter_label.rect_position + shift_label_target_position).x, 1).set_trans(tween_x_trans)
+		
+	var tween_y = create_tween()
+	tween_y.set_ease(Tween.EASE_IN)
+	tween_y.tween_property(beech_increment_label_instance, "rect_position:y", 
+		(beech_counter_label.rect_position + shift_label_target_position).y, 1).set_trans(tween_y_trans)
+		
+
+
+	yield(tween_x, "finished")
+	yield(tween_y, "finished")
+	beech_increment_label_instance.set_visible(false)
+	update_counters()
+	
+	
+func _on_Christine_spinne_has_killed():
+	update_counters()
+
+
+func check_if_won():
+	if Global.beech_count >= 100:
+	# For quick win testing
+	#if true:
 		Global.blur._start_blur()
 		menu.game_finished(true)
 		current_gui_state = State.OVER
+		
+
+func update_counters():
+	beech_counter_label.text = "Buchen im Schloss: %s | getragen: %s" % [Global.beech_count, Global.beech_inventory]
 
 
 func _on_Christine_beech_inventory_exceeded():
@@ -167,6 +239,8 @@ func _on_DerGruene_conversation_started(active):
 
 func _on_Christine_deal_accepted():
 	popup.visible = false
+	check_if_won()
+	trigger_beech_increment_label(12, false)
 
 
 func _set_gui_state(new_gui_state):
