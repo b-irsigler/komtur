@@ -18,12 +18,17 @@ func authenticate():
 
 
 func _on_auth_request(return_code, auth_or_error):
-	if return_code == 1:
-		print("Authenticated with existing auth file.")
-		auth.save_auth(auth_or_error)
+	if typeof(return_code) == 4:
+		print("Error message: ", return_code)
+	elif typeof(return_code) == 2:
+		if return_code == 1:
+			print("Authenticated with existing auth file.")
+			auth.save_auth(auth_or_error)
+		else:
+			print("Make anonymous login.")
+			auth.login_anonymous()
 	else:
-		print("Make anonymous login.")
-		auth.login_anonymous()
+		print("Severe error. Call your backend specialiests 0190666666!")
 		
 
 func add_score(name):
