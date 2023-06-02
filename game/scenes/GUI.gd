@@ -125,6 +125,7 @@ func _on_intro_button_pressed():
 
 func _on_button_tutorial_pressed():
 	tutorial_screen.visible = true
+	tutorial_button_back.grab_focus()
 	debug.visible = false
 	ingame_gui.visible = false
 	_set_gui_state(State.TUTORIAL)
@@ -142,11 +143,13 @@ func _on_tutorial_back_pressed():
 	match last_gui_state:
 		State.MENU:
 			menu.visible = true
+			menu.menu_resume.grab_focus()
 			_set_gui_state(State.MENU)
 			$DebugOverlay.visible = menu.menu_debug.pressed
 			ingame_gui.visible = true
 		State.INTRO:
 			intro_screen.visible = true
+			intro_screen.button_start.grab_focus()
 			_set_gui_state(State.INTRO)
 		_:
 			assert(false, "Illegal state transition from Tutorial Screen")
