@@ -27,6 +27,8 @@ func set_is_paused(value):
 	is_paused = value
 	get_tree().paused = is_paused
 	visible = is_paused
+	if visible:
+		menu_resume.grab_focus()
 
 
 func game_finished(is_won):

@@ -28,7 +28,8 @@ var biome_data = {
 	"forest": {"forest_ground_1": 0.4, "forest_ground_2": 0.3, "forest_ground_3": 0.3},
 	"light_forest": {"forest_ground_1": 0.4, "forest_ground_2": 0.3, "forest_ground_3": 0.3},
 	"stone": {"grass_1": 0.3, "grass_2": 0.25, "stone_1": 0.15, "stone_2": 0.15, "stone_3": 0.15},
-	"map_border" : {"border": 1}
+	"building_exclusion": {"grass_1": 0.5, "grass_2": 0.5},
+	"map_border": {"border": 1}
 }
 var object_data = {
 	"grass": {"tree_beech": 0.005, "tree_pine": 0.005},
@@ -36,7 +37,8 @@ var object_data = {
 	"forest": {"tree_beech": 0.13, "tree_pine": 0.19, "tree_firs": 0.19},
 	"light_forest": {"tree_beech": 0.05, "tree_pine": 0.1, "tree_firs": 0.1},
 	"stone": {"tree_firs": 0.01}, 
-	"map_border" : {}
+	"building_exclusion": {},
+	"map_border": {}
 }
 var beech_list = []
 var first_100_beeches = 0
@@ -84,13 +86,13 @@ func set_tile(width, height):
 				continue
 			
 			if castle.is_close_to_castle(pos):
-				biome[pos] = "grass"
-				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"grass")])
+				biome[pos] = "building_exclusion"
+				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"building_exclusion")])
 				continue
 			
 			if chapel.is_close_to_chapel(pos):
-				biome[pos] = "green_grass"
-				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"green_grass")])
+				biome[pos] = "building_exclusion"
+				tilemap.set_cellv(pos, tiles[random_tile(biome_data,"building_exclusion")])
 				continue
 				
 			if alt > 0.8:
